@@ -18,9 +18,16 @@ import (
 	"fmt"
 	"os"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+)
+
+const (
+	defaultThriftPort = "9083"
+	hostOpt           = "host"
+	portOpt           = "port"
+	verboseOpt        = "verbose"
 )
 
 var cfgFile string
@@ -37,7 +44,11 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		host := viper.GetString(hostOpt)
+		port := viper.GetInt(portOpt)
+		fmt.Println("host =[", host, "], port = [", port, "]")
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -49,17 +60,18 @@ func Execute() {
 	}
 }
 
-func init() { 
+func init() {
 	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hmstool.yaml)")
+	rootCmd.PersistentFlags().StringP(hostOpt, "H", "localhost", "hostname for HMS server")
+	rootCmd.PersistentFlags().StringP(portOpt, "P", defaultThriftPort, "port for HMS server")
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// Bind flags to viper variables
+	viper.BindPFlags(rootCmd.PersistentFlags())
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -80,7 +92,10 @@ func initConfig() {
 		viper.SetConfigName(".hmstool")
 	}
 
-	viper.AutomaticEnv() // read in environment variables that match
+	viper.SetConfigName(".hmstool") // name of config file (without extension)
+	viper.AddConfigPath("$HOME")    // adding home directory as first search path
+	viper.SetEnvPrefix("hms")       // All environment vars should start with SENTRY_
+	viper.AutomaticEnv()            // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
