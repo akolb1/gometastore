@@ -39,3 +39,7 @@ func (c *MetastoreClient) Close() {
 func (c *MetastoreClient) GetAllDatabases() ([]string, error) {
 	return c.client.GetAllDatabases(context.Background())
 }
+
+func (c *MetastoreClient) GetDatabase(dbName string) (*hive_metastore.Database, error) {
+	return c.client.GetDatabase(context.Background(), dbName)
+}

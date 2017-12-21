@@ -15,16 +15,40 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // dbCmd represents the db command
-var dbCmd = &cobra.Command{
-	Use:   "db",
-	Short: "HMS database operations",
-	Long:  `HMS database operations`,
+var dbShowCmd = &cobra.Command{
+	Use:   "show",
+	Short: "Show HMS database",
+	Long:  `Show HMS database`,
+	Run:   showDB,
 }
 
 func init() {
-	rootCmd.AddCommand(dbCmd)
+	dbCmd.AddCommand(dbShowCmd)
+}
+
+func showDB(cmd *cobra.Command, args []string) {
+	client, err := getClient()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Close()
+	for _, a := range args {
+		db, derr := client.GetDatabase(a)
+		if derr != nil {
+			log.Printf("failed to get database %s: %v", a, derr)
+		}
+		fmt.Printf("%s: %s\n", db.Name, db.LocationUri)
+		if len(db.Description) > 0 {
+			fmt.Println("\t", db.Description)
+		}
+		for k, v := range db.Parameters {
+			fmt.Println("\n\t", k, ": ", v)
+		}
+	}
 }
