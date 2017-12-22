@@ -7,14 +7,15 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/akolb1/gometastore/thrift/gen-go/hive_metastore"
 	"math"
 	"net"
 	"net/url"
 	"os"
 	"strconv"
 	"strings"
+
+	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/akolb1/gometastore/thrift/gen-go/hive_metastore"
 )
 
 func Usage() {
