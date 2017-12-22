@@ -35,6 +35,15 @@ type MetastoreClient struct {
 	client    *hive_metastore.ThriftHiveMetastoreClient
 }
 
+// Database is a container of other objects in Hive.
+type Database struct {
+	Name        string
+	Description string
+	Owner       string
+	Location    string
+	Parameters  map[string]string
+}
+
 // Open connection to metastore and return client handle.
 func Open(host string, port int) (*MetastoreClient, error) {
 	socket, err := thrift.NewTSocket(net.JoinHostPort(host, strconv.Itoa(port)))
@@ -69,16 +78,25 @@ func (c *MetastoreClient) GetAllDatabases() ([]string, error) {
 }
 
 // GetDatabase returns detailed information about specified Hive database.
-func (c *MetastoreClient) GetDatabase(dbName string) (*hive_metastore.Database, error) {
-	return c.client.GetDatabase(c.context, dbName)
+func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
+	db, err := c.client.GetDatabase(c.context, dbName)
+	if err != nil {
+		return nil, err
+	}
+	return &Database{
+		Name:        db.GetName(),
+		Description: db.GetDescription(),
+		Parameters:  db.GetParameters(),
+		Location:    db.GetLocationUri(),
+		Owner:       db.GetOwnerName(),
+	}, nil
 }
 
 // CreateDatabase creates database with the specified name, description, parameters and owner.
-func (c *MetastoreClient) CreateDatabase(dbName string, descr string,
-	parameters map[string]string, owner string) error {
-	db := &hive_metastore.Database{Name: dbName, Description: descr, Parameters: parameters}
-	if owner != "" {
-		db.OwnerName = &owner
+func (c *MetastoreClient) CreateDatabase(db Database) error {
+	database := &hive_metastore.Database{Name: db.Name, Description: db.Description, Parameters: db.Parameters}
+	if db.Owner != "" {
+		database.OwnerName = &db.Owner
 	}
-	return c.client.CreateDatabase(c.context, db)
+	return c.client.CreateDatabase(c.context, database)
 }

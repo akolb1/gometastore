@@ -33,7 +33,7 @@ func init() {
 	dbCmd.AddCommand(dbShowCmd)
 }
 
-func showDB(cmd *cobra.Command, args []string) {
+func showDB(_ *cobra.Command, args []string) {
 	client, err := getClient()
 	if err != nil {
 		log.Fatal(err)
@@ -44,7 +44,7 @@ func showDB(cmd *cobra.Command, args []string) {
 		if derr != nil {
 			log.Printf("failed to get database %s: %v", a, derr)
 		}
-		fmt.Printf("%s: %s\n", db.Name, db.LocationUri)
+		fmt.Printf("%s: %s\n", db.Name, db.Location)
 		if len(db.Description) > 0 {
 			fmt.Println("\t", db.Description)
 		}

@@ -40,11 +40,11 @@ func listDbs(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	databases, err1 := client.GetAllDatabases()
-	if err1 != nil {
+	databases, err := client.GetAllDatabases()
+	if err != nil {
 		log.Fatal(err)
 	}
-	for _, r := range databases {
-		fmt.Println(r)
+	for _, d := range databases {
+		fmt.Println(d)
 	}
 }
