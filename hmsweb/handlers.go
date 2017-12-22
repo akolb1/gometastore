@@ -31,15 +31,18 @@ func index(w http.ResponseWriter, r *http.Request) {
 func databaseList(w http.ResponseWriter, r *http.Request) {
 	client, err := hmsclient.Open(hmsHost, hmsPort)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "%v", err)
 		return
 	}
 	databases, err := client.GetAllDatabases()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "%v", err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(databases)
 }
 
@@ -47,6 +50,7 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	client, err := hmsclient.Open(hmsHost, hmsPort)
 	if err != nil {
 		fmt.Fprintf(w, "%v", err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	vars := mux.Vars(r)
@@ -54,8 +58,11 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	database, err := client.GetDatabase(dbName)
 	if err != nil {
 		fmt.Fprintf(w, "%v", err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
+	w.WriteHeader(http.StatusOK)
+
 	json.NewEncoder(w).Encode(database)
 }

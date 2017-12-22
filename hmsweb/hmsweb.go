@@ -26,7 +26,7 @@ const (
 	hmsPortDefault  = 9083
 	hmsHostDefaiult = "localhost"
 
-	jsonEncoding = "application/json"
+	jsonEncoding = "application/json; charset=UTF-8"
 
 	paramDbName = "dbName"
 )
