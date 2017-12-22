@@ -30,6 +30,10 @@ const (
 	hostOpt           = "host"
 	portOpt           = "port"
 
+	iterOpt     = "iterations"
+	warmOpt     = "warmup"
+	sanitizeOpt = "sanitize"
+
 	scale = 1000000
 )
 
@@ -59,9 +63,12 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hmstool.yaml)")
 	rootCmd.PersistentFlags().StringP(hostOpt, "H", "localhost", "hostname for HMS server")
 	rootCmd.PersistentFlags().StringP(portOpt, "P", defaultThriftPort, "port for HMS server")
-
+	rootCmd.Flags().IntP(iterOpt, "I", 100, "number of benchmark iterations")
+	rootCmd.Flags().IntP(warmOpt, "W", 15, "number of warmup iterations")
+	rootCmd.Flags().BoolP(sanitizeOpt, "S", false, "sanitize results")
 	// Bind flags to viper variables
 	viper.BindPFlags(rootCmd.PersistentFlags())
+	viper.BindPFlags(rootCmd.Flags())
 }
 
 // initConfig reads in config file and ENV variables if set.

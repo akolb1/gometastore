@@ -27,7 +27,6 @@ const (
 	defaultThriftPort = "9083"
 	hostOpt           = "host"
 	portOpt           = "port"
-	verboseOpt        = "verbose"
 )
 
 var cfgFile string

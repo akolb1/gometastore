@@ -17,6 +17,7 @@ package microbench
 import (
 	"bytes"
 	"fmt"
+	"log"
 )
 
 type runner func() *Stats
@@ -51,6 +52,7 @@ func (b *BenchmarkSuite) List() []string {
 
 func (b *BenchmarkSuite) Run() *BenchmarkSuite {
 	for _, name := range b.names {
+		log.Println("Running", name)
 		result := b.benchmarks[name]()
 		if b.sanitize {
 			result = result.Sanitized()

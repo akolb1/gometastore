@@ -17,10 +17,11 @@ package client
 import (
 	"context"
 	"fmt"
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/akolb1/gometastore/thrift/gen-go/hive_metastore"
 	"net"
 	"strconv"
+
+	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/akolb1/gometastore/thrift/gen-go/hive_metastore"
 )
 
 // metastoreClient represents client handle to Hive

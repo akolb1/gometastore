@@ -17,6 +17,7 @@ package microbench
 import (
 	"bytes"
 	"fmt"
+
 	"gonum.org/v1/gonum/floats"
 	"gonum.org/v1/gonum/stat"
 )
