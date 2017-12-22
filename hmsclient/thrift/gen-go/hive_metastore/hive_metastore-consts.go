@@ -5,10 +5,10 @@ package hive_metastore
 
 import (
 	"bytes"
-	"reflect"
 	"context"
 	"fmt"
 	"git.apache.org/thrift.git/lib/go/thrift"
+	"reflect"
 )
 
 // (needed to ensure safety because of naive import list construction.)
@@ -45,4 +45,3 @@ const TABLE_TRANSACTIONAL_PROPERTIES = "transactional_properties"
 
 func init() {
 }
-

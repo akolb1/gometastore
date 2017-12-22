@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package client
+package hmsclient
 
 import (
 	"context"
@@ -21,10 +21,10 @@ import (
 	"strconv"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/akolb1/gometastore/thrift/gen-go/hive_metastore"
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 )
 
-// metastoreClient represents client handle to Hive
+// metastoreClient represents hmsclient handle to Hive
 type MetastoreClient struct {
 	transport thrift.TTransport
 	client    *hive_metastore.ThriftHiveMetastoreClient
@@ -57,4 +57,12 @@ func (c *MetastoreClient) GetAllDatabases() ([]string, error) {
 
 func (c *MetastoreClient) GetDatabase(dbName string) (*hive_metastore.Database, error) {
 	return c.client.GetDatabase(context.Background(), dbName)
+}
+
+func (c *MetastoreClient) CreateDatabase(dbName string, descr string, owner string) error {
+	db := &hive_metastore.Database{Name: dbName, Description: descr}
+	if owner != "" {
+		db.OwnerName = &owner
+	}
+	return c.client.CreateDatabase(context.Background(), db)
 }

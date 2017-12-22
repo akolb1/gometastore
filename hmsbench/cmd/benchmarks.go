@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"github.com/akolb1/gometastore/client"
+	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/microbench"
 )
 
@@ -23,11 +23,11 @@ type benchData struct {
 	warmup     int
 	iterations int
 	dbname     string
-	client     *client.MetastoreClient
+	client     *hmsclient.MetastoreClient
 }
 
 func makeBenchData(warmup int, iterations int, dbName string,
-	client *client.MetastoreClient) *benchData {
+	client *hmsclient.MetastoreClient) *benchData {
 	return &benchData{
 		warmup:     warmup,
 		iterations: iterations,
@@ -39,6 +39,11 @@ func makeBenchData(warmup int, iterations int, dbName string,
 func benchListDatabases(data *benchData) *microbench.Stats {
 	return microbench.MeasureSimple(func() {
 		data.client.GetAllDatabases()
-	},
-		data.warmup, data.iterations)
+	}, data.warmup, data.iterations)
+}
+
+func benchGetDatabase(data *benchData) *microbench.Stats {
+	return microbench.MeasureSimple(func() {
+		data.client.GetAllDatabases()
+	}, data.warmup, data.iterations)
 }
