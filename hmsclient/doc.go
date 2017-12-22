@@ -18,24 +18,25 @@ Thrift protocol. Only unsecured Thrift connections are supported.
 
 Example usage:
 
-  import	(
-        "log"
-        "github.com/akolb1/gometastore/hmsclient"
+  import(
+    "log"
+    "github.com/akolb1/gometastore/hmsclient"
   )
 
   func printDatabases() {
-	client, err := hmsclient.Open("localhost", 9083)
-	if err != nil {
-		log.Fatal(err)
+    client, err := hmsclient.Open("localhost", 9083)
+    if err != nil {
+      log.Fatal(err)
+    }
+    defer client.Close()
+
+    databases, err := client.GetAllDatabases()
+    if err != nil {
+      log.Fatal(err)
 	}
-	defer client.Close()
-	databases, err := client.GetAllDatabases()
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, d := range databases {
-		fmt.Println(d)
-	}
+    for _, d := range databases {
+      fmt.Println(d)
+    }
   }
 */
 package hmsclient
