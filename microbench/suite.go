@@ -60,14 +60,14 @@ func (b *BenchmarkSuite) Run() *BenchmarkSuite {
 	return b
 }
 
-func (b *BenchmarkSuite) Display(buffer bytes.Buffer) {
-	buffer.WriteString(fmt.Sprintf("%-30s %-6s %-6s %-6s %-6s\n",
+func (b *BenchmarkSuite) Display(buffer *bytes.Buffer) {
+	buffer.WriteString(fmt.Sprintf("%-30s %-8s %-8s %-8s %-8s\n",
 		"Operation", "Mean", "Min", "Max", "Err%"))
 	for _, name := range b.names {
 		result := b.results[name]
 		mean := result.Mean()
 		err := result.StDev() * 100 / mean
-		buffer.WriteString(fmt.Sprintf("%-30s %-6.3g %-6.3g %-6.3g %-6.3g\n",
+		buffer.WriteString(fmt.Sprintf("%-30s %-8.3g %-8.3g %-8.3g %-8.3g\n",
 			name, mean/b.scale, result.Min()/b.scale, result.Max()/b.scale, err))
 	}
 }

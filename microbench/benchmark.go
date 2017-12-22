@@ -15,7 +15,6 @@
 package microbench
 
 import (
-	"github.com/golang/glog"
 	"time"
 )
 
@@ -32,9 +31,7 @@ func measure(f func(), s *Stats) {
 }
 
 func MeasureSimple(f func(), warmup int, iterations int) *Stats {
-	glog.Info("warming up")
 	repeat(f, warmup)
-	glog.Info("measuring time")
 	stats := MakeStats()
 	repeat(func() {
 		measure(f, stats)
@@ -63,9 +60,7 @@ func Measure(pre func(), what func(), post func(), warmupCount int, iterations i
 			post()
 		}
 	}
-	glog.Info("warming up")
 	repeat(warmup, warmupCount)
-	glog.Info("measuring time")
 	repeat(experiment, iterations)
 	return stats
 }

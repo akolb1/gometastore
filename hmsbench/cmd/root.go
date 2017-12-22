@@ -29,7 +29,8 @@ const (
 	defaultThriftPort = "9083"
 	hostOpt           = "host"
 	portOpt           = "port"
-	verboseOpt        = "verbose"
+
+	scale = 1000000
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -37,9 +38,7 @@ var rootCmd = &cobra.Command{
 	Use:   "hmsbench",
 	Short: "HMS Benchmarks",
 	Long:  `HMS Benchmarks`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run:   run,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

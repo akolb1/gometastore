@@ -14,21 +14,26 @@
 
 package cmd
 
-import "github.com/akolb1/gometastore/client"
+import (
+	"bytes"
+	"fmt"
+	"github.com/akolb1/gometastore/microbench"
+	"github.com/spf13/cobra"
+	"log"
+)
 
-type benchData struct {
-	warmup     int
-	iterations int
-	dbname     string
-	client     client.MetastoreClient
-}
-
-func makeBenchData(warmup int, iterations int, dbName string,
-	client client.MetastoreClient) *benchData {
-	return &benchData{
-		warmup:     warmup,
-		iterations: iterations,
-		client:     client,
-		dbname:     dbName,
+func run(cmd *cobra.Command, args []string) {
+	suite := microbench.MakeBenchmarkSuite(scale, true)
+	client, err := getClient()
+	if err != nil {
+		log.Fatal("failed to connect to HMS:", err)
 	}
+
+	bd := makeBenchData(15, 100, "", client)
+	suite.Add("listDababases",
+		func() *microbench.Stats { return benchListDatabases(bd) })
+	suite.Run()
+	buf := new(bytes.Buffer)
+	suite.Display(buf)
+	fmt.Print(buf.String())
 }
