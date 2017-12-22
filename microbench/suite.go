@@ -19,27 +19,27 @@ import (
 	"fmt"
 )
 
+type runner func() *Stats
+
 type BenchmarkSuite struct {
-	warmup     int
-	iterations int
 	scale      float64
 	sanitize   bool
 	names      []string
-	benchmarks map[string]func() *Stats
+	benchmarks map[string]runner
 	results    map[string]*Stats
 }
 
-func MakeBenchmarkSuite(warmup int, iterations int, scale int, sanitize bool) *BenchmarkSuite {
-	return &BenchmarkSuite{warmup: warmup,
-		iterations: iterations,
+func MakeBenchmarkSuite(scale int, sanitize bool) *BenchmarkSuite {
+	return &BenchmarkSuite{
 		scale:      float64(scale),
 		sanitize:   sanitize,
 		names:      []string{},
-		benchmarks: make(map[string]func() *Stats),
-		results:    make(map[string]*Stats)}
+		benchmarks: make(map[string]runner),
+		results:    make(map[string]*Stats),
+	}
 }
 
-func (b *BenchmarkSuite) Add(name string, f func() *Stats) *BenchmarkSuite {
+func (b *BenchmarkSuite) Add(name string, f runner) *BenchmarkSuite {
 	b.names = append(b.names, name)
 	b.benchmarks[name] = f
 	return b
