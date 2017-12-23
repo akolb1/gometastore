@@ -30,6 +30,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 func databaseList(w http.ResponseWriter, r *http.Request) {
 	client, err := hmsclient.Open(hmsHost, hmsPort)
+	defer client.Close()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "%v", err)
@@ -48,6 +49,7 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 
 func databaseShow(w http.ResponseWriter, r *http.Request) {
 	client, err := hmsclient.Open(hmsHost, hmsPort)
+	defer client.Close()
 	if err != nil {
 		fmt.Fprintf(w, "%v", err)
 		w.WriteHeader(http.StatusInternalServerError)
