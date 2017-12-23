@@ -49,5 +49,6 @@ func main() {
 	router.HandleFunc("/databases", databaseList)
 	router.HandleFunc("/databases/{dbName}", databaseShow).Methods("GET")
 	router.HandleFunc("/databases/{dbName}", createDatabase).Methods("POST")
+	router.HandleFunc("/databases/{dbName}", dropDatabase).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

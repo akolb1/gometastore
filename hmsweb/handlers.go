@@ -101,7 +101,28 @@ func createDatabase(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
-	// w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(database)
+}
+
+func dropDatabase(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	log.Println("Drop database", dbName)
+	client, err := hmsclient.Open(hmsHost, hmsPort)
+	defer client.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	err = client.DropDatabase(dbName, true, false)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	err = client.DropDatabase(dbName, true, false)
+	w.WriteHeader(http.StatusOK)
 }
