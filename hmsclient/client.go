@@ -114,3 +114,13 @@ func (c *MetastoreClient) CreateDatabase(db Database) error {
 func (c *MetastoreClient) DropDatabase(dbName string, deleteData bool, cascade bool) error {
 	return c.client.DropDatabase(c.context, dbName, deleteData, cascade)
 }
+
+// GetAllTables returns list of all table names for a given database
+func (c *MetastoreClient) GetAllTables(dbName string) ([]string, error) {
+	return c.client.GetAllTables(c.context, dbName)
+}
+
+// GetTable returns detailed information about the specified table
+func (c *MetastoreClient) GetTable(dbName string, tableName string) (*hive_metastore.Table, error) {
+	return c.client.GetTable(c.context, dbName, tableName)
+}

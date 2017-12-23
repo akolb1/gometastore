@@ -48,7 +48,6 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(databases)
 }
 
@@ -138,4 +137,47 @@ func dropDatabase(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func listTables(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	client, err := hmsclient.Open(hmsHost, hmsPort)
+	defer client.Close()
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	tables, err := client.GetAllTables(dbName)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.Header().Set("Content-Type", jsonEncoding)
+	json.NewEncoder(w).Encode(tables)
+}
+
+func tableShow(w http.ResponseWriter, r *http.Request) {
+	client, err := hmsclient.Open(hmsHost, hmsPort)
+	defer client.Close()
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	table, err := client.GetTable(dbName, tableName)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.Header().Set("Content-Type", jsonEncoding)
+
+	json.NewEncoder(w).Encode(table)
 }

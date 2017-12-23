@@ -29,7 +29,8 @@ const (
 
 	jsonEncoding = "application/json; charset=UTF-8"
 
-	paramDbName = "dbName"
+	paramDbName  = "dbName"
+	paramTblName = "tableName"
 )
 
 var (
@@ -44,11 +45,13 @@ func main() {
 	flag.IntVar(&hmsPort, "port", hmsPortDefault, "HMS Port")
 	flag.Parse()
 
-	router := mux.NewRouter().StrictSlash(true)
+	router := mux.NewRouter()
 	router.HandleFunc("/", index)
 	router.HandleFunc("/databases", databaseList)
 	router.HandleFunc("/databases/{dbName}", databaseShow).Methods("GET")
 	router.HandleFunc("/databases/{dbName}", createDatabase).Methods("POST")
 	router.HandleFunc("/databases/{dbName}", dropDatabase).Methods("DELETE")
+	router.HandleFunc("/databases/{dbName}/", listTables).Methods("GET")
+	router.HandleFunc("/databases/{dbName}/{tableName}", tableShow).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
