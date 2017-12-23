@@ -23,8 +23,9 @@ import (
 )
 
 const (
-	hmsPortDefault  = 9083
-	hmsHostDefaiult = "localhost"
+	hmsPortDefault     = 9083
+	hmsHostDefault     = "localhost"
+	hmsLocationDefault = "hdfs://localhost:8020/user/hive/warehouse/"
 
 	jsonEncoding = "application/json; charset=UTF-8"
 
@@ -32,18 +33,21 @@ const (
 )
 
 var (
-	hmsHost string
-	hmsPort int
+	hmsHost     string
+	hmsPort     int
+	locationUri string
 )
 
 func main() {
-	flag.StringVar(&hmsHost, "host", hmsHostDefaiult, "HMS host")
+	flag.StringVar(&hmsHost, "host", hmsHostDefault, "HMS host")
+	flag.StringVar(&locationUri, "location", hmsLocationDefault, "HDFS location")
 	flag.IntVar(&hmsPort, "port", hmsPortDefault, "HMS Port")
 	flag.Parse()
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", index)
 	router.HandleFunc("/databases", databaseList)
-	router.HandleFunc("/databases/{dbName}", databaseShow)
+	router.HandleFunc("/databases/{dbName}", databaseShow).Methods("GET")
+	router.HandleFunc("/databases/{dbName}", createDatabase).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -94,7 +94,12 @@ func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
 
 // CreateDatabase creates database with the specified name, description, parameters and owner.
 func (c *MetastoreClient) CreateDatabase(db Database) error {
-	database := &hive_metastore.Database{Name: db.Name, Description: db.Description, Parameters: db.Parameters}
+	database := &hive_metastore.Database{
+		Name:        db.Name,
+		Description: db.Description,
+		Parameters:  db.Parameters,
+		LocationUri: db.Location,
+	}
 	if db.Owner != "" {
 		database.OwnerName = &db.Owner
 	}

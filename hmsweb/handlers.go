@@ -20,6 +20,8 @@ import (
 	"html"
 	"net/http"
 
+	"log"
+
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/gorilla/mux"
 )
@@ -65,6 +67,41 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
 	w.WriteHeader(http.StatusOK)
+
+	json.NewEncoder(w).Encode(database)
+}
+
+func createDatabase(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	client, err := hmsclient.Open(hmsHost, hmsPort)
+	defer client.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	var db hmsclient.Database
+	_ = json.NewDecoder(r.Body).Decode(&db)
+	db.Name = vars[paramDbName]
+	if db.Location == "" {
+		db.Location = locationUri + db.Name + ".db"
+	}
+	log.Println(fmt.Sprintf("Creating database %#v", db))
+	err = client.CreateDatabase(db)
+	if err != nil {
+		log.Println("error:", err)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	database, err := client.GetDatabase(db.Name)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	w.Header().Set("Content-Type", jsonEncoding)
+	// w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(database)
 }
