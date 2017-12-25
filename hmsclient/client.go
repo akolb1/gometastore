@@ -37,11 +37,11 @@ type MetastoreClient struct {
 
 // Database is a container of other objects in Hive.
 type Database struct {
-	Name        string
-	Description string `json:",omitempty"`
-	Owner       string `json:",omitempty"`
-	Location    string
-	Parameters  map[string]string `json:",omitempty"`
+	Name        string            `json:"name"`
+	Description string            `json:"description,omitempty"`
+	Owner       string            `json:"owner,omitempty"`
+	Location    string            `json:"location"`
+	Parameters  map[string]string `json:"parameters,omitempty"`
 }
 
 // Open connection to metastore and return client handle.
