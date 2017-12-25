@@ -79,9 +79,6 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", jsonEncoding)
 	w.WriteHeader(http.StatusOK)
 
-	if database.Description == "" {
-		database.Description = r.Host + r.URL.Path
-	}
 	json.NewEncoder(w).Encode(database)
 }
 
@@ -95,9 +92,11 @@ func createDatabase(w http.ResponseWriter, r *http.Request) {
 	var db hmsclient.Database
 	_ = json.NewDecoder(r.Body).Decode(&db)
 	db.Name = vars[paramDbName]
-	if db.Location == "" {
-		db.Location = locationUri + db.Name + ".db"
-	}
+	/*
+		if db.Location == "" {
+			db.Location = locationUri + db.Name + ".db"
+		}
+	*/
 	if db.Owner == "" {
 		db.Owner = r.URL.Query().Get("owner")
 	}

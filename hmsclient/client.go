@@ -98,10 +98,12 @@ func (c *MetastoreClient) CreateDatabase(db Database) error {
 		Name:        db.Name,
 		Description: db.Description,
 		Parameters:  db.Parameters,
-		LocationUri: db.Location,
 	}
 	if db.Owner != "" {
 		database.OwnerName = &db.Owner
+	}
+	if db.Location != "" {
+		database.LocationUri = &db.Location
 	}
 	return c.client.CreateDatabase(c.context, database)
 }

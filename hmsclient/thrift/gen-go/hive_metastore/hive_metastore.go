@@ -6432,7 +6432,7 @@ func (p *GrantRevokeRoleResponse) String() string {
 type Database struct {
 	Name        string                 `thrift:"name,1" db:"name" json:"name"`
 	Description string                 `thrift:"description,2" db:"description" json:"description"`
-	LocationUri string                 `thrift:"locationUri,3" db:"locationUri" json:"locationUri"`
+	LocationUri *string                `thrift:"locationUri,3" db:"locationUri" json:"locationUri"`
 	Parameters  map[string]string      `thrift:"parameters,4" db:"parameters" json:"parameters"`
 	Privileges  *PrincipalPrivilegeSet `thrift:"privileges,5" db:"privileges" json:"privileges,omitempty"`
 	OwnerName   *string                `thrift:"ownerName,6" db:"ownerName" json:"ownerName,omitempty"`
@@ -6452,7 +6452,7 @@ func (p *Database) GetDescription() string {
 }
 
 func (p *Database) GetLocationUri() string {
-	return p.LocationUri
+	return *p.LocationUri
 }
 
 func (p *Database) GetParameters() map[string]string {
@@ -6618,7 +6618,7 @@ func (p *Database) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return thrift.PrependError("error reading field 3: ", err)
 	} else {
-		p.LocationUri = v
+		p.LocationUri = &v
 	}
 	return nil
 }
@@ -6741,10 +6741,14 @@ func (p *Database) writeField2(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *Database) writeField3(oprot thrift.TProtocol) (err error) {
+	// Hand-edited
+	if p.LocationUri == nil {
+		return nil
+	}
 	if err := oprot.WriteFieldBegin("locationUri", thrift.STRING, 3); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:locationUri: ", p), err)
 	}
-	if err := oprot.WriteString(string(p.LocationUri)); err != nil {
+	if err := oprot.WriteString(string(*p.LocationUri)); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T.locationUri (3) field write error: ", p), err)
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
