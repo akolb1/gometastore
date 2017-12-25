@@ -102,6 +102,10 @@ func (c *MetastoreClient) CreateDatabase(db Database) error {
 	if db.Owner != "" {
 		database.OwnerName = &db.Owner
 	}
+	// Thrift defines location as non-optional, but it turns out that it is optional for writing
+	// (in which case HMS uses its own default) but not for reading.
+	// The underlying Thrift-generated code is modified by hand to allow for missing locationUri
+	// field. Here we send nil as location URI when location is empty.
 	if db.Location != "" {
 		database.LocationUri = &db.Location
 	}

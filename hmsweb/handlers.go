@@ -28,9 +28,10 @@ import (
 )
 
 func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClient, error) {
-	server := r.URL.Query().Get("NS")
+	vars := mux.Vars(r)
+	server := vars["host"]
 	if server == "" {
-		server = hmsHost
+		server = "localhost"
 	}
 	client, err := hmsclient.Open(server, hmsPort)
 	if err != nil {
@@ -82,7 +83,7 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(database)
 }
 
-func createDatabase(w http.ResponseWriter, r *http.Request) {
+func databaseCreate(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
 		return
@@ -121,7 +122,7 @@ func createDatabase(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(database)
 }
 
-func dropDatabase(w http.ResponseWriter, r *http.Request) {
+func databaseDrop(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
 		return
@@ -142,7 +143,7 @@ func dropDatabase(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func listTables(w http.ResponseWriter, r *http.Request) {
+func tablesList(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
 		return
@@ -160,7 +161,7 @@ func listTables(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tables)
 }
 
-func tableShow(w http.ResponseWriter, r *http.Request) {
+func tablesShow(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
 		return

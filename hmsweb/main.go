@@ -23,9 +23,7 @@ import (
 )
 
 const (
-	hmsPortDefault     = 9083
-	hmsHostDefault     = "localhost"
-	hmsLocationDefault = "hdfs://localhost:8020/user/hive/warehouse/"
+	hmsPortDefault = 9083
 
 	jsonEncoding = "application/json; charset=UTF-8"
 
@@ -40,18 +38,16 @@ var (
 )
 
 func main() {
-	flag.StringVar(&hmsHost, "host", hmsHostDefault, "HMS host")
-	flag.StringVar(&locationUri, "location", hmsLocationDefault, "HDFS location")
 	flag.IntVar(&hmsPort, "port", hmsPortDefault, "HMS Port")
 	flag.Parse()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", index)
-	router.HandleFunc("/databases", databaseList)
-	router.HandleFunc("/databases/{dbName}", databaseShow).Methods("GET")
-	router.HandleFunc("/databases/{dbName}", createDatabase).Methods("POST")
-	router.HandleFunc("/databases/{dbName}", dropDatabase).Methods("DELETE")
-	router.HandleFunc("/databases/{dbName}/", listTables).Methods("GET")
-	router.HandleFunc("/databases/{dbName}/{tableName}", tableShow).Methods("GET")
+	router.HandleFunc("/{host}/databases", databaseList)
+	router.HandleFunc("/{host}/databases/{dbName}", databaseShow).Methods("GET")
+	router.HandleFunc("/{host}/databases/{dbName}", databaseCreate).Methods("POST")
+	router.HandleFunc("/{host}/databases/{dbName}", databaseDrop).Methods("DELETE")
+	router.HandleFunc("/{host}/databases/{dbName}/", tablesList).Methods("GET")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}", tablesShow).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
