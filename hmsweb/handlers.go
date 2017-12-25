@@ -27,19 +27,30 @@ import (
 	"strconv"
 )
 
+func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClient, error) {
+	server := r.URL.Query().Get("NS")
+	if server == "" {
+		server = hmsHost
+	}
+	client, err := hmsclient.Open(server, hmsPort)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return nil, err
+	}
+	return client, err
+}
+
 func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, %q %s:%d", html.EscapeString(r.URL.Path), hmsHost, hmsPort)
 }
 
 func databaseList(w http.ResponseWriter, r *http.Request) {
-	client, err := hmsclient.Open(hmsHost, hmsPort)
-	defer client.Close()
+	client, err := getClient(w, r)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "%v", err)
 		return
 	}
+	defer client.Close()
 	databases, err := client.GetAllDatabases()
 	if err != nil {
 		w.Header().Set("X-HMS-Error", err.Error())
@@ -52,14 +63,11 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 }
 
 func databaseShow(w http.ResponseWriter, r *http.Request) {
-	client, err := hmsclient.Open(hmsHost, hmsPort)
-	defer client.Close()
+	client, err := getClient(w, r)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "%v", err)
 		return
 	}
+	defer client.Close()
 	vars := mux.Vars(r)
 	dbName := vars[paramDbName]
 	database, err := client.GetDatabase(dbName)
@@ -78,14 +86,12 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 }
 
 func createDatabase(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	client, err := hmsclient.Open(hmsHost, hmsPort)
-	defer client.Close()
+	client, err := getClient(w, r)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	defer client.Close()
+	vars := mux.Vars(r)
 	var db hmsclient.Database
 	_ = json.NewDecoder(r.Body).Decode(&db)
 	db.Name = vars[paramDbName]
@@ -117,19 +123,17 @@ func createDatabase(w http.ResponseWriter, r *http.Request) {
 }
 
 func dropDatabase(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
 	vars := mux.Vars(r)
 	dbName := vars[paramDbName]
 	deleteData, _ := strconv.ParseBool(r.URL.Query().Get("data"))
 	cascade, _ := strconv.ParseBool(r.URL.Query().Get("cascade"))
 	log.Println(r.Host+r.URL.String(), r.Method)
 	log.Println("Drop database", dbName, "d =", deleteData, "c =", cascade)
-	client, err := hmsclient.Open(hmsHost, hmsPort)
-	defer client.Close()
-	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 	err = client.DropDatabase(dbName, true, false)
 	if err != nil {
 		w.Header().Set("X-HMS-Error", err.Error())
@@ -140,15 +144,13 @@ func dropDatabase(w http.ResponseWriter, r *http.Request) {
 }
 
 func listTables(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	dbName := vars[paramDbName]
-	client, err := hmsclient.Open(hmsHost, hmsPort)
-	defer client.Close()
+	client, err := getClient(w, r)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
 	tables, err := client.GetAllTables(dbName)
 	if err != nil {
 		w.Header().Set("X-HMS-Error", err.Error())
@@ -160,14 +162,11 @@ func listTables(w http.ResponseWriter, r *http.Request) {
 }
 
 func tableShow(w http.ResponseWriter, r *http.Request) {
-	client, err := hmsclient.Open(hmsHost, hmsPort)
-	defer client.Close()
+	client, err := getClient(w, r)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "%v", err)
 		return
 	}
+	defer client.Close()
 	vars := mux.Vars(r)
 	dbName := vars[paramDbName]
 	tableName := vars[paramTblName]
