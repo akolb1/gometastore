@@ -18,13 +18,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
-	"net/http"
-
 	"log"
+	"net/http"
+	"strconv"
 
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/gorilla/mux"
-	"strconv"
 )
 
 func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClient, error) {
@@ -43,7 +42,7 @@ func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClie
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q %s:%d", html.EscapeString(r.URL.Path), hmsHost, hmsPort)
+	fmt.Fprintf(w, "Hello, %q %s:%d", html.EscapeString(r.URL.Path), hmsPort)
 }
 
 func databaseList(w http.ResponseWriter, r *http.Request) {
@@ -60,6 +59,17 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
+
+	// Either show full URI for each database or show compact presentation -
+	// just list of databases, based on "Compact" query parameter
+	compact, _ := strconv.ParseBool(r.URL.Query().Get("Compact"))
+	if !compact {
+		dbList := make([]string, len(databases))
+		for i, d := range databases {
+			dbList[i] = r.Host + r.RequestURI + "/" + d
+		}
+		databases = dbList
+	}
 	json.NewEncoder(w).Encode(databases)
 }
 
