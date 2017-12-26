@@ -20,6 +20,7 @@ import (
 	"net/http"
 
 	"fmt"
+
 	"github.com/gorilla/mux"
 )
 
@@ -28,6 +29,7 @@ const (
 
 	jsonEncoding = "application/json; charset=UTF-8"
 
+	paramHost    = "host"
 	paramDbName  = "dbName"
 	paramTblName = "tableName"
 )
@@ -42,6 +44,7 @@ func main() {
 
 	router := mux.NewRouter()
 
+	// Show all routes as top-level index
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
 			t, err := route.GetPathTemplate()
@@ -59,9 +62,14 @@ func main() {
 	router.HandleFunc("/{host}/{dbName}", databaseShow).Methods("GET")
 	router.HandleFunc("/{host}/databases/{dbName}", databaseCreate).Methods("POST")
 	router.HandleFunc("/{host}/databases/{dbName}", databaseDrop).Methods("DELETE")
+	router.HandleFunc("/{host}/{dbName}", databaseDrop).Methods("DELETE")
 	router.HandleFunc("/{host}/databases/{dbName}/", tablesList).Methods("GET")
 	router.HandleFunc("/{host}/{dbName}/", tablesList).Methods("GET")
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}", tablesShow).Methods("GET")
 	router.HandleFunc("/{host}/{dbName}/{tableName}", tablesShow).Methods("GET")
+	router.HandleFunc("/{host}/{dbName}/{tableName}", tableCreate).Methods("POST")
+	router.HandleFunc("/{host}/{dbName}/{tableName}", tableDrop).Methods("DELETE")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}", tableCreate).Methods("POST")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}", tableDrop).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

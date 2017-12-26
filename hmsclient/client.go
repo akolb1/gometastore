@@ -130,3 +130,17 @@ func (c *MetastoreClient) GetAllTables(dbName string) ([]string, error) {
 func (c *MetastoreClient) GetTable(dbName string, tableName string) (*hive_metastore.Table, error) {
 	return c.client.GetTable(c.context, dbName, tableName)
 }
+
+// CreateTable Creates HMS table
+func (c *MetastoreClient) CreateTable(table *hive_metastore.Table) error {
+	return c.client.CreateTable(c.context, table)
+}
+
+// DropTable drops table.
+// Parameters
+//   dbName Database name
+//   tableName Table name
+//   deleteData if True, delete data as well
+func (c *MetastoreClient) DropTable(dbName string, tableName string, deleteData bool) error {
+	return c.client.DropTable(c.context, dbName, tableName, deleteData)
+}

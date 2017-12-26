@@ -17,18 +17,19 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"html"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/akolb1/gometastore/hmsclient"
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/gorilla/mux"
 )
 
+// getClient connects to the host specified in the requests and returns connected HMS client.
 func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClient, error) {
 	vars := mux.Vars(r)
-	server := vars["host"]
+	server := vars[paramHost]
 	if server == "" {
 		server = "localhost"
 	}
@@ -39,10 +40,6 @@ func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClie
 		return nil, err
 	}
 	return client, err
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q %s:%d", html.EscapeString(r.URL.Path), hmsPort)
 }
 
 func databaseList(w http.ResponseWriter, r *http.Request) {
@@ -103,11 +100,6 @@ func databaseCreate(w http.ResponseWriter, r *http.Request) {
 	var db hmsclient.Database
 	_ = json.NewDecoder(r.Body).Decode(&db)
 	db.Name = vars[paramDbName]
-	/*
-		if db.Location == "" {
-			db.Location = locationUri + db.Name + ".db"
-		}
-	*/
 	if db.Owner == "" {
 		db.Owner = r.URL.Query().Get("owner")
 	}
@@ -142,9 +134,8 @@ func databaseDrop(w http.ResponseWriter, r *http.Request) {
 	dbName := vars[paramDbName]
 	deleteData, _ := strconv.ParseBool(r.URL.Query().Get("data"))
 	cascade, _ := strconv.ParseBool(r.URL.Query().Get("cascade"))
-	log.Println(r.Host+r.URL.String(), r.Method)
 	log.Println("Drop database", dbName, "d =", deleteData, "c =", cascade)
-	err = client.DropDatabase(dbName, true, false)
+	err = client.DropDatabase(dbName, deleteData, cascade)
 	if err != nil {
 		w.Header().Set("X-HMS-Error", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
@@ -167,6 +158,17 @@ func tablesList(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	// Either show full URI for each database or show compact presentation -
+	// just list of databases, based on "Compact" query parameter
+	compact, _ := strconv.ParseBool(r.URL.Query().Get("Compact"))
+	if !compact {
+		tblList := make([]string, len(tables))
+		for i, t := range tables {
+			tblList[i] = r.Host + r.RequestURI + t
+		}
+		tables = tblList
+	}
+
 	w.Header().Set("Content-Type", jsonEncoding)
 	json.NewEncoder(w).Encode(tables)
 }
@@ -189,4 +191,59 @@ func tablesShow(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", jsonEncoding)
 
 	json.NewEncoder(w).Encode(table)
+}
+
+func tableCreate(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+
+	type Table struct {
+		Columns    []hive_metastore.FieldSchema `json:"columns"`
+		Partitions []hive_metastore.FieldSchema `json:"partitions"`
+		Owner      string                       `json:"owner"`
+		Parameters map[string]string            `json:"parameters"`
+	}
+
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	var tbl Table
+	_ = json.NewDecoder(r.Body).Decode(&tbl)
+	if tbl.Owner == "" {
+		tbl.Owner = r.URL.Query().Get("owner")
+	}
+
+	log.Println(fmt.Sprintf("Creating table %#v", tbl))
+	table := hmsclient.MakeTable(dbName, tableName, tbl.Owner, tbl.Parameters, tbl.Columns, tbl.Partitions)
+	err = client.CreateTable(table)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func tableDrop(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	deleteData, _ := strconv.ParseBool(r.URL.Query().Get("data"))
+	log.Println("Drop table", dbName, tableName, "d =", deleteData)
+	err = client.DropTable(dbName, tableName, deleteData)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }
