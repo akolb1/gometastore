@@ -3,6 +3,7 @@ package hmsclient_test
 import (
 	"fmt"
 	"log"
+	"testing"
 
 	"github.com/akolb1/gometastore/hmsclient"
 )
@@ -21,4 +22,15 @@ func ExampleMetastoreClient_GetAllDatabases() {
 		log.Fatal(err)
 	}
 	fmt.Println(client.GetAllDatabases())
+}
+
+func TestOpenBadHost(t *testing.T) {
+	t.Log("connecting to fake host")
+	client, err := hmsclient.Open("foobar", 1)
+	if err == nil {
+		t.Error("connection to bad host succeeded")
+	}
+	if client != nil {
+		t.Error("connecting to bad host returned valid client")
+	}
 }
