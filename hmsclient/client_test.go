@@ -36,6 +36,7 @@ func ExampleMetastoreClient_GetAllDatabases() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer client.Close()
 	fmt.Println(client.GetAllDatabases())
 }
 
@@ -51,7 +52,6 @@ func TestOpenBadHost(t *testing.T) {
 }
 
 func getClient(t *testing.T) (*hmsclient.MetastoreClient, error) {
-	t.Helper()
 	host := os.Getenv("HMS_SERVER")
 	if host == "" {
 		host = "localhost"
@@ -70,6 +70,7 @@ func TestGetDatabases(t *testing.T) {
 	if err != nil {
 		return
 	}
+	defer client.Close()
 	databases, err := client.GetAllDatabases()
 	if err != nil {
 		t.Error("failed to get databases", err)
@@ -92,6 +93,7 @@ func TestMetastoreClient_CreateDatabase(t *testing.T) {
 	if err != nil {
 		return
 	}
+	defer client.Close()
 	description := "test database"
 	err = client.CreateDatabase(&hmsclient.Database{Name: dbName, Description: description, Owner: owner})
 	if err != nil {
