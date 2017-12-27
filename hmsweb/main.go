@@ -29,9 +29,10 @@ const (
 
 	jsonEncoding = "application/json; charset=UTF-8"
 
-	paramHost    = "host"
-	paramDbName  = "dbName"
-	paramTblName = "tableName"
+	paramHost     = "host"
+	paramDbName   = "dbName"
+	paramTblName  = "tableName"
+	paramPartName = "partName"
 )
 
 var (
@@ -71,5 +72,9 @@ func main() {
 	router.HandleFunc("/{host}/{dbName}/{tableName}", tableDrop).Methods("DELETE")
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}", tableCreate).Methods("POST")
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}", tableDrop).Methods("DELETE")
+	router.HandleFunc("/{host}/{dbName}/{tableName}/", partitionsList).Methods("GET")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/", partitionsList).Methods("GET")
+	router.HandleFunc("/{host}/{dbName}/{tableName}/{partName}", partitionShow).Methods("GET")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/{partName}", partitionShow).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

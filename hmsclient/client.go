@@ -144,3 +144,14 @@ func (c *MetastoreClient) CreateTable(table *hive_metastore.Table) error {
 func (c *MetastoreClient) DropTable(dbName string, tableName string, deleteData bool) error {
 	return c.client.DropTable(c.context, dbName, tableName, deleteData)
 }
+
+// GetPartitionNames returns list of partition names for a table.
+func (c *MetastoreClient) GetPartitionNames(dbName string, tableName string, max int) ([]string, error) {
+	return c.client.GetPartitionNames(c.context, dbName, tableName, int16(max))
+}
+
+// GetPartitionByName returns Partition for the given partition name.
+func (c *MetastoreClient) GetPartitionByName(dbName string, tableName string,
+	partName string) (*hive_metastore.Partition, error) {
+	return c.client.GetPartitionByName(c.context, dbName, tableName, partName)
+}

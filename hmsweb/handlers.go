@@ -63,7 +63,7 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 	if !compact {
 		dbList := make([]string, len(databases))
 		for i, d := range databases {
-			dbList[i] = r.Host + r.RequestURI + "/" + d
+			dbList[i] = r.Host + r.URL.Path + "/" + d
 		}
 		databases = dbList
 	}
@@ -164,7 +164,7 @@ func tablesList(w http.ResponseWriter, r *http.Request) {
 	if !compact {
 		tblList := make([]string, len(tables))
 		for i, t := range tables {
-			tblList[i] = r.Host + r.RequestURI + t
+			tblList[i] = r.Host + r.URL.Path + t
 		}
 		tables = tblList
 	}
@@ -246,4 +246,56 @@ func tableDrop(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func partitionsList(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	partitions, err := client.GetPartitionNames(dbName, tableName, -1)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	// Either show full URI for each database or show compact presentation -
+	// just list of databases, based on "Compact" query parameter
+	compact, _ := strconv.ParseBool(r.URL.Query().Get("Compact"))
+	if !compact {
+		pList := make([]string, len(partitions))
+		for i, t := range partitions {
+			url := r.URL
+			pList[i] = r.Host + url.Path + t
+		}
+		partitions = pList
+	}
+
+	w.Header().Set("Content-Type", jsonEncoding)
+	json.NewEncoder(w).Encode(partitions)
+}
+
+func partitionShow(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	partName := vars[paramPartName]
+	partition, err := client.GetPartitionByName(dbName, tableName, partName)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.Header().Set("Content-Type", jsonEncoding)
+
+	json.NewEncoder(w).Encode(partition)
 }
