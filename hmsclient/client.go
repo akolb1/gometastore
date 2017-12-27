@@ -93,7 +93,7 @@ func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
 }
 
 // CreateDatabase creates database with the specified name, description, parameters and owner.
-func (c *MetastoreClient) CreateDatabase(db Database) error {
+func (c *MetastoreClient) CreateDatabase(db *Database) error {
 	database := &hive_metastore.Database{
 		Name:        db.Name,
 		Description: db.Description,
