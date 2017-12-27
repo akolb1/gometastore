@@ -105,7 +105,7 @@ func databaseCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println(fmt.Sprintf("Creating database %#v", db))
-	err = client.CreateDatabase(db)
+	err = client.CreateDatabase(&db)
 	if err != nil {
 		w.Header().Set("X-HMS-Error", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
