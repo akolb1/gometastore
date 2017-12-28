@@ -21,9 +21,13 @@ import (
 	"net/http"
 	"strconv"
 
+	"math/rand"
+	"time"
+
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/gorilla/mux"
+	"github.com/oklog/ulid"
 )
 
 // getClient connects to the host specified in the requests and returns connected HMS client.
@@ -40,6 +44,12 @@ func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClie
 		return nil, err
 	}
 	return client, err
+}
+
+func getULID() string {
+	t := time.Unix(1000000, 0)
+	entropy := rand.New(rand.NewSource(t.UnixNano()))
+	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
 }
 
 func databaseList(w http.ResponseWriter, r *http.Request) {
@@ -102,6 +112,14 @@ func databaseCreate(w http.ResponseWriter, r *http.Request) {
 	db.Name = vars[paramDbName]
 	if db.Owner == "" {
 		db.Owner = r.URL.Query().Get("owner")
+	}
+
+	// Add ULID to parameters
+	if db.Parameters == nil {
+		db.Parameters = make(map[string]string)
+	}
+	if db.Parameters["ULID"] == "" {
+		db.Parameters["ULID"] = getULID()
 	}
 
 	log.Println(fmt.Sprintf("Creating database %#v", db))
@@ -214,6 +232,13 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&tbl)
 	if tbl.Owner == "" {
 		tbl.Owner = r.URL.Query().Get("owner")
+	}
+	// Add ULID to parameters
+	if tbl.Parameters == nil {
+		tbl.Parameters = make(map[string]string)
+	}
+	if tbl.Parameters["ULID"] == "" {
+		tbl.Parameters["ULID"] = getULID()
 	}
 
 	log.Println(fmt.Sprintf("Creating table %#v", tbl))

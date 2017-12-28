@@ -17,19 +17,15 @@ package hmsclient
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"net"
 	"strconv"
-	"time"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
-	"github.com/oklog/ulid"
 )
 
 const (
 	bufferSize = 1024 * 1024
-	ulidKey    = "ULID"
 )
 
 // MetastoreClient represents client handle.
@@ -46,7 +42,6 @@ type Database struct {
 	Owner       string            `json:"owner,omitempty"`
 	Location    string            `json:"location"`
 	Parameters  map[string]string `json:"parameters,omitempty"`
-	ULID        string            `json:"ulid,omitempty"` // Unique Lexicographically Sorted ID
 }
 
 // Open connection to metastore and return client handle.
@@ -77,12 +72,6 @@ func (c *MetastoreClient) Close() {
 	c.transport.Close()
 }
 
-func getULID() string {
-	t := time.Unix(1000000, 0)
-	entropy := rand.New(rand.NewSource(t.UnixNano()))
-	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
-}
-
 // GetAllDatabases returns list of all Hive databases.
 func (c *MetastoreClient) GetAllDatabases() ([]string, error) {
 	return c.client.GetAllDatabases(c.context)
@@ -94,17 +83,12 @@ func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	ulid := ""
-	if db.Parameters != nil {
-		ulid = db.Parameters[ulidKey]
-	}
 	return &Database{
 		Name:        db.GetName(),
 		Description: db.GetDescription(),
 		Parameters:  db.GetParameters(),
 		Location:    db.GetLocationUri(),
 		Owner:       db.GetOwnerName(),
-		ULID:        ulid,
 	}, nil
 }
 
@@ -117,12 +101,6 @@ func (c *MetastoreClient) CreateDatabase(db *Database) error {
 	}
 	if db.Owner != "" {
 		database.OwnerName = &db.Owner
-	}
-	if database.Parameters == nil {
-		database.Parameters = make(map[string]string)
-	}
-	if db.Parameters[ulidKey] == "" {
-		database.Parameters[ulidKey] = getULID()
 	}
 	// Thrift defines location as non-optional, but it turns out that it is optional for writing
 	// (in which case HMS uses its own default) but not for reading.

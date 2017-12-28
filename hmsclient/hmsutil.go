@@ -61,13 +61,6 @@ func MakeTable(dbName string, tabeName string, owner string,
 			SerializationLib: defaultSerDe,
 		},
 	}
-	if parameters == nil {
-		parameters = make(map[string]string)
-	}
-	if parameters[ulidKey] == "" {
-		parameters[ulidKey] = getULID()
-	}
-
 	return &hive_metastore.Table{
 		DbName:        dbName,
 		TableName:     tabeName,
