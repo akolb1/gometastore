@@ -76,5 +76,7 @@ func main() {
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/", partitionsList).Methods("GET")
 	router.HandleFunc("/{host}/{dbName}/{tableName}/{partName}", partitionShow).Methods("GET")
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/{partName}", partitionShow).Methods("GET")
+	router.HandleFunc("/{host}/{dbName}/{tableName}/", partitionAdd).Methods("POST")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/", partitionAdd).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

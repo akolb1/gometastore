@@ -26,6 +26,7 @@ import (
 
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 	"github.com/oklog/ulid"
 )
@@ -241,8 +242,8 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 		tbl.Parameters["ULID"] = getULID()
 	}
 
-	log.Println(fmt.Sprintf("Creating table %#v", tbl))
 	table := hmsclient.MakeTable(dbName, tableName, tbl.Owner, tbl.Parameters, tbl.Columns, tbl.Partitions)
+	log.Println("Creating table " + spew.Sdump(table))
 	err = client.CreateTable(table)
 	if err != nil {
 		w.Header().Set("X-HMS-Error", err.Error())
@@ -321,6 +322,44 @@ func partitionShow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
-
 	json.NewEncoder(w).Encode(partition)
+}
+
+func partitionAdd(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+
+	type Partition struct {
+		Values     []string          `json:"values"`
+		Parameters map[string]string `json:"parameters"`
+	}
+	var part Partition
+	_ = json.NewDecoder(r.Body).Decode(&part)
+	table, err := client.GetTable(dbName, tableName)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	partition, err := hmsclient.MakePartition(table, part.Values, part.Parameters)
+	log.Println("Creating partition " + spew.Sdump(partition))
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	newPart, err := client.AddPartition(partition)
+	if err != nil {
+		w.Header().Set("X-HMS-Error", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	w.Header().Set("Content-Type", jsonEncoding)
+	json.NewEncoder(w).Encode(newPart)
 }

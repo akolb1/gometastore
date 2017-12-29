@@ -155,3 +155,8 @@ func (c *MetastoreClient) GetPartitionByName(dbName string, tableName string,
 	partName string) (*hive_metastore.Partition, error) {
 	return c.client.GetPartitionByName(c.context, dbName, tableName, partName)
 }
+
+// AddPartition adds partition to Hive table.
+func (c *MetastoreClient) AddPartition(partition *hive_metastore.Partition) (*hive_metastore.Partition, error) {
+	return c.client.AddPartition(c.context, partition)
+}
