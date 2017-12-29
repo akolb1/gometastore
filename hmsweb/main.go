@@ -36,11 +36,13 @@ const (
 )
 
 var (
+	webPort int
 	hmsPort int
 )
 
 func main() {
-	flag.IntVar(&hmsPort, "port", hmsPortDefault, "HMS Port")
+	flag.IntVar(&hmsPort, "hmsport", hmsPortDefault, "HMS Thrift port")
+	flag.IntVar(&webPort, "port", 8080, "web service port")
 	flag.Parse()
 
 	router := mux.NewRouter()
@@ -78,5 +80,6 @@ func main() {
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/{partName}", partitionShow).Methods("GET")
 	router.HandleFunc("/{host}/{dbName}/{tableName}/", partitionAdd).Methods("POST")
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/", partitionAdd).Methods("POST")
-	log.Fatal(http.ListenAndServe(":8080", router))
+
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", webPort), router))
 }
