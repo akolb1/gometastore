@@ -48,7 +48,7 @@ func main() {
 	router := mux.NewRouter()
 
 	// Show all routes as top-level index
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/help", func(w http.ResponseWriter, r *http.Request) {
 		router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
 			t, err := route.GetPathTemplate()
 			if err != nil {
@@ -59,6 +59,7 @@ func main() {
 		})
 	})
 
+	router.HandleFunc("/", showHelp)
 	router.HandleFunc("/{host}/databases", databaseList)
 	router.HandleFunc("/{host}", databaseList)
 	router.HandleFunc("/{host}/databases/{dbName}", databaseShow).Methods("GET")

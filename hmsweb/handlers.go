@@ -47,12 +47,28 @@ func getClient(w http.ResponseWriter, r *http.Request) (*hmsclient.MetastoreClie
 	return client, err
 }
 
+// getULID returns a unique ID.
 func getULID() string {
 	t := time.Unix(1000000, 0)
 	entropy := rand.New(rand.NewSource(t.UnixNano()))
 	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
 }
 
+// showError shows error information in X-HMS-Error header
+func showError(w http.ResponseWriter, code int, err error) {
+	w.Header().Set("X-HMS-Error", err.Error())
+	w.WriteHeader(code)
+}
+
+// showHelp shows a link to the documentation. It is served on '/' route.
+func showHelp(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1>%s</h1><div>"+
+		"See <a href=%s>Documentation</a></div>",
+		"HmsWEB - HTTP interface to Hive Metastore",
+		"https://github.com/akolb1/gometastore/tree/master/hmsweb")
+}
+
+// databaseList shows list of databases.
 func databaseList(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
@@ -61,9 +77,7 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 	defer client.Close()
 	databases, err := client.GetAllDatabases()
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "%v", err)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
@@ -81,6 +95,7 @@ func databaseList(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(databases)
 }
 
+// databaseShow displays information about the database.
 func databaseShow(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
@@ -91,8 +106,7 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	dbName := vars[paramDbName]
 	database, err := client.GetDatabase(dbName)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
@@ -101,6 +115,7 @@ func databaseShow(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(database)
 }
 
+// databaseCreate creates a new database
 func databaseCreate(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(w, r)
 	if err != nil {
@@ -126,15 +141,12 @@ func databaseCreate(w http.ResponseWriter, r *http.Request) {
 	log.Println(fmt.Sprintf("Creating database %#v", db))
 	err = client.CreateDatabase(&db)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "%v", err)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	database, err := client.GetDatabase(db.Name)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
@@ -156,8 +168,7 @@ func databaseDrop(w http.ResponseWriter, r *http.Request) {
 	log.Println("Drop database", dbName, "d =", deleteData, "c =", cascade)
 	err = client.DropDatabase(dbName, deleteData, cascade)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
@@ -173,8 +184,7 @@ func tablesList(w http.ResponseWriter, r *http.Request) {
 	dbName := vars[paramDbName]
 	tables, err := client.GetAllTables(dbName)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	// Either show full URI for each database or show compact presentation -
@@ -203,8 +213,7 @@ func tablesShow(w http.ResponseWriter, r *http.Request) {
 	tableName := vars[paramTblName]
 	table, err := client.GetTable(dbName, tableName)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
@@ -246,9 +255,7 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 	log.Println("Creating table " + spew.Sdump(table))
 	err = client.CreateTable(table)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "%v", err)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
@@ -267,8 +274,7 @@ func tableDrop(w http.ResponseWriter, r *http.Request) {
 	log.Println("Drop table", dbName, tableName, "d =", deleteData)
 	err = client.DropTable(dbName, tableName, deleteData)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
@@ -285,8 +291,7 @@ func partitionsList(w http.ResponseWriter, r *http.Request) {
 	tableName := vars[paramTblName]
 	partitions, err := client.GetPartitionNames(dbName, tableName, -1)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	// Either show full URI for each database or show compact presentation -
@@ -317,8 +322,7 @@ func partitionShow(w http.ResponseWriter, r *http.Request) {
 	partName := vars[paramPartName]
 	partition, err := client.GetPartitionByName(dbName, tableName, partName)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
@@ -343,21 +347,18 @@ func partitionAdd(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&part)
 	table, err := client.GetTable(dbName, tableName)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	partition, err := hmsclient.MakePartition(table, part.Values, part.Parameters)
 	log.Println("Creating partition " + spew.Sdump(partition))
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	newPart, err := client.AddPartition(partition)
 	if err != nil {
-		w.Header().Set("X-HMS-Error", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
+		showError(w, http.StatusBadRequest, err)
 		return
 	}
 	w.Header().Set("Content-Type", jsonEncoding)
