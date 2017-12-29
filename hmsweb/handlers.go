@@ -54,10 +54,10 @@ func getULID() string {
 	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
 }
 
-// showError shows error information in X-HMS-Error header
+// showError shows error information in X-HMS-Error header and in the body.
 func showError(w http.ResponseWriter, code int, err error) {
 	w.Header().Set("X-HMS-Error", err.Error())
-	w.WriteHeader(code)
+	http.Error(w, err.Error(), code)
 }
 
 // showHelp shows a link to the documentation. It is served on '/' route.
