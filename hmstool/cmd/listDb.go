@@ -29,10 +29,6 @@ var dbListCmd = &cobra.Command{
 	Run:   listDbs,
 }
 
-func init() {
-	dbCmd.AddCommand(dbListCmd)
-}
-
 func listDbs(cmd *cobra.Command, args []string) {
 	client, err := getClient()
 	if err != nil {
@@ -47,4 +43,8 @@ func listDbs(cmd *cobra.Command, args []string) {
 	for _, d := range databases {
 		fmt.Println(d)
 	}
+}
+
+func init() {
+	dbCmd.AddCommand(dbListCmd)
 }

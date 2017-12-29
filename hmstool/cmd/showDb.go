@@ -25,31 +25,39 @@ import (
 var dbShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show HMS database",
-	Long:  `Show HMS database`,
 	Run:   showDB,
 }
 
-func init() {
-	dbCmd.AddCommand(dbShowCmd)
-}
-
-func showDB(_ *cobra.Command, args []string) {
+func showDB(cmd *cobra.Command, args []string) {
 	client, err := getClient()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer client.Close()
+	if len(args) == 0 {
+		if dbName, _ := cmd.Flags().GetString(optDbName); dbName != "" {
+			args = append(args, dbName)
+		}
+	}
 	for _, a := range args {
 		db, derr := client.GetDatabase(a)
 		if derr != nil {
 			log.Printf("failed to get database %s: %v", a, derr)
 		}
-		fmt.Printf("%s: %s\n", db.Name, db.Location)
+		fmt.Printf("Name=%s\n", db.Name)
+		fmt.Printf("Location=%s\n", db.Location)
 		if len(db.Description) > 0 {
-			fmt.Println("\t", db.Description)
+			fmt.Printf("Description=%s\n", db.Description)
 		}
-		for k, v := range db.Parameters {
-			fmt.Println("\n\t", k, ": ", v)
+		if len(db.Parameters) != 0 {
+			fmt.Println("Parameters:")
+			for k, v := range db.Parameters {
+				fmt.Printf("  %s=%s\n", k, v)
+			}
 		}
 	}
+}
+
+func init() {
+	dbCmd.AddCommand(dbShowCmd)
 }

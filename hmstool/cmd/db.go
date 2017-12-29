@@ -18,13 +18,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	optDbName = "dbname"
+)
+
 // dbCmd represents the db command
 var dbCmd = &cobra.Command{
-	Use:   "db",
-	Short: "HMS database operations",
-	Long:  `HMS database operations`,
+	Use:              "db",
+	Short:            "HMS database operations",
+	TraverseChildren: true,
 }
 
 func init() {
+	dbCmd.Flags().StringP(optDbName, "d", "default", "database name")
 	rootCmd.AddCommand(dbCmd)
 }
