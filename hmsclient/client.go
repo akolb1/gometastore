@@ -114,9 +114,9 @@ func (c *MetastoreClient) CreateDatabase(db *Database) error {
 
 // DropDatabases removes the database specified by name
 // Parameters:
-//   - dbName database name
-//   - deleteData - if true, delete data as well
-//   - cascade - delete everything under the db if true
+//   dbName     - database name
+//   deleteData - if true, delete data as well
+//   cascade    - delete everything under the db if true
 func (c *MetastoreClient) DropDatabase(dbName string, deleteData bool, cascade bool) error {
 	return c.client.DropDatabase(c.context, dbName, deleteData, cascade)
 }
@@ -138,9 +138,9 @@ func (c *MetastoreClient) CreateTable(table *hive_metastore.Table) error {
 
 // DropTable drops table.
 // Parameters
-//   dbName Database name
-//   tableName Table name
-//   deleteData if True, delete data as well
+//   dbName     - Database name
+//   tableName  - Table name
+//   deleteData - if True, delete data as well
 func (c *MetastoreClient) DropTable(dbName string, tableName string, deleteData bool) error {
 	return c.client.DropTable(c.context, dbName, tableName, deleteData)
 }

@@ -44,12 +44,12 @@ func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.Field
 
 // MakeTable returns initialized Table object.
 // Parameters:
-//   dbName  database name
-//   tableName  table name
-//   owner Table owner
-//   parameters Table parameters
-//   columns list of table column descriptions
-//   partitions list of table partitions descriptions
+//   dbName      - database name
+//   tableName   - table name
+//   owner Table - owner
+//   parameters  - Table parameters
+//   columns     - list of table column descriptions
+//   partitions  - list of table partitions descriptions
 func MakeTable(dbName string, tabeName string, owner string,
 	parameters map[string]string,
 	columns []hive_metastore.FieldSchema,
@@ -76,10 +76,10 @@ func MakeTable(dbName string, tabeName string, owner string,
 }
 
 // MakePartition creates Partition object from ordere4d list of partition values.
+// Only string values are currently supported.
 // Parameters:
-//   table - Hive table for which partition is added
+//   table  - Hive table for which partition is added
 //   values - List of partition values which should match partition schema
-//   Only string values are currently supported
 func MakePartition(table *hive_metastore.Table,
 	values []string, parameters map[string]string) (*hive_metastore.Partition, error) {
 	partitionKeys := table.PartitionKeys
