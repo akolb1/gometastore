@@ -44,13 +44,12 @@ func showDB(cmd *cobra.Command, args []string) {
 		if derr != nil {
 			log.Printf("failed to get database %s: %v", a, derr)
 		}
-		fmt.Printf("Name=%s\n", db.Name)
-		fmt.Printf("Location=%s\n", db.Location)
+		fmt.Printf("%s\t%s\t%s", db.Name, db.Owner, db.Location)
 		if len(db.Description) > 0 {
-			fmt.Printf("Description=%s\n", db.Description)
+			fmt.Printf("\t# %s", db.Description)
 		}
+		fmt.Println()
 		if len(db.Parameters) != 0 {
-			fmt.Println("Parameters:")
 			for k, v := range db.Parameters {
 				fmt.Printf("  %s=%s\n", k, v)
 			}

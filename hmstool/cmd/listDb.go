@@ -18,15 +18,16 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/gobwas/glob"
 	"github.com/spf13/cobra"
 )
 
 // dbCmd represents the db command
 var dbListCmd = &cobra.Command{
-	Use:   "list",
-	Short: "HMS list databases",
-	Long:  `HMS list databases`,
-	Run:   listDbs,
+	Use:     "list",
+	Aliases: []string{"ls"},
+	Short:   "list databases",
+	Run:     listDbs,
 }
 
 func listDbs(cmd *cobra.Command, args []string) {
@@ -40,11 +41,39 @@ func listDbs(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, d := range databases {
-		fmt.Println(d)
+
+	dbNames := []string{}
+
+	if len(args) == 0 {
+		for _, d := range databases {
+			dbNames = append(dbNames, d)
+		}
+	} else {
+		globs := make([]glob.Glob, len(args))
+		for i, a := range args {
+			globs[i] = glob.MustCompile(a)
+		}
+		for _, d := range databases {
+			for _, g := range globs {
+				if g.Match(d) {
+					dbNames = append(dbNames, d)
+					break
+				}
+			}
+		}
 	}
+
+	if isLong, _ := cmd.Flags().GetBool("long"); !isLong {
+		for _, name := range dbNames {
+			fmt.Println(name)
+		}
+	} else {
+		showDB(cmd, dbNames)
+	}
+
 }
 
 func init() {
+	dbListCmd.Flags().BoolP("long", "l", false, "show db info")
 	dbCmd.AddCommand(dbListCmd)
 }

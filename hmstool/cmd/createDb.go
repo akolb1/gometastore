@@ -23,6 +23,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+// TODO support database description
+
 // dbCmd represents the db command
 var dbCreateCmd = &cobra.Command{
 	Use:   "create",
