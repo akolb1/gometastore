@@ -30,6 +30,6 @@ var dbCmd = &cobra.Command{
 }
 
 func init() {
-	dbCmd.Flags().StringP(optDbName, "d", "default", "database name")
+	dbCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
 	rootCmd.AddCommand(dbCmd)
 }

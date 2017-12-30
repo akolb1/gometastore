@@ -23,55 +23,67 @@ import (
 )
 
 // dbCmd represents the db command
-var dbListCmd = &cobra.Command{
+var tableListCmd = &cobra.Command{
 	Use:     "list",
 	Aliases: []string{"ls"},
-	Short:   "list databases",
-	Run:     listDbs,
+	Short:   "list tables",
+	Run:     listTables,
 }
 
-func listDbs(cmd *cobra.Command, args []string) {
+func listTables(cmd *cobra.Command, args []string) {
 	client, err := getClient()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer client.Close()
+	dbName, _ := cmd.Flags().GetString(optDbName)
 
-	databases, err := client.GetAllDatabases()
-	if err != nil {
-		log.Fatal(err)
+	var dbNames []string
+	if dbName != "" {
+		dbNames = []string{dbName}
+	} else {
+		databases, err := client.GetAllDatabases()
+		if err != nil {
+			log.Fatal(err)
+		}
+		dbNames = databases
 	}
 
-	dbNames := []string{}
+	tables := []string{}
+	for _, d := range dbNames {
+		tableList, err := client.GetAllTables(dbName)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, t := range tableList {
+			tables = append(tables, d+"."+t)
+		}
+	}
 
+	filteredTables := []string{}
 	if len(args) == 0 {
-		dbNames = databases
+		filteredTables = tables
 	} else {
 		globs := make([]glob.Glob, len(args))
 		for i, a := range args {
 			globs[i] = glob.MustCompile(a)
 		}
-		for _, d := range databases {
+		for _, t := range tables {
 			for _, g := range globs {
-				if g.Match(d) {
-					dbNames = append(dbNames, d)
+				if g.Match(t) {
+					filteredTables = append(filteredTables, t)
 					break
 				}
 			}
 		}
 	}
 
-	if isLong, _ := cmd.Flags().GetBool("long"); !isLong {
-		for _, name := range dbNames {
-			fmt.Println(name)
-		}
-	} else {
-		showDB(cmd, dbNames)
+	for _, t := range filteredTables {
+		fmt.Println(t)
 	}
-
 }
 
 func init() {
-	dbListCmd.Flags().BoolP("long", "l", false, "show db info")
-	dbCmd.AddCommand(dbListCmd)
+	tableListCmd.Flags().BoolP("long", "l", false, "show table info")
+	tablesCmd.AddCommand(tableListCmd)
 }

@@ -32,6 +32,7 @@ var dbCreateCmd = &cobra.Command{
 	Run:   createDB,
 }
 
+// argsToParams converts list of x=y strings into a parameters map
 func argsToParams(args []string) map[string]string {
 	if len(args) == 0 {
 		return nil
@@ -39,6 +40,7 @@ func argsToParams(args []string) map[string]string {
 	params := make(map[string]string)
 	for _, a := range args {
 		parts := strings.Split(a, "=")
+		// Ignore any arguments that do not look like parameters
 		if len(parts) != 2 {
 			continue
 		}
@@ -47,6 +49,7 @@ func argsToParams(args []string) map[string]string {
 	return params
 }
 
+// createDB creates database
 func createDB(cmd *cobra.Command, args []string) {
 	dbName, _ := cmd.Flags().GetString("dbname")
 	owner := viper.GetString(ownerOpt)
@@ -78,6 +81,5 @@ func createDB(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	dbCreateCmd.Flags().StringP(optDbName, "d", "default", "database name")
 	dbCmd.AddCommand(dbCreateCmd)
 }
