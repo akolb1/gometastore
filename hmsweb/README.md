@@ -69,6 +69,26 @@ $ curl 'localhost:8080/hms.host.org/databases?Compact=true'
 }
 ```
 
+### Creating Database
+
+To create a database, a POST request should be sent using URL ending with the database name and
+a JSON body describing the database.
+
+`$ http --body localhost:8080/hms.host.org/databases/mydb owner=hive`
+```json
+{
+    "location": "hdfs://localhost:8020/user/hive/warehouse/mydb.db",
+    "name": "mydb",
+    "owner": "hive",
+}
+```
+
+### Dropping Hive database
+
+Dropping a table is performed by sending DELETE request to the database URL.
+
+`$ http DELETE localhost:8080/databases/mydb` 
+
 ### Listing tables in a database
 
 `$ http --body localhost:8080/hms.host.org/default/`
@@ -132,6 +152,24 @@ As with databases, `Compact=true` parameter can be used to display just table na
     "tableType": "MANAGED_TABLE",
 }
 ```
+
+### Creating new Table
+
+Table is created by sending POST request to an URL ending with the new table name.
+The message BODY may include the following information:
+
+* owner
+* parameters
+* columns (list of fieldSchema objects)
+* partitions (list of FieldSchena objects)
+
+`$ http localhost:8080/hms.host.org/databases/foo/mytab owner=hive columns:='[{"name": "id"}]' partitions:='[{"name": "date"}]' parameters:='{"p1": "val1"}'`
+
+### Dropping Hive Table
+
+Dropping a table is performed by sending DELETE request to the database URL.
+
+`$ http DELETE localhost:8080/hms.host.org/databases/foo/mytab` 
 
 ### Listing partitions within a table
 
