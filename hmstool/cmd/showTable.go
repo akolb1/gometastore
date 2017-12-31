@@ -15,10 +15,10 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
-
-	"encoding/json"
+	"strings"
 
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/spf13/cobra"
@@ -45,6 +45,12 @@ func showTables(cmd *cobra.Command, args []string) {
 
 // showTable shows JSON representation of HMS table.
 func showTable(client *hmsclient.MetastoreClient, dbName string, tableName string) {
+	// handle dbname.tablename syntax
+	parts := strings.Split(tableName, ".")
+	if len(parts) == 2 {
+		dbName = parts[0]
+		tableName = parts[1]
+	}
 	table, err := client.GetTable(dbName, tableName)
 	if err != nil {
 		fmt.Println(err)
