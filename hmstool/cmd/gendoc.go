@@ -38,6 +38,6 @@ func genDoc(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	dbCmd.Flags().StringP("dir", "D", "./doc", "doc directory")
+	docCmd.Flags().StringP("dir", "d", "./doc", "doc directory")
 	rootCmd.AddCommand(docCmd)
 }

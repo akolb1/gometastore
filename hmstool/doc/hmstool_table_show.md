@@ -1,20 +1,19 @@
-## hmstool table list
+## hmstool table show
 
-list tables
+Show tables
 
 ### Synopsis
 
-list tables
+Show tables
 
 ```
-hmstool table list [flags]
+hmstool table show [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for list
-  -l, --long   show table info
+  -h, --help   help for show
 ```
 
 ### Options inherited from parent commands
