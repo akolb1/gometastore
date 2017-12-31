@@ -28,16 +28,16 @@ const (
 
 // convertSchema converts list of FieldSchema to list of pointers to FieldSchema
 func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.FieldSchema {
-	var cols []*hive_metastore.FieldSchema
-	if len(columns) > 0 {
-		cols = make([]*hive_metastore.FieldSchema, len(columns))
-		for i, c := range columns {
-			cols[i] = &c
-			// Type defaults to string
-			if cols[i].Type == "" {
-				cols[i].Type = "string"
-			}
+	if len(columns) == 0 {
+		return nil
+	}
+	cols := []*hive_metastore.FieldSchema{}
+	for _, c := range columns {
+		col := c
+		if col.Type == "" {
+			col.Type = "string"
 		}
+		cols = append(cols, &col)
 	}
 	return cols
 }

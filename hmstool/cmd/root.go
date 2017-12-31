@@ -65,7 +65,7 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hmstool.yaml)")
 	rootCmd.PersistentFlags().StringP(hostOpt, "H", "localhost", "hostname for HMS server")
-	rootCmd.PersistentFlags().StringP(portOpt, "P", defaultThriftPort, "port for HMS server")
+	rootCmd.PersistentFlags().StringP(portOpt, "p", defaultThriftPort, "port for HMS server")
 	rootCmd.PersistentFlags().StringP(ownerOpt, "U", hadoopUser, "owner name")
 
 	// Bind flags to viper variables

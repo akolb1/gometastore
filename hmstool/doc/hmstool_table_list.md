@@ -24,7 +24,7 @@ hmstool table list [flags]
   -d, --dbname string   database name (default "default")
   -H, --host string     hostname for HMS server (default "localhost")
   -U, --owner string    owner name (default "hive")
-  -P, --port string     port for HMS server (default "9083")
+  -p, --port string     port for HMS server (default "9083")
   -t, --table string    table name
 ```
 

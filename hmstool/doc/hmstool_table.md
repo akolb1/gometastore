@@ -20,12 +20,13 @@ table operations
       --config string   config file (default is $HOME/.hmstool.yaml)
   -H, --host string     hostname for HMS server (default "localhost")
   -U, --owner string    owner name (default "hive")
-  -P, --port string     port for HMS server (default "9083")
+  -p, --port string     port for HMS server (default "9083")
 ```
 
 ### SEE ALSO
 
 * [hmstool](hmstool.md)	 - Hive metastore hmsclient tool
+* [hmstool table create](hmstool_table_create.md)	 - Create Table
 * [hmstool table list](hmstool_table_list.md)	 - list tables
 * [hmstool table show](hmstool_table_show.md)	 - Show tables
 

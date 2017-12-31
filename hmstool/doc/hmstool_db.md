@@ -19,7 +19,7 @@ HMS database operations
       --config string   config file (default is $HOME/.hmstool.yaml)
   -H, --host string     hostname for HMS server (default "localhost")
   -U, --owner string    owner name (default "hive")
-  -P, --port string     port for HMS server (default "9083")
+  -p, --port string     port for HMS server (default "9083")
 ```
 
 ### SEE ALSO
