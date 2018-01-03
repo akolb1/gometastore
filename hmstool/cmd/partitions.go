@@ -19,6 +19,9 @@ import (
 	"log"
 	"strings"
 
+	"encoding/json"
+
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
 )
 
@@ -57,4 +60,38 @@ func showPartitions(cmd *cobra.Command, args []string) {
 	for _, p := range partitions {
 		fmt.Println(p)
 	}
+}
+
+func showPartition(cmd *cobra.Command, args []string) {
+	tableName, _ := cmd.Flags().GetString(optTableName)
+	if tableName == "" {
+		log.Fatal("missing table name")
+	}
+	dbName, _ := cmd.Flags().GetString(optDbName)
+	parts := strings.Split(tableName, ".")
+	if len(parts) == 2 {
+		dbName = parts[0]
+		tableName = parts[1]
+	}
+	if dbName == "" {
+		log.Fatal("missing db name")
+	}
+	client, err := getClient()
+	defer client.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	partitions := make([]*hive_metastore.Partition, len(args))
+	for i, arg := range args {
+		partitions[i], err = client.GetPartitionByName(dbName, tableName, arg)
+		if err != nil {
+			log.Fatalf("can not get partition %s: %v", arg, err)
+		}
+	}
+	b, err := json.MarshalIndent(partitions, "", "  ")
+	if err != nil {
+		fmt.Printf("Error: %s", err)
+		return
+	}
+	fmt.Println(string(b))
 }

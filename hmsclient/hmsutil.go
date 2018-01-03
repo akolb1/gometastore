@@ -16,8 +16,9 @@ package hmsclient
 
 import (
 	"fmt"
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"strings"
+
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 )
 
 const (

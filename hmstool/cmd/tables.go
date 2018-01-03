@@ -15,6 +15,8 @@
 package cmd
 
 import (
+	"strings"
+
 	"github.com/spf13/cobra"
 )
 
@@ -28,8 +30,27 @@ var tablesCmd = &cobra.Command{
 	Short: "table operations",
 }
 
+// getDbTableName gets DB name and table name from input string.
+// String can be dbName.tableName or just tableName.
+func getDbTableName(cmd *cobra.Command, arg string) (dbName string, tableName string) {
+	dbName, _ = cmd.Flags().GetString(optDbName)
+	tableName = arg
+	if tableName == "" {
+		tableName, _ = cmd.Flags().GetString(optTableName)
+	}
+	parts := strings.Split(arg, ".")
+	if len(parts) == 2 {
+		dbName = parts[0]
+		tableName = parts[1]
+	}
+	return dbName, tableName
+}
+
 func init() {
+	tablesCmd.AddCommand(showPartitionsCmd)
+	tablesCmd.AddCommand(showPartitionCmd)
 	rootCmd.AddCommand(tablesCmd)
+
 	tablesCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
 	tablesCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
 }

@@ -48,6 +48,12 @@ var showPartitionsCmd = &cobra.Command{
 	Run:   showPartitions,
 }
 
+var showPartitionCmd = &cobra.Command{
+	Use:   "partition",
+	Short: "show partition",
+	Run:   showPartition,
+}
+
 func init() {
 	showCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
 	showCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
@@ -55,5 +61,6 @@ func init() {
 	showCmd.AddCommand(showTableCmd)
 	showCmd.AddCommand(showTablesCmd)
 	showCmd.AddCommand(showPartitionsCmd)
+	showCmd.AddCommand(showPartitionCmd)
 	rootCmd.AddCommand(showCmd)
 }

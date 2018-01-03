@@ -18,9 +18,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"strings"
 
-	"github.com/akolb1/gometastore/hmsclient"
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
 )
 
@@ -37,32 +36,22 @@ func showTables(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer client.Close()
-	dbName, _ := cmd.Flags().GetString(optDbName)
 	if len(args) == 0 {
 		table, _ := cmd.Flags().GetString(optTableName)
 		if table != "" {
 			args = []string{table}
 		}
 	}
-	for _, tableName := range args {
-		showTable(client, dbName, tableName)
+	tables := make([]*hive_metastore.Table, len(args))
+	for i, tableName := range args {
+		dbName, tableName := getDbTableName(cmd, tableName)
+		tables[i], err = client.GetTable(dbName, tableName)
+		if err != nil {
+			log.Fatalf("failed to get table information for %s.%s: %v",
+				dbName, tableName, err)
+		}
 	}
-}
-
-// showTable shows JSON representation of HMS table.
-func showTable(client *hmsclient.MetastoreClient, dbName string, tableName string) {
-	// handle dbname.tablename syntax
-	parts := strings.Split(tableName, ".")
-	if len(parts) == 2 {
-		dbName = parts[0]
-		tableName = parts[1]
-	}
-	table, err := client.GetTable(dbName, tableName)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	b, err := json.MarshalIndent(table, "", "  ")
+	b, err := json.MarshalIndent(tables, "", "  ")
 	if err != nil {
 		fmt.Printf("Error: %s", err)
 		return
