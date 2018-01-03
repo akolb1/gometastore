@@ -29,6 +29,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 	"github.com/oklog/ulid"
+	"strings"
 )
 
 // getClient connects to the host specified in the requests and returns connected HMS client.
@@ -306,8 +307,9 @@ func partitionsList(w http.ResponseWriter, r *http.Request) {
 	if !compact {
 		pList := make([]string, len(partitions))
 		for i, t := range partitions {
+			fixed := strings.Replace(t, "/", ",", -1)
 			url := r.URL
-			pList[i] = r.Host + url.Path + t
+			pList[i] = r.Host + url.Path + fixed
 		}
 		partitions = pList
 	}
@@ -363,7 +365,7 @@ func partitionShow(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	dbName := vars[paramDbName]
 	tableName := vars[paramTblName]
-	partName := vars[paramPartName]
+	partName := strings.Replace(vars[paramPartName], ",", "/", -1)
 	partition, err := client.GetPartitionByName(dbName, tableName, partName)
 	if err != nil {
 		showError(w, http.StatusBadRequest, err)
@@ -420,8 +422,8 @@ func partitionDrop(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	dbName := vars[paramDbName]
 	tableName := vars[paramTblName]
-	partName := vars[paramPartName]
-	log.Println("Dropping partition %s.%s/$s. deleteData = %v", dbName, tableName, partName, deleteData)
+	partName := strings.Replace(vars[paramPartName], ",", "/", -1)
+	log.Printf("Dropping partition %s.%s/%s. deleteData = %v\n", dbName, tableName, partName, deleteData)
 	if _, err = client.DropPartitionByName(dbName, tableName, partName, deleteData); err != nil {
 		showError(w, http.StatusBadRequest, err)
 	}
