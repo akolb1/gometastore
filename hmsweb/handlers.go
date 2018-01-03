@@ -409,3 +409,20 @@ func partitionAdd(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", jsonEncoding)
 	json.NewEncoder(w).Encode(newPart)
 }
+
+func partitionDrop(w http.ResponseWriter, r *http.Request) {
+	deleteData, _ := strconv.ParseBool(r.URL.Query().Get("data"))
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	partName := vars[paramPartName]
+	log.Println("Dropping partition %s.%s/$s. deleteData = %v", dbName, tableName, partName, deleteData)
+	if _, err = client.DropPartitionByName(dbName, tableName, partName, deleteData); err != nil {
+		showError(w, http.StatusBadRequest, err)
+	}
+}

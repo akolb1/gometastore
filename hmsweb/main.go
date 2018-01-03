@@ -81,6 +81,8 @@ func main() {
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/{partName}", partitionShow).Methods("GET")
 	router.HandleFunc("/{host}/{dbName}/{tableName}/", partitionAdd).Methods("POST")
 	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/", partitionAdd).Methods("POST")
+	router.HandleFunc("/{host}/{dbName}/{tableName}/", partitionDrop).Methods("DELETE")
+	router.HandleFunc("/{host}/databases/{dbName}/{tableName}/", partitionDrop).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", webPort), router))
 }

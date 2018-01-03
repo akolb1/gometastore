@@ -184,6 +184,19 @@ Dropping a table is performed by sending DELETE request to the database URL.
 ]
 ```
 
+If `Compact` option is true, only partition names will be shown:
+
+`http --body localhost:8080/hms.host.org/databases/default/web_logs/ Compact==t`
+
+```json
+[
+    "date=2015-11-18",
+    "date=2015-11-19",
+    "date=2015-11-20",
+    "date=2015-11-21"
+]
+```
+
 ### Listing information about specific partition
 
 `$ http --body localhost:8080/hms.host.org/default/web_logs/date=2015-11-18`
@@ -230,3 +243,97 @@ Dropping a table is performed by sending DELETE request to the database URL.
     ]
 }
 ```
+
+If the caller is only insterested in partition location, specifying `Location=t` changes the output format:
+
+`http --body localhost:8080/hms.host.org/databases/default/web_logs/ Location==t`
+
+```json
+{
+    "dbName": "default",
+    "partitions": [
+        {
+            "location": "hdfs://hms.host.org:8020/user/admin/2015_11_18",
+            "values": [
+                "2015-11-18"
+            ]
+        },
+        {
+            "location": "hdfs://hms.host.org:8020/user/admin/2015_11_19",
+            "values": [
+                "2015-11-19"
+            ]
+        },
+        {
+            "location": "hdfs://hms.host.org:8020/user/admin/2015_11_20",
+            "values": [
+                "2015-11-20"
+            ]
+        },
+        {
+            "location": "hdfs://hms.host.org:8020/user/admin/2015_11_21",
+            "values": [
+                "2015-11-21"
+            ]
+        }
+    ],
+    "tableName": "web_logs"
+}
+```
+
+### Adding new partition
+
+Partition is added by sending POST request to the URL `/{host}/databases/{dbName}/{tableName}/`
+The message BODY may include the following information:
+
+* values
+* parameters (dictionary of name/value strings)
+* location - partition location. By default location is constructed from values.
+
+`http --body localhost:8080/hms.host.org/databases/default/mytable/ values:='["d1", "t1"]'`
+
+```json
+{
+    "createTime": 1514942963,
+    "dbName": "default",
+    "lastAccessTime": 0,
+    "parameters": {
+        "transient_lastDdlTime": "1514942963"
+    },
+    "sd": {
+        "bucketCols": [],
+        "cols": [
+            {
+                "comment": "",
+                "name": "id",
+                "type": "string"
+            }
+        ],
+        "compressed": false,
+        "inputFormat": "org.apache.hadoop.mapred.TextInputFormat",
+        "location": "hdfs://localhost:8020/user/hive/warehouse/akolb/date=d1/time=t1",
+        "numBuckets": 0,
+        "outputFormat": "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
+        "parameters": {},
+        "serdeInfo": {
+            "name": "hive",
+            "parameters": {},
+            "serializationLib": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+        },
+        "skewedInfo": {
+            "skewedColNames": [],
+            "skewedColValueLocationMaps": {},
+            "skewedColValues": []
+        },
+        "sortCols": [],
+        "storedAsSubDirectories": false
+    },
+    "tableName": "mytable",
+    "values": [
+        "d1",
+        "t1"
+    ]
+}
+```
+
+### Deleting partition

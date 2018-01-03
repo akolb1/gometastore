@@ -166,3 +166,9 @@ func (c *MetastoreClient) GetPartitions(dbName string, tableName string,
 	maxCunt int) ([]*hive_metastore.Partition, error) {
 	return c.client.GetPartitions(c.context, dbName, tableName, int16(maxCunt))
 }
+
+// DropPartitionByName drops partition specified by name.
+func (c *MetastoreClient) DropPartitionByName(dbName string,
+	tableName string, partName string, dropData bool) (bool, error) {
+	return c.client.DropPartitionByName(c.context, dbName, tableName, partName, dropData)
+}
