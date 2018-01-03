@@ -32,7 +32,7 @@ func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.Field
 	if len(columns) == 0 {
 		return nil
 	}
-	cols := []*hive_metastore.FieldSchema{}
+	var cols []*hive_metastore.FieldSchema
 	for _, c := range columns {
 		col := c
 		if col.Type == "" {

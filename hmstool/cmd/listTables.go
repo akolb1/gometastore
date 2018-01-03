@@ -49,7 +49,7 @@ func listTables(cmd *cobra.Command, args []string) {
 		dbNames = databases
 	}
 
-	tables := []string{}
+	var tables []string
 	for _, d := range dbNames {
 		tableList, err := client.GetAllTables(dbName)
 		if err != nil {
@@ -60,7 +60,7 @@ func listTables(cmd *cobra.Command, args []string) {
 		}
 	}
 
-	filteredTables := []string{}
+	var filteredTables []string
 	if len(args) == 0 {
 		filteredTables = tables
 	} else {

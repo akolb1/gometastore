@@ -62,7 +62,7 @@ func showError(w http.ResponseWriter, code int, err error) {
 }
 
 // showHelp shows a link to the documentation. It is served on '/' route.
-func showHelp(w http.ResponseWriter, r *http.Request) {
+func showHelp(w http.ResponseWriter, _ *http.Request) {
 	fmt.Fprintf(w, "<h1>%s</h1><div>"+
 		"See <a href=%s>Documentation</a></div>",
 		"HmsWEB - HTTP interface to Hive Metastore",

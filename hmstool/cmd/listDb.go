@@ -42,7 +42,7 @@ func listDbs(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 
-	dbNames := []string{}
+	var dbNames []string
 
 	if len(args) == 0 {
 		dbNames = databases

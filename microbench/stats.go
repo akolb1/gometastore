@@ -58,7 +58,7 @@ func (dt *Stats) Sanitized() *Stats {
 	delta := 2 * dt.StDev()
 	minVal := mean - delta
 	maxVal := mean + delta
-	result := []float64{}
+	var result []float64
 	for _, v := range dt.data {
 		if v >= minVal && v <= maxVal {
 			result = append(result, v)

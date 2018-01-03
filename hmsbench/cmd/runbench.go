@@ -24,7 +24,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func run(cmd *cobra.Command, args []string) {
+func run(_ *cobra.Command, _ []string) {
 	warmup := viper.GetInt(warmOpt)
 	iterations := viper.GetInt(iterOpt)
 	sanitize := viper.GetBool(sanitizeOpt)

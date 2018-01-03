@@ -29,7 +29,7 @@ var docCmd = &cobra.Command{
 	Run:              genDoc,
 }
 
-func genDoc(cmd *cobra.Command, args []string) {
+func genDoc(cmd *cobra.Command, _ []string) {
 	docdir, _ := cmd.Flags().GetString("dir")
 	err := doc.GenMarkdownTree(rootCmd, docdir)
 	if err != nil {

@@ -79,7 +79,7 @@ a JSON body describing the database.
 {
     "location": "hdfs://localhost:8020/user/hive/warehouse/mydb.db",
     "name": "mydb",
-    "owner": "hive",
+    "owner": "hive"
 }
 ```
 
@@ -149,7 +149,7 @@ As with databases, `Compact=true` parameter can be used to display just table na
         }
     }
     "tableName": "customers",
-    "tableType": "MANAGED_TABLE",
+    "tableType": "MANAGED_TABLE"
 }
 ```
 
@@ -206,7 +206,7 @@ If `Compact` option is true, only partition names will be shown:
     "dbName": "default",
     "lastAccessTime": 0,
     "parameters": {
-        "COLUMN_STATS_ACCURATE": "false",
+        "COLUMN_STATS_ACCURATE": "false"
     },
     "sd": {
         "bucketCols": [],
