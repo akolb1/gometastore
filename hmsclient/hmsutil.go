@@ -81,20 +81,25 @@ func MakeTable(dbName string, tabeName string, owner string,
 //   table  - Hive table for which partition is added
 //   values - List of partition values which should match partition schema
 func MakePartition(table *hive_metastore.Table,
-	values []string, parameters map[string]string) (*hive_metastore.Partition, error) {
+	values []string, parameters map[string]string,
+	location string) (*hive_metastore.Partition, error) {
 	partitionKeys := table.PartitionKeys
 	if len(partitionKeys) != len(values) {
 		return nil, fmt.Errorf("number of provided partition values %d does not match partition"+
 			" schema which has %d columns",
 			len(values), len(partitionKeys))
 	}
-	// Construct name=value list for each partition
-	partNames := make([]string, len(partitionKeys))
-	for i, p := range partitionKeys {
-		partNames[i] = p.Name + "=" + values[i]
-	}
 	sd := *table.Sd
-	sd.Location = sd.Location + "/" + strings.Join(partNames, "/")
+	if location != "" {
+		sd.Location = location
+	} else {
+		// Construct name=value list for each partition
+		partNames := make([]string, len(partitionKeys))
+		for i, p := range partitionKeys {
+			partNames[i] = p.Name + "=" + values[i]
+		}
+		sd.Location = sd.Location + "/" + strings.Join(partNames, "/")
+	}
 	return &hive_metastore.Partition{
 		Values:     values,
 		DbName:     table.DbName,

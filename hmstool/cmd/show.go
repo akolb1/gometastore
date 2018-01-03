@@ -24,9 +24,9 @@ var showCmd = &cobra.Command{
 }
 
 var showDbCmd = &cobra.Command{
-	Use:     "database",
+	Use:     "databases",
 	Aliases: []string{"db"},
-	Short:   "show database",
+	Short:   "show databases",
 	Run:     listDbs,
 }
 

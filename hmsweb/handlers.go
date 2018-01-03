@@ -281,6 +281,12 @@ func tableDrop(w http.ResponseWriter, r *http.Request) {
 }
 
 func partitionsList(w http.ResponseWriter, r *http.Request) {
+	// if Location is true, show partition locations instead of names
+	showPartitions, _ := strconv.ParseBool(r.URL.Query().Get("Location"))
+	if showPartitions {
+		partitionLocationList(w, r)
+		return
+	}
 	client, err := getClient(w, r)
 	if err != nil {
 		return
@@ -308,6 +314,44 @@ func partitionsList(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", jsonEncoding)
 	json.NewEncoder(w).Encode(partitions)
+}
+
+func partitionLocationList(w http.ResponseWriter, r *http.Request) {
+	type Part struct {
+		Location string   `json:"location"`
+		Values   []string `json:"values"`
+	}
+	type PartDescription struct {
+		DbName     string `json:"dbName"`
+		TableName  string `json:"tableName"`
+		Partitions []Part `json:"partitions"`
+	}
+
+	client, err := getClient(w, r)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+	vars := mux.Vars(r)
+	dbName := vars[paramDbName]
+	tableName := vars[paramTblName]
+	partitions, err := client.GetPartitions(dbName, tableName, -1)
+	if err != nil {
+		showError(w, http.StatusBadRequest, err)
+		return
+	}
+	locations := make([]Part, len(partitions))
+	for i, p := range partitions {
+		locations[i].Location = p.Sd.Location
+		locations[i].Values = p.Values
+	}
+	descr := PartDescription{
+		DbName:     dbName,
+		TableName:  tableName,
+		Partitions: locations,
+	}
+	w.Header().Set("Content-Type", jsonEncoding)
+	json.NewEncoder(w).Encode(descr)
 }
 
 func partitionShow(w http.ResponseWriter, r *http.Request) {
@@ -342,6 +386,7 @@ func partitionAdd(w http.ResponseWriter, r *http.Request) {
 	type Partition struct {
 		Values     []string          `json:"values"`
 		Parameters map[string]string `json:"parameters"`
+		Location   string            `json:"location"`
 	}
 	var part Partition
 	_ = json.NewDecoder(r.Body).Decode(&part)
@@ -350,7 +395,7 @@ func partitionAdd(w http.ResponseWriter, r *http.Request) {
 		showError(w, http.StatusBadRequest, err)
 		return
 	}
-	partition, err := hmsclient.MakePartition(table, part.Values, part.Parameters)
+	partition, err := hmsclient.MakePartition(table, part.Values, part.Parameters, part.Location)
 	log.Println("Creating partition " + spew.Sdump(partition))
 	if err != nil {
 		showError(w, http.StatusBadRequest, err)
