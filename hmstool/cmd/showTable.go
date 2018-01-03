@@ -38,6 +38,12 @@ func showTables(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 	dbName, _ := cmd.Flags().GetString(optDbName)
+	if len(args) == 0 {
+		table, _ := cmd.Flags().GetString(optTableName)
+		if table != "" {
+			args = []string{table}
+		}
+	}
 	for _, tableName := range args {
 		showTable(client, dbName, tableName)
 	}

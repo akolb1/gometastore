@@ -30,15 +30,30 @@ var showDbCmd = &cobra.Command{
 	Run:     listDbs,
 }
 
+var showTablesCmd = &cobra.Command{
+	Use:   "tables",
+	Short: "list tables",
+	Run:   listTables,
+}
+
 var showTableCmd = &cobra.Command{
 	Use:   "table",
 	Short: "show table",
-	Run:   listTables,
+	Run:   showTables,
+}
+
+var showPartitionsCmd = &cobra.Command{
+	Use:   "partitions",
+	Short: "show partitions",
+	Run:   showPartitions,
 }
 
 func init() {
 	showCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
+	showCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
 	showCmd.AddCommand(showDbCmd)
 	showCmd.AddCommand(showTableCmd)
+	showCmd.AddCommand(showTablesCmd)
+	showCmd.AddCommand(showPartitionsCmd)
 	rootCmd.AddCommand(showCmd)
 }
