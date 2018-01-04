@@ -20,7 +20,6 @@ import (
 
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // TODO support database description
@@ -55,7 +54,7 @@ func argsToParams(args []string) map[string]string {
 // createDB creates database
 func createDB(cmd *cobra.Command, args []string) {
 	dbName, _ := cmd.Flags().GetString(optDbName)
-	owner := viper.GetString(ownerOpt)
+	owner := getOwner()
 	params := argsToParams(args)
 	client, err := getClient()
 	if err != nil {

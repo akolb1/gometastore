@@ -73,3 +73,19 @@ func (b *BenchmarkSuite) Display(buffer *bytes.Buffer) {
 			name, mean/b.scale, result.Min()/b.scale, result.Max()/b.scale, err))
 	}
 }
+
+func (b *BenchmarkSuite) DisplayCSV(buffer *bytes.Buffer, separator string) {
+	buffer.WriteString(fmt.Sprintf("Operation%sMean%sMin%sMax%sErr%%\n",
+		separator, separator, separator, separator))
+	for _, name := range b.names {
+		result := b.results[name]
+		mean := result.Mean()
+		err := result.StDev() * 100 / mean
+		buffer.WriteString(fmt.Sprintf("%s%s%g%s%g%s%g%s%g\n",
+			name, separator,
+			mean/b.scale, separator,
+			result.Min()/b.scale, separator,
+			result.Max()/b.scale, separator,
+			err))
+	}
+}

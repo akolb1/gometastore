@@ -53,6 +53,14 @@ func Execute() {
 	}
 }
 
+func getOwner() string {
+	owner := viper.GetString(ownerOpt)
+	if owner == "" {
+		owner = os.Getenv(hadoopUserEnv)
+	}
+	return owner
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 	hadoopUser := os.Getenv(hadoopUserEnv)

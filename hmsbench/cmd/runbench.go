@@ -19,6 +19,8 @@ import (
 	"fmt"
 	"log"
 
+	"io/ioutil"
+
 	"github.com/akolb1/gometastore/microbench"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -28,6 +30,11 @@ func run(_ *cobra.Command, _ []string) {
 	warmup := viper.GetInt(warmOpt)
 	iterations := viper.GetInt(iterOpt)
 	sanitize := viper.GetBool(sanitizeOpt)
+	dbName := viper.GetString(dbOpt)
+
+	if dbName == "" {
+		log.Fatal("missing database name")
+	}
 
 	log.Println("Using warmup =", warmup, "iterations =", iterations,
 		"sanitize =", sanitize)
@@ -38,11 +45,35 @@ func run(_ *cobra.Command, _ []string) {
 		log.Fatal("failed to connect to HMS:", err)
 	}
 
-	bd := makeBenchData(warmup, iterations, "", client)
+	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client)
 	suite.Add("listDababases",
 		func() *microbench.Stats { return benchListDatabases(bd) })
+	suite.Add("getDatabase",
+		func() *microbench.Stats { return benchGetDatabase(bd) })
+	suite.Add("createDatabase",
+		func() *microbench.Stats { return benchCreateDatabase(bd) })
+	suite.Add("dropDatabase",
+		func() *microbench.Stats { return benchDropDatabase(bd) })
+	suite.Add("createTable",
+		func() *microbench.Stats { return benchCreateTable(bd) })
+	suite.Add("dropTable",
+		func() *microbench.Stats { return benchDropTable(bd) })
 	suite.Run()
+
+	outputFileName := viper.GetString(outputOpt)
 	buf := new(bytes.Buffer)
-	suite.Display(buf)
-	fmt.Print(buf.String())
+	if viper.GetBool(csvOpt) {
+		suite.DisplayCSV(buf, "\t")
+	} else {
+		suite.Display(buf)
+	}
+	// Write output to selected destination
+	if outputFileName == "" || outputFileName == "-" {
+		// Print to stdout
+		fmt.Print(buf.String())
+	} else {
+		if err := ioutil.WriteFile(outputFileName, buf.Bytes(), 0644); err != nil {
+			log.Fatalf("failed to write to %s: %v", outputFileName, err)
+		}
+	}
 }

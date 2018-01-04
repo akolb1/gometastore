@@ -18,6 +18,9 @@ import (
 	"fmt"
 	"os"
 
+	"strings"
+
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -26,13 +29,20 @@ import (
 var cfgFile string
 
 const (
+	hadoopUserName = "HADOOP_USER_NAME"
+	stringType     = "string" // HMS representation of string type
+
 	defaultThriftPort = "9083"
 	hostOpt           = "host"
 	portOpt           = "port"
 
 	iterOpt     = "iterations"
+	outputOpt   = "output"
 	warmOpt     = "warmup"
 	sanitizeOpt = "sanitize"
+	csvOpt      = "csv"
+	ownerOpt    = "owner"
+	dbOpt       = "database"
 
 	scale = 1000000
 )
@@ -54,18 +64,55 @@ func Execute() {
 	}
 }
 
+func getOwner() string {
+	owner := viper.GetString(ownerOpt)
+	if owner == "" {
+		owner = os.Getenv(hadoopUserName)
+	}
+	return owner
+}
+
+// getSchema converts argument to list of field schemas.
+// Schema is represented as name=type,.... If type is missing, "string" is assumed.
+func getSchema(arg string) []hive_metastore.FieldSchema {
+	// First split on commas
+	if arg == "" {
+		return nil
+	}
+	fields := strings.Split(arg, ",")
+	if len(fields) == 0 {
+		return nil
+	}
+	schema := make([]hive_metastore.FieldSchema, 0, len(fields))
+	for _, s := range fields {
+		name := s
+		typ := stringType
+		parts := strings.Split(s, "=")
+		if len(parts) == 2 {
+			name = parts[0]
+			typ = parts[1]
+		}
+		schema = append(schema, hive_metastore.FieldSchema{Name: name, Type: typ})
+	}
+	return schema
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hmstool.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hmsbench.yaml)")
 	rootCmd.PersistentFlags().StringP(hostOpt, "H", "localhost", "hostname for HMS server")
 	rootCmd.PersistentFlags().StringP(portOpt, "P", defaultThriftPort, "port for HMS server")
 	rootCmd.Flags().IntP(iterOpt, "I", 100, "number of benchmark iterations")
 	rootCmd.Flags().IntP(warmOpt, "W", 15, "number of warmup iterations")
 	rootCmd.Flags().BoolP(sanitizeOpt, "S", false, "sanitize results")
+	rootCmd.Flags().BoolP(csvOpt, "C", false, "output in CSV format")
+	rootCmd.PersistentFlags().StringP(ownerOpt, "U", "user", "owner name")
+	rootCmd.PersistentFlags().StringP(dbOpt, "d", "", "owner name")
+	rootCmd.PersistentFlags().StringP(outputOpt, "o", "", "output file")
 	// Bind flags to viper variables
 	viper.BindPFlags(rootCmd.PersistentFlags())
 	viper.BindPFlags(rootCmd.Flags())

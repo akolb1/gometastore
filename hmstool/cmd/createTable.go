@@ -21,11 +21,10 @@ import (
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 const (
-	stringTupe    = "string" // HMS representation of string type
+	stringType    = "string" // HMS representation of string type
 	optColumns    = "columns"
 	optPartitions = "partitions"
 )
@@ -61,7 +60,7 @@ func createTable(cmd *cobra.Command, args []string) {
 			log.Fatalf("table %s.%s already exists\n", dbName, tableName)
 		}
 	}
-	owner := viper.GetString(ownerOpt)
+	owner := getOwner()
 	params := argsToParams(args)
 	columns, _ := cmd.Flags().GetString(optColumns)
 	partitions, _ := cmd.Flags().GetString(optPartitions)
@@ -91,7 +90,7 @@ func getSchema(arg string) []hive_metastore.FieldSchema {
 	schema := make([]hive_metastore.FieldSchema, 0, len(fields))
 	for _, s := range fields {
 		name := s
-		typ := stringTupe
+		typ := stringType
 		parts := strings.Split(s, "=")
 		if len(parts) == 2 {
 			name = parts[0]

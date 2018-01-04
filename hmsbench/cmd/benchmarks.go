@@ -15,24 +15,33 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/microbench"
+)
+
+const (
+	testTableName = "test_table"
+	testSchema    = "name"
 )
 
 type benchData struct {
 	warmup     int
 	iterations int
 	dbname     string
+	owner      string
 	client     *hmsclient.MetastoreClient
 }
 
-func makeBenchData(warmup int, iterations int, dbName string,
+func makeBenchData(warmup int, iterations int, dbName string, owner string,
 	client *hmsclient.MetastoreClient) *benchData {
 	return &benchData{
 		warmup:     warmup,
 		iterations: iterations,
 		client:     client,
 		dbname:     dbName,
+		owner:      owner,
 	}
 }
 
@@ -43,7 +52,59 @@ func benchListDatabases(data *benchData) *microbench.Stats {
 }
 
 func benchGetDatabase(data *benchData) *microbench.Stats {
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(data.dbname, true, true)
+
 	return microbench.MeasureSimple(func() {
 		data.client.GetAllDatabases()
 	}, data.warmup, data.iterations)
+}
+
+func benchCreateDatabase(data *benchData) *microbench.Stats {
+	return microbench.Measure(nil,
+		func() { data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}) },
+		func() { data.client.DropDatabase(data.dbname, true, true) },
+		data.warmup, data.iterations)
+}
+
+func benchDropDatabase(data *benchData) *microbench.Stats {
+	return microbench.Measure(
+		func() { data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}) },
+		func() { data.client.DropDatabase(data.dbname, true, true) },
+		nil,
+		data.warmup, data.iterations)
+}
+
+func benchCreateTable(data *benchData) *microbench.Stats {
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(data.dbname, true, true)
+	table := hmsclient.MakeTable(data.dbname,
+		testTableName, data.owner, nil,
+		getSchema(testSchema), nil)
+
+	return microbench.Measure(nil,
+		func() { data.client.CreateTable(table) },
+		func() { data.client.DropTable(data.dbname, testTableName, true) },
+		data.warmup, data.iterations)
+}
+
+func benchDropTable(data *benchData) *microbench.Stats {
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(data.dbname, true, true)
+
+	table := hmsclient.MakeTable(data.dbname,
+		testTableName, data.owner, nil,
+		getSchema(testSchema), nil)
+
+	return microbench.Measure(
+		func() { data.client.CreateTable(table) },
+		func() { data.client.DropTable(data.dbname, testTableName, true) },
+		nil,
+		data.warmup, data.iterations)
 }
