@@ -36,13 +36,17 @@ const (
 	hostOpt           = "host"
 	portOpt           = "port"
 
-	iterOpt     = "iterations"
+	iterOpt     = "benchmark"
 	outputOpt   = "output"
 	warmOpt     = "warmup"
 	sanitizeOpt = "sanitize"
 	csvOpt      = "csv"
 	ownerOpt    = "owner"
 	dbOpt       = "database"
+	saveOpt     = "savedata"
+	objectsOpt  = "objects"
+	listOpt     = "list"
+	filterOpt   = "filter"
 
 	scale = 1000000
 )
@@ -106,13 +110,17 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hmsbench.yaml)")
 	rootCmd.PersistentFlags().StringP(hostOpt, "H", "localhost", "hostname for HMS server")
 	rootCmd.PersistentFlags().StringP(portOpt, "P", defaultThriftPort, "port for HMS server")
-	rootCmd.Flags().IntP(iterOpt, "I", 100, "number of benchmark iterations")
+	rootCmd.Flags().IntP(iterOpt, "B", 100, "number of benchmark iterations")
 	rootCmd.Flags().IntP(warmOpt, "W", 15, "number of warmup iterations")
 	rootCmd.Flags().BoolP(sanitizeOpt, "S", false, "sanitize results")
 	rootCmd.Flags().BoolP(csvOpt, "C", false, "output in CSV format")
-	rootCmd.PersistentFlags().StringP(ownerOpt, "U", "user", "owner name")
+	rootCmd.Flags().BoolP(listOpt, "L", false, "list benchmarks instead of runnig them")
+	rootCmd.PersistentFlags().StringP(ownerOpt, "u", "user", "owner name")
 	rootCmd.PersistentFlags().StringP(dbOpt, "d", "", "owner name")
 	rootCmd.PersistentFlags().StringP(outputOpt, "o", "", "output file")
+	rootCmd.PersistentFlags().StringP(saveOpt, "", "", "location for raw benchmark data")
+	rootCmd.PersistentFlags().StringP(filterOpt, "F", "", "run benchmarks matching the filter")
+	rootCmd.PersistentFlags().IntP(objectsOpt, "N", 100, "number of objects to create")
 	// Bind flags to viper variables
 	viper.BindPFlags(rootCmd.PersistentFlags())
 	viper.BindPFlags(rootCmd.Flags())

@@ -21,6 +21,11 @@ import (
 
 	"io/ioutil"
 
+	"os"
+	"path"
+
+	"regexp"
+
 	"github.com/akolb1/gometastore/microbench"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -58,7 +63,26 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchCreateTable(bd) })
 	suite.Add("dropTable",
 		func() *microbench.Stats { return benchDropTable(bd) })
-	suite.Run()
+
+	if viper.GetBool(listOpt) {
+		// Only list benchmarks, don't run them
+		for _, name := range suite.List() {
+			fmt.Println(name)
+		}
+		return
+	}
+
+	if filter := viper.GetString(filterOpt); filter == "" {
+		suite.Run()
+	} else {
+		var names []string
+		for _, name := range suite.List() {
+			if matched, _ := regexp.MatchString(filterOpt, name); matched {
+				names = append(names, name)
+			}
+		}
+		suite.RunSelected(names)
+	}
 
 	outputFileName := viper.GetString(outputOpt)
 	buf := new(bytes.Buffer)
@@ -74,6 +98,27 @@ func run(_ *cobra.Command, _ []string) {
 	} else {
 		if err := ioutil.WriteFile(outputFileName, buf.Bytes(), 0644); err != nil {
 			log.Fatalf("failed to write to %s: %v", outputFileName, err)
+		}
+	}
+
+	// Save raw data if requested
+	saveLocation := viper.GetString(saveOpt)
+	if saveLocation != "" {
+		saveResults(suite.GetResults(), saveLocation)
+	}
+}
+
+func saveResults(results map[string]*microbench.Stats, location string) {
+	// if location doesn't exist, create it
+	if err := os.MkdirAll(location, 0755); err != nil {
+		log.Fatalln("failed to create directory", location, err)
+	}
+	for name, data := range results {
+		buf := new(bytes.Buffer)
+		data.Write(buf)
+		dst := path.Join(location, name)
+		if err := ioutil.WriteFile(dst, buf.Bytes(), 0644); err != nil {
+			log.Println("failed to write data to file", dst, err)
 		}
 	}
 }

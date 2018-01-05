@@ -68,7 +68,7 @@ func (dt *Stats) Sanitized() *Stats {
 }
 
 // Write writes data as string representation, one per line
-func (dt *Stats) Write(buffer bytes.Buffer) {
+func (dt *Stats) Write(buffer *bytes.Buffer) {
 	for _, v := range dt.data {
 		buffer.WriteString(fmt.Sprintf("%g\n", v))
 	}

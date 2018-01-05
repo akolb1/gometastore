@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"sort"
 )
 
 type runner func() *Stats
@@ -40,20 +41,44 @@ func MakeBenchmarkSuite(scale int, sanitize bool) *BenchmarkSuite {
 	}
 }
 
+// Add benchmark to the suite
 func (b *BenchmarkSuite) Add(name string, f runner) *BenchmarkSuite {
 	b.names = append(b.names, name)
 	b.benchmarks[name] = f
 	return b
 }
 
+// List returns list of benchmarks names
 func (b *BenchmarkSuite) List() []string {
-	return b.names
+	result := b.names
+	sort.Strings(result)
+	return result
 }
 
+// Run all benchmarks in the suite
 func (b *BenchmarkSuite) Run() *BenchmarkSuite {
 	for _, name := range b.names {
 		log.Println("Running", name)
 		result := b.benchmarks[name]()
+		if b.sanitize {
+			result = result.Sanitized()
+		}
+		b.results[name] = result
+	}
+	return b
+}
+
+// RunSelected runs only selected banchmarks
+func (b *BenchmarkSuite) RunSelected(names []string) *BenchmarkSuite {
+	for _, name := range names {
+		log.Println("Running", name)
+		bench, ok := b.benchmarks[name]
+		if !ok {
+			log.Println("Skipping", name, ": not found")
+			continue
+		}
+		log.Println("Running", name)
+		result := bench()
 		if b.sanitize {
 			result = result.Sanitized()
 		}
@@ -88,4 +113,9 @@ func (b *BenchmarkSuite) DisplayCSV(buffer *bytes.Buffer, separator string) {
 			result.Max()/b.scale, separator,
 			err))
 	}
+}
+
+// GetResults returns raw test results
+func (b *BenchmarkSuite) GetResults() map[string]*Stats {
+	return b.results
 }
