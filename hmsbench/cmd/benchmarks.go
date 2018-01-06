@@ -24,8 +24,9 @@ import (
 )
 
 const (
-	testTableName = "test_table"
-	testSchema    = "name"
+	testTableName       = "test_table"
+	testSchema          = "name"
+	testPartitionSchema = "date"
 )
 
 type benchData struct {
@@ -163,4 +164,61 @@ func benchListManyTables(data *benchData) *microbench.Stats {
 		data.client.DropTable(data.dbname, tableNames[i], true)
 	}
 	return stats
+}
+
+func benchAddPartition(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(dbName, true, true)
+
+	if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+		log.Println("failed to create table: ", err)
+		return nil
+	}
+	defer data.client.DropTable(dbName, testTableName, true)
+	table, err := data.client.GetTable(dbName, testTableName)
+	if err != nil {
+		log.Println("failed to get table: ", err)
+	}
+	values := []string{"d1"}
+	partition, _ := hmsclient.MakePartition(table, values, nil, "")
+	return microbench.Measure(nil,
+		func() { data.client.AddPartition(partition) },
+		func() { data.client.DropPartition(dbName, testTableName, values, true) },
+		data.warmup, data.iterations)
+}
+
+func benchDropPartition(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(dbName, true, true)
+
+	if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+		log.Println("failed to create table: ", err)
+		return nil
+	}
+	defer data.client.DropTable(dbName, testTableName, true)
+	table, err := data.client.GetTable(dbName, testTableName)
+	if err != nil {
+		log.Println("failed to get table: ", err)
+	}
+	values := []string{"d1"}
+	partition, _ := hmsclient.MakePartition(table, values, nil, "")
+	return microbench.Measure(func() { data.client.AddPartition(partition) },
+		func() { data.client.DropPartition(dbName, testTableName, values, true) },
+		nil,
+		data.warmup, data.iterations)
+}
+
+// createPartitionedTable creates a simple partitioned table with a single partition
+func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
+	tableName string, owner string) error {
+	table := hmsclient.MakeTable(dbName,
+		tableName, owner, nil,
+		getSchema(testSchema), getSchema(testPartitionSchema))
+	return client.CreateTable(table)
 }

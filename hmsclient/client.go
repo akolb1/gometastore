@@ -172,3 +172,9 @@ func (c *MetastoreClient) DropPartitionByName(dbName string,
 	tableName string, partName string, dropData bool) (bool, error) {
 	return c.client.DropPartitionByName(c.context, dbName, tableName, partName, dropData)
 }
+
+// DropPartition drops partition specified by values.
+func (c *MetastoreClient) DropPartition(dbName string,
+	tableName string, values []string, dropData bool) (bool, error) {
+	return c.client.DropPartition(c.context, dbName, tableName, values, dropData)
+}
