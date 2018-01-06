@@ -66,12 +66,12 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchDropTable(bd) })
 	suite.Add("getTable",
 		func() *microbench.Stats { return benchGetTable(bd) })
-	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
-		func() *microbench.Stats { return benchListManyTables(bd) })
 	suite.Add("addPartition",
 		func() *microbench.Stats { return benchAddPartition(bd) })
 	suite.Add("dropPartition",
 		func() *microbench.Stats { return benchDropPartition(bd) })
+	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
+		func() *microbench.Stats { return benchListManyTables(bd) })
 
 	if viper.GetBool(listOpt) {
 		// Only list benchmarks, don't run them
@@ -86,7 +86,7 @@ func run(_ *cobra.Command, _ []string) {
 	} else {
 		var names []string
 		for _, name := range suite.List() {
-			if matched, _ := regexp.MatchString(filterOpt, name); matched {
+			if matched, _ := regexp.MatchString(filter, name); matched {
 				names = append(names, name)
 			}
 		}

@@ -60,6 +60,9 @@ func (b *BenchmarkSuite) Run() *BenchmarkSuite {
 	for _, name := range b.names {
 		log.Println("Running", name)
 		result := b.benchmarks[name]()
+		if result == nil {
+			continue
+		}
 		if b.sanitize {
 			result = result.Sanitized()
 		}
@@ -71,7 +74,6 @@ func (b *BenchmarkSuite) Run() *BenchmarkSuite {
 // RunSelected runs only selected banchmarks
 func (b *BenchmarkSuite) RunSelected(names []string) *BenchmarkSuite {
 	for _, name := range names {
-		log.Println("Running", name)
 		bench, ok := b.benchmarks[name]
 		if !ok {
 			log.Println("Skipping", name, ": not found")
@@ -79,6 +81,9 @@ func (b *BenchmarkSuite) RunSelected(names []string) *BenchmarkSuite {
 		}
 		log.Println("Running", name)
 		result := bench()
+		if result == nil {
+			continue
+		}
 		if b.sanitize {
 			result = result.Sanitized()
 		}
@@ -92,6 +97,9 @@ func (b *BenchmarkSuite) Display(buffer *bytes.Buffer) {
 		"Operation", "Mean", "Min", "Max", "Err%"))
 	for _, name := range b.names {
 		result := b.results[name]
+		if result == nil {
+			continue
+		}
 		mean := result.Mean()
 		err := result.StDev() * 100 / mean
 		buffer.WriteString(fmt.Sprintf("%-30s %-8.3g %-8.3g %-8.3g %-8.3g\n",
@@ -104,6 +112,9 @@ func (b *BenchmarkSuite) DisplayCSV(buffer *bytes.Buffer, separator string) {
 		separator, separator, separator, separator))
 	for _, name := range b.names {
 		result := b.results[name]
+		if result == nil {
+			continue
+		}
 		mean := result.Mean()
 		err := result.StDev() * 100 / mean
 		buffer.WriteString(fmt.Sprintf("%s%s%g%s%g%s%g%s%g\n",
