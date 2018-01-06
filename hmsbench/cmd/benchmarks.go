@@ -113,6 +113,26 @@ func benchDropTable(data *benchData) *microbench.Stats {
 		data.warmup, data.iterations)
 }
 
+func benchGetTable(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(dbName, true, true)
+	table := hmsclient.MakeTable(data.dbname,
+		testTableName, data.owner, nil,
+		getSchema(testSchema), nil)
+	if err := data.client.CreateTable(table); err != nil {
+		log.Println("failed to create table: ", err)
+		return nil
+	}
+
+	defer data.client.DropTable(dbName, testTableName, true)
+
+	return microbench.MeasureSimple(func() { data.client.GetTable(dbName, testTableName) },
+		data.warmup, data.iterations)
+}
+
 // benchListManyTables creates a database with many tables and measures time to list all tables
 func benchListManyTables(data *benchData) *microbench.Stats {
 	dbName := data.dbname

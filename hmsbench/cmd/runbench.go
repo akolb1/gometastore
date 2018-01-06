@@ -62,6 +62,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchDropDatabase(bd) })
 	suite.Add("createTable",
 		func() *microbench.Stats { return benchCreateTable(bd) })
+	suite.Add("getTable",
+		func() *microbench.Stats { return benchGetTable(bd) })
 	suite.Add("dropTable",
 		func() *microbench.Stats { return benchDropTable(bd) })
 	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
