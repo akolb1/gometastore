@@ -21,13 +21,13 @@ import (
 	"sort"
 )
 
-type runner func() *Stats
+type Runner func() *Stats
 
 type BenchmarkSuite struct {
 	scale      float64
 	sanitize   bool
 	names      []string
-	benchmarks map[string]runner
+	benchmarks map[string]Runner
 	results    map[string]*Stats
 }
 
@@ -36,13 +36,13 @@ func MakeBenchmarkSuite(scale int, sanitize bool) *BenchmarkSuite {
 		scale:      float64(scale),
 		sanitize:   sanitize,
 		names:      []string{},
-		benchmarks: make(map[string]runner),
+		benchmarks: make(map[string]Runner),
 		results:    make(map[string]*Stats),
 	}
 }
 
 // Add benchmark to the suite
-func (b *BenchmarkSuite) Add(name string, f runner) *BenchmarkSuite {
+func (b *BenchmarkSuite) Add(name string, f Runner) *BenchmarkSuite {
 	b.names = append(b.names, name)
 	b.benchmarks[name] = f
 	return b

@@ -23,15 +23,14 @@ import (
 
 // dbCmd represents the db command
 var docCmd = &cobra.Command{
-	Use:              "doc",
-	Short:            "Generate documentation",
-	TraverseChildren: true,
-	Run:              genDoc,
+	Use:   "doc",
+	Short: "Generate documentation",
+	Run:   genDoc,
 }
 
 func genDoc(cmd *cobra.Command, _ []string) {
-	docdir, _ := cmd.Flags().GetString("dir")
-	err := doc.GenMarkdownTree(rootCmd, docdir)
+	docDir, _ := cmd.Flags().GetString("dir")
+	err := doc.GenMarkdownTree(rootCmd, docDir)
 	if err != nil {
 		log.Fatal(err)
 	}

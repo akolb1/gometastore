@@ -57,14 +57,12 @@ func benchListDatabases(data *benchData) *microbench.Stats {
 }
 
 func benchGetDatabase(data *benchData) *microbench.Stats {
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(data.dbname, true, true)
-
-	return microbench.MeasureSimple(func() {
-		data.client.GetAllDatabases()
-	}, data.warmup, data.iterations)
+	return withDatabase(data,
+		func() *microbench.Stats {
+			return microbench.MeasureSimple(func() {
+				data.client.GetAllDatabases()
+			}, data.warmup, data.iterations)
+		})
 }
 
 func benchCreateDatabase(data *benchData) *microbench.Stats {
@@ -83,135 +81,129 @@ func benchDropDatabase(data *benchData) *microbench.Stats {
 }
 
 func benchCreateTable(data *benchData) *microbench.Stats {
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(data.dbname, true, true)
 	table := hmsclient.MakeTable(data.dbname,
 		testTableName, data.owner, nil,
 		getSchema(testSchema), nil)
-
-	return microbench.Measure(nil,
-		func() { data.client.CreateTable(table) },
-		func() { data.client.DropTable(data.dbname, testTableName, true) },
-		data.warmup, data.iterations)
+	return withDatabase(data,
+		func() *microbench.Stats {
+			return microbench.Measure(nil,
+				func() { data.client.CreateTable(table) },
+				func() { data.client.DropTable(data.dbname, testTableName, true) },
+				data.warmup, data.iterations)
+		})
 }
 
 func benchDropTable(data *benchData) *microbench.Stats {
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: data.dbname}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(data.dbname, true, true)
-
 	table := hmsclient.MakeTable(data.dbname,
 		testTableName, data.owner, nil,
 		getSchema(testSchema), nil)
 
-	return microbench.Measure(
-		func() { data.client.CreateTable(table) },
-		func() { data.client.DropTable(data.dbname, testTableName, true) },
-		nil,
-		data.warmup, data.iterations)
+	return withDatabase(data,
+		func() *microbench.Stats {
+			return microbench.Measure(
+				func() { data.client.CreateTable(table) },
+				func() { data.client.DropTable(data.dbname, testTableName, true) },
+				nil,
+				data.warmup, data.iterations)
+		})
 }
 
 func benchGetTable(data *benchData) *microbench.Stats {
 	dbName := data.dbname
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(dbName, true, true)
 	table := hmsclient.MakeTable(data.dbname,
 		testTableName, data.owner, nil,
 		getSchema(testSchema), nil)
-	if err := data.client.CreateTable(table); err != nil {
-		log.Println("failed to create table: ", err)
-		return nil
-	}
 
-	defer data.client.DropTable(dbName, testTableName, true)
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := data.client.CreateTable(table); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
 
-	return microbench.MeasureSimple(func() { data.client.GetTable(dbName, testTableName) },
-		data.warmup, data.iterations)
+			defer data.client.DropTable(dbName, testTableName, true)
+
+			return microbench.MeasureSimple(func() { data.client.GetTable(dbName, testTableName) },
+				data.warmup, data.iterations)
+		})
 }
 
 // benchListManyTables creates a database with many tables and measures time to list all tables
 func benchListManyTables(data *benchData) *microbench.Stats {
 	dbName := data.dbname
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(dbName, true, true)
 	tableNames := make([]string, data.nObjects)
-	// Create a bunch of tables
-	for i := 0; i < data.nObjects; i++ {
-		tableNames[i] = fmt.Sprintf("table_%d", i)
-		table := hmsclient.MakeTable(dbName,
-			tableNames[i], data.owner, nil,
-			getSchema(testSchema), nil)
-		if err := data.client.CreateTable(table); err != nil {
-			log.Println("failed to create table: ", err)
-			// Cleanup
-			for j := 0; j < i; j++ {
-				data.client.DropTable(dbName, tableNames[j], true)
+
+	return withDatabase(data,
+		func() *microbench.Stats {
+			// Create a bunch of tables
+			for i := 0; i < data.nObjects; i++ {
+				tableNames[i] = fmt.Sprintf("table_%d", i)
+				table := hmsclient.MakeTable(dbName,
+					tableNames[i], data.owner, nil,
+					getSchema(testSchema), nil)
+				if err := data.client.CreateTable(table); err != nil {
+					log.Println("failed to create table: ", err)
+					// Cleanup
+					for j := 0; j < i; j++ {
+						data.client.DropTable(dbName, tableNames[j], true)
+					}
+					return nil
+				}
 			}
-			return nil
-		}
-	}
-	stats := microbench.MeasureSimple(func() { data.client.GetAllTables(dbName) },
-		data.warmup, data.iterations)
-	// cleanup
-	for i := 0; i < data.nObjects; i++ {
-		data.client.DropTable(data.dbname, tableNames[i], true)
-	}
-	return stats
+			stats := microbench.MeasureSimple(func() { data.client.GetAllTables(dbName) },
+				data.warmup, data.iterations)
+			// cleanup
+			for i := 0; i < data.nObjects; i++ {
+				data.client.DropTable(data.dbname, tableNames[i], true)
+			}
+			return stats
+		})
 }
 
 func benchAddPartition(data *benchData) *microbench.Stats {
 	dbName := data.dbname
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(dbName, true, true)
 
-	if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
-		log.Println("failed to create table: ", err)
-		return nil
-	}
-	defer data.client.DropTable(dbName, testTableName, true)
-	table, err := data.client.GetTable(dbName, testTableName)
-	if err != nil {
-		log.Println("failed to get table: ", err)
-	}
-	values := []string{"d1"}
-	partition, _ := hmsclient.MakePartition(table, values, nil, "")
-	return microbench.Measure(nil,
-		func() { data.client.AddPartition(partition) },
-		func() { data.client.DropPartition(dbName, testTableName, values, true) },
-		data.warmup, data.iterations)
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create partition: ", err)
+				return nil
+			}
+			defer data.client.DropTable(dbName, testTableName, true)
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+			}
+			values := []string{"d1"}
+			partition, _ := hmsclient.MakePartition(table, values, nil, "")
+			return microbench.Measure(nil,
+				func() { data.client.AddPartition(partition) },
+				func() { data.client.DropPartition(dbName, testTableName, values, true) },
+				data.warmup, data.iterations)
+		})
 }
 
 func benchDropPartition(data *benchData) *microbench.Stats {
 	dbName := data.dbname
-	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
-	}
-	defer data.client.DropDatabase(dbName, true, true)
 
-	if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
-		log.Println("failed to create table: ", err)
-		return nil
-	}
-	defer data.client.DropTable(dbName, testTableName, true)
-	table, err := data.client.GetTable(dbName, testTableName)
-	if err != nil {
-		log.Println("failed to get table: ", err)
-	}
-	values := []string{"d1"}
-	partition, _ := hmsclient.MakePartition(table, values, nil, "")
-	return microbench.Measure(func() { data.client.AddPartition(partition) },
-		func() { data.client.DropPartition(dbName, testTableName, values, true) },
-		nil,
-		data.warmup, data.iterations)
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
+			defer data.client.DropTable(dbName, testTableName, true)
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+			}
+			values := []string{"d1"}
+			partition, _ := hmsclient.MakePartition(table, values, nil, "")
+			return microbench.Measure(func() { data.client.AddPartition(partition) },
+				func() { data.client.DropPartition(dbName, testTableName, values, true) },
+				nil,
+				data.warmup, data.iterations)
+		})
 }
 
 // createPartitionedTable creates a simple partitioned table with a single partition
@@ -221,4 +213,14 @@ func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 		tableName, owner, nil,
 		getSchema(testSchema), getSchema(testPartitionSchema))
 	return client.CreateTable(table)
+}
+
+// withDatabase creates database, runs the benchmark and then removed database
+func withDatabase(data *benchData, bench microbench.Runner) *microbench.Stats {
+	dbName := data.dbname
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(dbName, true, true)
+	return bench()
 }
