@@ -36,6 +36,7 @@ func run(_ *cobra.Command, _ []string) {
 	iterations := viper.GetInt(iterOpt)
 	sanitize := viper.GetBool(sanitizeOpt)
 	dbName := viper.GetString(dbOpt)
+	nObjects := viper.GetInt(objectsOpt)
 
 	if dbName == "" {
 		log.Fatal("missing database name")
@@ -50,7 +51,7 @@ func run(_ *cobra.Command, _ []string) {
 		log.Fatal("failed to connect to HMS:", err)
 	}
 
-	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client)
+	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client, nObjects)
 	suite.Add("listDababases",
 		func() *microbench.Stats { return benchListDatabases(bd) })
 	suite.Add("getDatabase",
@@ -63,6 +64,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchCreateTable(bd) })
 	suite.Add("dropTable",
 		func() *microbench.Stats { return benchDropTable(bd) })
+	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
+		func() *microbench.Stats { return benchListManyTables(bd) })
 
 	if viper.GetBool(listOpt) {
 		// Only list benchmarks, don't run them

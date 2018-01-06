@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// TODO read hadoop config
+
 package cmd
 
 import (
@@ -41,7 +43,7 @@ const (
 	warmOpt     = "warmup"
 	sanitizeOpt = "sanitize"
 	csvOpt      = "csv"
-	ownerOpt    = "owner"
+	ownerOpt    = "user"
 	dbOpt       = "database"
 	saveOpt     = "savedata"
 	objectsOpt  = "objects"

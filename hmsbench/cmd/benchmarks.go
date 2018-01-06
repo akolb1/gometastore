@@ -17,6 +17,8 @@ package cmd
 import (
 	"log"
 
+	"fmt"
+
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/microbench"
 )
@@ -29,19 +31,21 @@ const (
 type benchData struct {
 	warmup     int
 	iterations int
+	nObjects   int
 	dbname     string
 	owner      string
 	client     *hmsclient.MetastoreClient
 }
 
 func makeBenchData(warmup int, iterations int, dbName string, owner string,
-	client *hmsclient.MetastoreClient) *benchData {
+	client *hmsclient.MetastoreClient, nObjects int) *benchData {
 	return &benchData{
 		warmup:     warmup,
 		iterations: iterations,
 		client:     client,
 		dbname:     dbName,
 		owner:      owner,
+		nObjects:   nObjects,
 	}
 }
 
@@ -107,4 +111,36 @@ func benchDropTable(data *benchData) *microbench.Stats {
 		func() { data.client.DropTable(data.dbname, testTableName, true) },
 		nil,
 		data.warmup, data.iterations)
+}
+
+// benchListManyTables creates a database with many tables and measures time to list all tables
+func benchListManyTables(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
+		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+	}
+	defer data.client.DropDatabase(dbName, true, true)
+	tableNames := make([]string, data.nObjects)
+	// Create a bunch of tables
+	for i := 0; i < data.nObjects; i++ {
+		tableNames[i] = fmt.Sprintf("table_%d", i)
+		table := hmsclient.MakeTable(dbName,
+			tableNames[i], data.owner, nil,
+			getSchema(testSchema), nil)
+		if err := data.client.CreateTable(table); err != nil {
+			log.Println("failed to create table: ", err)
+			// Cleanup
+			for j := 0; j < i; j++ {
+				data.client.DropTable(dbName, tableNames[j], true)
+			}
+			return nil
+		}
+	}
+	stats := microbench.MeasureSimple(func() { data.client.GetAllTables(dbName) },
+		data.warmup, data.iterations)
+	// cleanup
+	for i := 0; i < data.nObjects; i++ {
+		data.client.DropTable(data.dbname, tableNames[i], true)
+	}
+	return stats
 }
