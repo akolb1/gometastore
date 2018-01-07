@@ -215,7 +215,7 @@ func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 	return client.CreateTable(table)
 }
 
-// withDatabase creates database, runs the benchmark and then removed database
+// withDatabase creates database, runs the benchmark and then removes the database
 func withDatabase(data *benchData, bench microbench.Runner) *microbench.Stats {
 	dbName := data.dbname
 	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {

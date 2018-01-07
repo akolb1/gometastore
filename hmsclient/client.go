@@ -156,9 +156,21 @@ func (c *MetastoreClient) GetPartitionByName(dbName string, tableName string,
 	return c.client.GetPartitionByName(c.context, dbName, tableName, partName)
 }
 
+// GetPartitionsByNames returns multiple partitions specified by names.
+func (c *MetastoreClient) GetPartitionsByNames(dbName string, tableName string,
+	partNames []string) ([]*hive_metastore.Partition, error) {
+	return c.client.GetPartitionsByNames(c.context, dbName, tableName, partNames)
+}
+
 // AddPartition adds partition to Hive table.
 func (c *MetastoreClient) AddPartition(partition *hive_metastore.Partition) (*hive_metastore.Partition, error) {
 	return c.client.AddPartition(c.context, partition)
+}
+
+// AddPartitions adds multipe partitions in a single call.
+func (c *MetastoreClient) AddPartitions(newParts []*hive_metastore.Partition) error {
+	_, err := c.client.AddPartitions(c.context, newParts)
+	return err
 }
 
 // GetPartitions returns all (or up to maxCount partitions of a table.
@@ -177,4 +189,33 @@ func (c *MetastoreClient) DropPartitionByName(dbName string,
 func (c *MetastoreClient) DropPartition(dbName string,
 	tableName string, values []string, dropData bool) (bool, error) {
 	return c.client.DropPartition(c.context, dbName, tableName, values, dropData)
+}
+
+// DropPartitions drops multiple partitions within a single table.
+// Partitions are specified by names.
+func (c *MetastoreClient) DropPartitions(dbName string,
+	tableName string, partNames []string) error {
+	dropRequest := hive_metastore.NewDropPartitionsRequest()
+	dropRequest.DbName = dbName
+	dropRequest.TblName = tableName
+	dropRequest.Parts = &hive_metastore.RequestPartsSpec{Names: partNames}
+	_, err := c.client.DropPartitionsReq(c.context, dropRequest)
+	return err
+}
+
+// GetCurrentNotificationId returns value of last notification ID
+func (c *MetastoreClient) GetCurrentNotificationId() (int64, error) {
+	r, err := c.client.GetCurrentNotificationEventId(c.context)
+	return r.EventId, err
+}
+
+// GetNextNotification returns next available notification.
+func (c *MetastoreClient) GetNextNotification(lastEvent int64,
+	maxEvents int32) ([]*hive_metastore.NotificationEvent, error) {
+	r, err := c.client.GetNextNotification(c.context,
+		&hive_metastore.NotificationEventRequest{LastEvent: lastEvent, MaxEvents: &maxEvents})
+	if err != nil {
+		return nil, err
+	}
+	return r.Events, nil
 }
