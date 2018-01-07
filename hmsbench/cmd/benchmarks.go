@@ -20,6 +20,7 @@ import (
 	"fmt"
 
 	"github.com/akolb1/gometastore/hmsclient"
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/akolb1/gometastore/microbench"
 )
 
@@ -206,6 +207,51 @@ func benchDropPartition(data *benchData) *microbench.Stats {
 		})
 }
 
+func benchCreatePartitions(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+			}
+			partitions := makeManyPartitions(table, data.nObjects)
+			names := makePartNames(data.nObjects)
+			return microbench.Measure(nil,
+				func() { addPartitions(data.client, partitions) },
+				func() { dropManyPartitions(data, names) },
+				data.warmup, data.iterations)
+		})
+}
+
+func benchDropPartitions(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+			}
+			partitions := makeManyPartitions(table, data.nObjects)
+			names := makePartNames(data.nObjects)
+			return microbench.Measure(
+				func() { addPartitions(data.client, partitions) },
+				func() { dropManyPartitions(data, names) },
+				nil,
+				data.warmup, data.iterations)
+		})
+}
+
 // createPartitionedTable creates a simple partitioned table with a single partition
 func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 	tableName string, owner string) error {
@@ -223,4 +269,37 @@ func withDatabase(data *benchData, bench microbench.Runner) *microbench.Stats {
 	}
 	defer data.client.DropDatabase(dbName, true, true)
 	return bench()
+}
+
+// makeManyPartitions creates list of Partitions suitable for bulk creation
+func makeManyPartitions(table *hive_metastore.Table, count int) []*hive_metastore.Partition {
+	result := make([]*hive_metastore.Partition, count)
+	for i := 0; i < count; i++ {
+		values := []string{fmt.Sprintf("d%d", i)}
+		partition, _ := hmsclient.MakePartition(table, values, nil, "")
+		result[i] = partition
+	}
+	return result
+}
+
+func makePartNames(count int) []string {
+	names := make([]string, count)
+	for i := 0; i < count; i++ {
+		names[i] = fmt.Sprintf("d=d%d", i)
+	}
+	return names
+}
+
+func dropManyPartitions(data *benchData, names []string) {
+	err := data.client.DropPartitions(data.dbname, testTableName, names)
+	if err != nil {
+		log.Println("failed to drop partitions", err)
+	}
+}
+
+func addPartitions(client *hmsclient.MetastoreClient, parts []*hive_metastore.Partition) {
+	err := client.AddPartitions(parts)
+	if err != nil {
+		log.Println("failed to create partition", err)
+	}
 }

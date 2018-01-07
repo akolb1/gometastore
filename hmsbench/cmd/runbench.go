@@ -72,6 +72,10 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchDropPartition(bd) })
 	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
 		func() *microbench.Stats { return benchListManyTables(bd) })
+	suite.Add(fmt.Sprintf("addPartitions.%d", nObjects),
+		func() *microbench.Stats { return benchCreatePartitions(bd) })
+	suite.Add(fmt.Sprintf("dropPartitions.%d", nObjects),
+		func() *microbench.Stats { return benchDropPartitions(bd) })
 
 	if viper.GetBool(listOpt) {
 		// Only list benchmarks, don't run them
