@@ -102,7 +102,7 @@ func (b *BenchmarkSuite) Display(buffer *bytes.Buffer) {
 		}
 		mean := result.Mean()
 		err := result.StDev() * 100 / mean
-		buffer.WriteString(fmt.Sprintf("%-30s %-8.3g %-8.3g %-8.3g %-8.3g\n",
+		buffer.WriteString(fmt.Sprintf("%-30s %-8.4g %-8.4g %-8.4g %-8.4g\n",
 			name, mean/b.scale, result.Min()/b.scale, result.Max()/b.scale, err))
 	}
 }

@@ -51,6 +51,7 @@ func makeBenchData(warmup int, iterations int, dbName string, owner string,
 	}
 }
 
+// GetCurrentNotificationId() benchmark
 func benchGetNotificationId(data *benchData) *microbench.Stats {
 	return microbench.MeasureSimple(func() {
 		data.client.GetCurrentNotificationId()
