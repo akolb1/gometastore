@@ -51,6 +51,12 @@ func makeBenchData(warmup int, iterations int, dbName string, owner string,
 	}
 }
 
+func benchGetNotificationId(data *benchData) *microbench.Stats {
+	return microbench.MeasureSimple(func() {
+		data.client.GetCurrentNotificationId()
+	}, data.warmup, data.iterations)
+}
+
 func benchListDatabases(data *benchData) *microbench.Stats {
 	return microbench.MeasureSimple(func() {
 		data.client.GetAllDatabases()
@@ -216,16 +222,47 @@ func benchCreatePartitions(data *benchData) *microbench.Stats {
 				log.Println("failed to create table: ", err)
 				return nil
 			}
+			defer data.client.DropTable(dbName, testTableName, true)
+
 			table, err := data.client.GetTable(dbName, testTableName)
 			if err != nil {
 				log.Println("failed to get table: ", err)
+				return nil
 			}
+
 			partitions := makeManyPartitions(table, data.nObjects)
 			names := makePartNames(data.nObjects)
 			return microbench.Measure(nil,
 				func() { addPartitions(data.client, partitions) },
 				func() { dropManyPartitions(data, names) },
 				data.warmup, data.iterations)
+		})
+}
+
+// benchGetPartitions create a table with N partitions and measure time to get all N
+// partitions
+func benchGetPartitions(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
+			defer data.client.DropTable(dbName, testTableName, true)
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+				return nil
+			}
+			partitions := makeManyPartitions(table, data.nObjects)
+			names := makePartNames(data.nObjects)
+			addPartitions(data.client, partitions)
+			defer dropManyPartitions(data, names)
+			return microbench.MeasureSimple(func() {
+				data.client.GetPartitions(data.dbname, testTableName, -1)
+			}, data.warmup, data.iterations)
 		})
 }
 
@@ -238,6 +275,8 @@ func benchDropPartitions(data *benchData) *microbench.Stats {
 				log.Println("failed to create table: ", err)
 				return nil
 			}
+			defer data.client.DropTable(dbName, testTableName, true)
+
 			table, err := data.client.GetTable(dbName, testTableName)
 			if err != nil {
 				log.Println("failed to get table: ", err)
@@ -265,7 +304,7 @@ func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 func withDatabase(data *benchData, bench microbench.Runner) *microbench.Stats {
 	dbName := data.dbname
 	if err := data.client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
-		log.Fatalf("failed to drop database %s: %v", data.dbname, err)
+		log.Fatalf("failed to create database %s: %v", data.dbname, err)
 	}
 	defer data.client.DropDatabase(dbName, true, true)
 	return bench()

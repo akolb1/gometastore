@@ -52,6 +52,8 @@ func run(_ *cobra.Command, _ []string) {
 	}
 
 	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client, nObjects)
+	suite.Add("getNid",
+		func() *microbench.Stats { return benchGetNotificationId(bd) })
 	suite.Add("listDababases",
 		func() *microbench.Stats { return benchListDatabases(bd) })
 	suite.Add("getDatabase",
@@ -72,6 +74,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchDropPartition(bd) })
 	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
 		func() *microbench.Stats { return benchListManyTables(bd) })
+	suite.Add(fmt.Sprintf("getPartitions.%d", nObjects),
+		func() *microbench.Stats { return benchGetPartitions(bd) })
 	suite.Add(fmt.Sprintf("addPartitions.%d", nObjects),
 		func() *microbench.Stats { return benchCreatePartitions(bd) })
 	suite.Add(fmt.Sprintf("dropPartitions.%d", nObjects),
