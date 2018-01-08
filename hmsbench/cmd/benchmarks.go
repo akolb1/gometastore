@@ -282,14 +282,16 @@ func makeManyPartitions(table *hive_metastore.Table, count int) []*hive_metastor
 	return result
 }
 
+// makePartNames creates a list of sample partition names of the form 'date=dX' for 0 <= X < count
 func makePartNames(count int) []string {
 	names := make([]string, count)
 	for i := 0; i < count; i++ {
-		names[i] = fmt.Sprintf("d=d%d", i)
+		names[i] = fmt.Sprintf("%s=d%d", testPartitionSchema, i)
 	}
 	return names
 }
 
+// dropManyPartitions drops multiple partition by names and logs an error if this fails.
 func dropManyPartitions(data *benchData, names []string) {
 	err := data.client.DropPartitions(data.dbname, testTableName, names)
 	if err != nil {
