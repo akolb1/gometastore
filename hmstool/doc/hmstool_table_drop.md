@@ -1,19 +1,19 @@
-## hmstool table show
+## hmstool table drop
 
-Show tables
+drop table
 
 ### Synopsis
 
-Show tables
+drop table
 
 ```
-hmstool table show [flags]
+hmstool table drop [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for show
+  -h, --help   help for drop
 ```
 
 ### Options inherited from parent commands

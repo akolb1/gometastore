@@ -17,6 +17,8 @@ package cmd
 import (
 	"strings"
 
+	"log"
+
 	"github.com/spf13/cobra"
 )
 
@@ -28,6 +30,12 @@ const (
 var tablesCmd = &cobra.Command{
 	Use:   "table",
 	Short: "table operations",
+}
+
+var tableDropCmd = &cobra.Command{
+	Use:   "drop",
+	Short: "drop table",
+	Run:   dropTable,
 }
 
 // getDbTableName gets DB name and table name from input string.
@@ -46,9 +54,34 @@ func getDbTableName(cmd *cobra.Command, arg string) (dbName string, tableName st
 	return dbName, tableName
 }
 
+func dropTable(cmd *cobra.Command, args []string) {
+	client, err := getClient()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Close()
+	arg := ""
+	if len(args) == 0 {
+		arg = args[0]
+	}
+	dbName, tableName := getDbTableName(cmd, arg)
+	if dbName == "" {
+		log.Fatalln("missing database name")
+	}
+	if tableName == "" {
+		log.Fatalln("missing table name")
+	}
+	err = client.DropTable(dbName, tableName, true)
+	if err != nil {
+		log.Fatalf("failed to drop table %s.%s: %v\n", dbName, tableName, err)
+	}
+
+}
+
 func init() {
 	tablesCmd.AddCommand(showPartitionsCmd)
 	tablesCmd.AddCommand(showPartitionCmd)
+	tablesCmd.AddCommand(tableDropCmd)
 	rootCmd.AddCommand(tablesCmd)
 
 	tablesCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")

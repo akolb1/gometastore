@@ -1,19 +1,19 @@
-## hmstool table show
+## hmstool table select
 
-Show tables
+select tables using server-side filtering
 
 ### Synopsis
 
-Show tables
+select tables using server-side filtering
 
 ```
-hmstool table show [flags]
+hmstool table select [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for show
+  -h, --help   help for select
 ```
 
 ### Options inherited from parent commands
