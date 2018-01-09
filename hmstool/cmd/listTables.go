@@ -18,6 +18,9 @@ import (
 	"fmt"
 	"log"
 
+	"strings"
+
+	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/gobwas/glob"
 	"github.com/spf13/cobra"
 )
@@ -28,6 +31,15 @@ var tableListCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "list tables",
 	Run:     listTables,
+}
+
+// dbCmd represents the db command
+var tableSelectCmd = &cobra.Command{
+	Use:   "select",
+	Short: "select tables using server-side filtering",
+	Run:   selectTables,
+	ValidArgs: []string{strings.ToLower(hmsclient.TableTypeTable),
+		strings.ToLower(hmsclient.TableTypeView)},
 }
 
 func listTables(cmd *cobra.Command, args []string) {
@@ -83,7 +95,37 @@ func listTables(cmd *cobra.Command, args []string) {
 	}
 }
 
+// selectTables finds tables using server-side filtering
+func selectTables(cmd *cobra.Command, args []string) {
+	client, err := getClient()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Close()
+	dbName, _ := cmd.Flags().GetString(optDbName)
+	if dbName == "" {
+		dbName = "*"
+	}
+	tableName, _ := cmd.Flags().GetString(optTableName)
+	if tableName == "" {
+		tableName = "*"
+	}
+	// convert args to upper case
+	upcaseArgs := make([]string, len(args))
+	for i, a := range args {
+		upcaseArgs[i] = strings.ToUpper(a)
+	}
+	tableData, err := client.GetTableMeta(dbName, tableName, upcaseArgs)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for _, t := range tableData {
+		fmt.Printf("%s.%s\n", t.DbName, t.TableName)
+	}
+}
+
 func init() {
 	tableListCmd.Flags().BoolP("long", "l", false, "show table info")
 	tablesCmd.AddCommand(tableListCmd)
+	tablesCmd.AddCommand(tableSelectCmd)
 }

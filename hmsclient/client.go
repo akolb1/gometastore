@@ -25,6 +25,11 @@ import (
 )
 
 const (
+	TableTypeTable = "TABLE" // Table type for TABLE
+	TableTypeView  = "VIEW"  // Table type for View
+)
+
+const (
 	bufferSize = 1024 * 1024
 )
 
@@ -218,4 +223,14 @@ func (c *MetastoreClient) GetNextNotification(lastEvent int64,
 		return nil, err
 	}
 	return r.Events, nil
+}
+
+// GetTableMeta returns list of tables matching specified search criteria.
+// Parameters:
+//  db - database name pattern
+//  table - table name pattern
+// tableTypes - list of Table types - should be either TABLE or VIEW
+func (c *MetastoreClient) GetTableMeta(db string,
+	table string, tableTypes []string) ([]*hive_metastore.TableMeta, error) {
+	return c.client.GetTableMeta(c.context, db, table, tableTypes)
 }
