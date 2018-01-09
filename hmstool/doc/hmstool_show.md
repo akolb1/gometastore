@@ -9,7 +9,7 @@ Show objects
 ### Options
 
 ```
-  -d, --dbname string   database name (default "default")
+  -d, --dbname string   database name
   -h, --help            help for show
   -t, --table string    table name
 ```

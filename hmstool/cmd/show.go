@@ -55,7 +55,7 @@ var showPartitionCmd = &cobra.Command{
 }
 
 func init() {
-	showCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
+	showCmd.PersistentFlags().StringP(optDbName, "d", "", "database name")
 	showCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
 	showCmd.AddCommand(showDbCmd)
 	showCmd.AddCommand(showTableCmd)

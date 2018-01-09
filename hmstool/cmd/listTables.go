@@ -48,22 +48,16 @@ func listTables(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer client.Close()
-	dbName, _ := cmd.Flags().GetString(optDbName)
-
 	var dbNames []string
-	if dbName != "" {
-		dbNames = []string{dbName}
-	} else {
-		databases, err := client.GetAllDatabases()
-		if err != nil {
-			log.Fatal(err)
-		}
-		dbNames = databases
+	databases, err := client.GetAllDatabases()
+	if err != nil {
+		log.Fatal(err)
 	}
+	dbNames = databases
 
 	var tables []string
 	for _, d := range dbNames {
-		tableList, err := client.GetAllTables(dbName)
+		tableList, err := client.GetAllTables(d)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -72,20 +66,19 @@ func listTables(cmd *cobra.Command, args []string) {
 		}
 	}
 
-	var filteredTables []string
 	if len(args) == 0 {
-		filteredTables = tables
-	} else {
-		globs := make([]glob.Glob, len(args))
-		for i, a := range args {
-			globs[i] = glob.MustCompile(a)
-		}
-		for _, t := range tables {
-			for _, g := range globs {
-				if g.Match(t) {
-					filteredTables = append(filteredTables, t)
-					break
-				}
+		args = []string{"*.*"}
+	}
+	var filteredTables []string
+	globs := make([]glob.Glob, len(args))
+	for i, a := range args {
+		globs[i] = glob.MustCompile(a)
+	}
+	for _, t := range tables {
+		for _, g := range globs {
+			if g.Match(t) {
+				filteredTables = append(filteredTables, t)
+				break
 			}
 		}
 	}

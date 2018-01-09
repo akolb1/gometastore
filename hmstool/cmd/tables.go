@@ -84,6 +84,6 @@ func init() {
 	tablesCmd.AddCommand(tableDropCmd)
 	rootCmd.AddCommand(tablesCmd)
 
-	tablesCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
+	tablesCmd.PersistentFlags().StringP(optDbName, "d", "", "database name")
 	tablesCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
 }

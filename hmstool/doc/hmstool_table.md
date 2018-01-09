@@ -9,7 +9,7 @@ table operations
 ### Options
 
 ```
-  -d, --dbname string   database name (default "default")
+  -d, --dbname string   database name
   -h, --help            help for table
   -t, --table string    table name
 ```

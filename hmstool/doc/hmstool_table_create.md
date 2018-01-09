@@ -22,7 +22,7 @@ hmstool table create [flags]
 
 ```
       --config string   config file (default is $HOME/.hmstool.yaml)
-  -d, --dbname string   database name (default "default")
+  -d, --dbname string   database name
   -H, --host string     hostname for HMS server (default "localhost")
   -U, --owner string    owner name (default "hive")
   -p, --port string     port for HMS server (default "9083")
