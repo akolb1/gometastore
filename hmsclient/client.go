@@ -229,8 +229,18 @@ func (c *MetastoreClient) GetNextNotification(lastEvent int64,
 // Parameters:
 //  db - database name pattern
 //  table - table name pattern
-// tableTypes - list of Table types - should be either TABLE or VIEW
+//  tableTypes - list of Table types - should be either TABLE or VIEW
 func (c *MetastoreClient) GetTableMeta(db string,
 	table string, tableTypes []string) ([]*hive_metastore.TableMeta, error) {
 	return c.client.GetTableMeta(c.context, db, table, tableTypes)
+}
+
+// GetTablesByType returns list of tables matching specified search criteria.
+// Parameters:
+//  dbName - database name
+//  table - table name pattern
+//  tableType - Table type - should be either TABLE or VIEW
+func (c *MetastoreClient) GetTablesByType(dbName string,
+	table string, tableType string) ([]string, error) {
+	return c.client.GetTablesByType(c.context, dbName, table, tableType)
 }
