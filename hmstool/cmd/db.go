@@ -15,6 +15,8 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +31,40 @@ var dbCmd = &cobra.Command{
 	TraverseChildren: true,
 }
 
+var dbDropCmd = &cobra.Command{
+	Use:   "drop",
+	Short: "drop database",
+	Long:  "drop database db1, ...",
+	Run:   dropDB,
+}
+
+func dropDB(cmd *cobra.Command, args []string) {
+	dbName, _ := cmd.Flags().GetString(optDbName)
+	var dbNames []string
+	if dbName != "" && dbName != "default" {
+		dbNames = []string{dbName}
+	} else {
+		dbNames = args
+	}
+	client, err := getClient()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Close()
+	for _, dbName = range dbNames {
+		log.Println("Dropping database", dbName)
+		if dbName == "default" {
+			log.Println("skipping default database")
+			continue
+		}
+		if err = client.DropDatabase(dbName, true, true); err != nil {
+			log.Println("failed to delete", dbName, err)
+		}
+	}
+}
+
 func init() {
 	dbCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
+	dbCmd.AddCommand(dbDropCmd)
 	rootCmd.AddCommand(dbCmd)
 }
