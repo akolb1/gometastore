@@ -30,12 +30,31 @@ const (
 var tablesCmd = &cobra.Command{
 	Use:   "table",
 	Short: "table operations",
+	Long: `Operations on HMS tables. All operations need the host name which can be specified with -H flag or with
+HMS_HOST environment variable.
+Some commands require database name. Database can be provided either using '-d' flag or
+deducted from table name which can be of the form 'dbName.tableName''. Some commands will get table names from
+HMS if it isn't specified.
+
+For listing tables two filtering options are supported. Client-side filtering is used by 'list' command
+and server-side filtering is done by 'select command'.
+`,
 }
 
 var tableDropCmd = &cobra.Command{
 	Use:   "drop",
 	Short: "drop table",
 	Run:   dropTable,
+	Long: `drop Give table. The table can be specified with '-t' flag or as the single argument.
+The database can be specified with '-d' flag or iwth the table name which can be of the form
+'dbName.tableName'.
+
+    Example:
+
+  hmstool table drop default.foo
+  hmstool table drop -d default foo
+  hmstool table drop -d default -t foo
+`,
 }
 
 // getDbTableName gets DB name and table name from input string.
