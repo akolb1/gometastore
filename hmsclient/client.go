@@ -24,10 +24,22 @@ import (
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 )
 
+type TableType int
+
 const (
-	TableTypeTable = "TABLE" // Table type for TABLE
-	TableTypeView  = "VIEW"  // Table type for View
+	TableTypeManaged TableType = iota
+	TableTypeExternal
+	TableTypeView
+	TableTypeIndex
 )
+
+// String representation of table types, consumed by Hive
+var tableTypes = []string{
+	"MANAGED_TABLE",
+	"EXTERNAL_TABLE",
+	"VIRTUAL_VIEW",
+	"INDEX_TABLE",
+}
 
 const (
 	bufferSize = 1024 * 1024
@@ -47,6 +59,10 @@ type Database struct {
 	Owner       string            `json:"owner,omitempty"`
 	Location    string            `json:"location"`
 	Parameters  map[string]string `json:"parameters,omitempty"`
+}
+
+func (val TableType) String() string {
+	return tableTypes[val]
 }
 
 // Open connection to metastore and return client handle.

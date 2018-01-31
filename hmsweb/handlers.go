@@ -18,10 +18,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"strconv"
-
-	"math/rand"
+	"strings"
 	"time"
 
 	"github.com/akolb1/gometastore/hmsclient"
@@ -29,7 +29,6 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 	"github.com/oklog/ulid"
-	"strings"
 )
 
 // getClient connects to the host specified in the requests and returns connected HMS client.
@@ -252,7 +251,8 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 		tbl.Parameters["ULID"] = getULID()
 	}
 
-	table := hmsclient.MakeTable(dbName, tableName, tbl.Owner, tbl.Parameters, tbl.Columns, tbl.Partitions)
+	table := hmsclient.MakeTable(dbName, tableName, tbl.Owner,
+		hmsclient.TableTypeManaged, tbl.Parameters, tbl.Columns, tbl.Partitions)
 	log.Println("Creating table " + spew.Sdump(table))
 	err = client.CreateTable(table)
 	if err != nil {

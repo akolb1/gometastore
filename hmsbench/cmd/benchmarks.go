@@ -15,9 +15,8 @@
 package cmd
 
 import (
-	"log"
-
 	"fmt"
+	"log"
 
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
@@ -28,6 +27,7 @@ const (
 	testTableName       = "test_table"
 	testSchema          = "name"
 	testPartitionSchema = "date"
+	defaultTableType    = hmsclient.TableTypeManaged
 )
 
 type benchData struct {
@@ -90,7 +90,7 @@ func benchDropDatabase(data *benchData) *microbench.Stats {
 
 func benchCreateTable(data *benchData) *microbench.Stats {
 	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, nil,
+		testTableName, data.owner, defaultTableType, nil,
 		getSchema(testSchema), nil)
 	return withDatabase(data,
 		func() *microbench.Stats {
@@ -119,7 +119,7 @@ func benchDropTable(data *benchData) *microbench.Stats {
 func benchGetTable(data *benchData) *microbench.Stats {
 	dbName := data.dbname
 	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, nil,
+		testTableName, data.owner, defaultTableType, defaultTableType, nil,
 		getSchema(testSchema), nil)
 
 	return withDatabase(data,
@@ -147,7 +147,7 @@ func benchListManyTables(data *benchData) *microbench.Stats {
 			for i := 0; i < data.nObjects; i++ {
 				tableNames[i] = fmt.Sprintf("table_%d", i)
 				table := hmsclient.MakeTable(dbName,
-					tableNames[i], data.owner, nil,
+					tableNames[i], data.owner, defaultTableType, nil,
 					getSchema(testSchema), nil)
 				if err := data.client.CreateTable(table); err != nil {
 					log.Println("failed to create table: ", err)
@@ -296,7 +296,7 @@ func benchDropPartitions(data *benchData) *microbench.Stats {
 func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 	tableName string, owner string) error {
 	table := hmsclient.MakeTable(dbName,
-		tableName, owner, nil,
+		tableName, owner, defaultTableType, nil,
 		getSchema(testSchema), getSchema(testPartitionSchema))
 	return client.CreateTable(table)
 }

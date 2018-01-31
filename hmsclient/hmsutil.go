@@ -52,6 +52,7 @@ func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.Field
 //   columns     - list of table column descriptions
 //   partitions  - list of table partitions descriptions
 func MakeTable(dbName string, tabeName string, owner string,
+	tType TableType,
 	parameters map[string]string,
 	columns []hive_metastore.FieldSchema,
 	partitions []hive_metastore.FieldSchema) *hive_metastore.Table {
@@ -70,6 +71,7 @@ func MakeTable(dbName string, tabeName string, owner string,
 		DbName:        dbName,
 		TableName:     tabeName,
 		Owner:         owner,
+		TableType:     tType.String(),
 		Sd:            sd,
 		Parameters:    parameters,
 		PartitionKeys: convertSchema(partitions),
