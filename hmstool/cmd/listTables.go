@@ -17,10 +17,8 @@ package cmd
 import (
 	"fmt"
 	"log"
-
 	"strings"
 
-	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/gobwas/glob"
 	"github.com/spf13/cobra"
 )
@@ -38,8 +36,6 @@ var tableSelectCmd = &cobra.Command{
 	Use:   "select",
 	Short: "select tables using server-side filtering",
 	Run:   selectTables,
-	ValidArgs: []string{strings.ToLower(hmsclient.TableTypeTable),
-		strings.ToLower(hmsclient.TableTypeView)},
 }
 
 func listTables(cmd *cobra.Command, args []string) {

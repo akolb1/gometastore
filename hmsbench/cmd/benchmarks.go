@@ -103,7 +103,7 @@ func benchCreateTable(data *benchData) *microbench.Stats {
 
 func benchDropTable(data *benchData) *microbench.Stats {
 	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, nil,
+		testTableName, data.owner, defaultTableType, nil,
 		getSchema(testSchema), nil)
 
 	return withDatabase(data,
@@ -119,7 +119,7 @@ func benchDropTable(data *benchData) *microbench.Stats {
 func benchGetTable(data *benchData) *microbench.Stats {
 	dbName := data.dbname
 	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, defaultTableType, defaultTableType, nil,
+		testTableName, data.owner, defaultTableType, nil,
 		getSchema(testSchema), nil)
 
 	return withDatabase(data,
