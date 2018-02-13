@@ -36,6 +36,7 @@ type TableBuilder struct {
 	Owner         string
 	InputFormat   string
 	OutputFormat  string
+	Location      string
 	Columns       []hive_metastore.FieldSchema
 	PartitionKeys []hive_metastore.FieldSchema
 	Parameters    map[string]string
@@ -69,6 +70,7 @@ func (tb *TableBuilder) Build() *hive_metastore.Table {
 		Sd: &hive_metastore.StorageDescriptor{
 			InputFormat:  tb.InputFormat,
 			OutputFormat: tb.OutputFormat,
+			Location:     tb.Location,
 			Cols:         convertSchema(tb.Columns),
 			SerdeInfo: &hive_metastore.SerDeInfo{
 				Name:             tb.Name,
@@ -89,11 +91,13 @@ func NewTableBuilder(db string, tableName string) *TableBuilder {
 	}
 }
 
+// WithOwner specifies table owner
 func (tb *TableBuilder) WithOwner(owner string) *TableBuilder {
 	tb.Owner = owner
 	return tb
 }
 
+// WithParameter adds table parameter
 func (tb *TableBuilder) WithParameter(name string, value string) *TableBuilder {
 	if tb.Parameters == nil {
 		tb.Parameters = make(map[string]string)
@@ -102,36 +106,49 @@ func (tb *TableBuilder) WithParameter(name string, value string) *TableBuilder {
 	return tb
 }
 
+// WithParameters specifies table parameters
 func (tb *TableBuilder) WithParameters(parameters map[string]string) *TableBuilder {
 	tb.Parameters = parameters
 	return tb
 }
 
+// WithType specifies table type
 func (tb *TableBuilder) WithType(t TableType) *TableBuilder {
 	tb.Type = t
 	return tb
 }
 
+// WithSerde specifies table serde
 func (tb *TableBuilder) WithSerde(serde string) *TableBuilder {
 	tb.Serde = serde
 	return tb
 }
 
+// WithInputFormat specifies table input format
 func (tb *TableBuilder) WithInputFormat(format string) *TableBuilder {
 	tb.InputFormat = format
 	return tb
 }
 
+// WithOutputFormat specifies table output format
 func (tb *TableBuilder) WithOutputFormat(format string) *TableBuilder {
 	tb.OutputFormat = format
 	return tb
 }
 
+// WithLocation specifies table location
+func (tb *TableBuilder) WithLocation(location string) *TableBuilder {
+	tb.Location = location
+	return tb
+}
+
+// WithColumns specifies table columns
 func (tb *TableBuilder) WithColumns(columns []hive_metastore.FieldSchema) *TableBuilder {
 	tb.Columns = columns
 	return tb
 }
 
+// WithPartitionKeys specifies table partition keys
 func (tb *TableBuilder) WithPartitionKeys(partKeys []hive_metastore.FieldSchema) *TableBuilder {
 	tb.PartitionKeys = partKeys
 	return tb

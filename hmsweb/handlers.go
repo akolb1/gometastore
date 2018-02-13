@@ -233,6 +233,7 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 		Columns    []hive_metastore.FieldSchema `json:"columns"`
 		Partitions []hive_metastore.FieldSchema `json:"partitions"`
 		Owner      string                       `json:"owner"`
+		Location   string                       `json:"location"`
 		Parameters map[string]string            `json:"parameters"`
 	}
 
@@ -254,6 +255,7 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 	table := hmsclient.NewTableBuilder(dbName, tableName).
 		WithOwner(tbl.Owner).
 		WithColumns(tbl.Columns).
+		WithLocation(tbl.Location).
 		WithPartitionKeys(tbl.Partitions).
 		WithParameters(tbl.Parameters).
 		Build()
