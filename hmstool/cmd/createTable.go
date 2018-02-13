@@ -65,11 +65,12 @@ func createTable(cmd *cobra.Command, args []string) {
 	columns, _ := cmd.Flags().GetString(optColumns)
 	partitions, _ := cmd.Flags().GetString(optPartitions)
 
-	table := hmsclient.MakeTable(dbName,
-		tableName, owner,
-		hmsclient.TableTypeManaged,
-		params,
-		getSchema(columns), getSchema(partitions))
+	table := hmsclient.NewTableBuilder(dbName, tableName).
+		WithOwner(owner).
+		WithColumns(getSchema(columns)).
+		WithPartitionKeys(getSchema(partitions)).
+		WithParameters(params).
+		Build()
 
 	err = client.CreateTable(table)
 

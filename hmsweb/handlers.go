@@ -251,8 +251,13 @@ func tableCreate(w http.ResponseWriter, r *http.Request) {
 		tbl.Parameters["ULID"] = getULID()
 	}
 
-	table := hmsclient.MakeTable(dbName, tableName, tbl.Owner,
-		hmsclient.TableTypeManaged, tbl.Parameters, tbl.Columns, tbl.Partitions)
+	table := hmsclient.NewTableBuilder(dbName, tableName).
+		WithOwner(tbl.Owner).
+		WithColumns(tbl.Columns).
+		WithPartitionKeys(tbl.Partitions).
+		WithParameters(tbl.Parameters).
+		Build()
+
 	log.Println("Creating table " + spew.Sdump(table))
 	err = client.CreateTable(table)
 	if err != nil {

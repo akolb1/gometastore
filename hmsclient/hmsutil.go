@@ -27,6 +27,20 @@ const (
 	defaultOutputFormat = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
 )
 
+// TableBuilder provides builder pattern for table objects
+type TableBuilder struct {
+	Db            string
+	Name          string
+	Type          TableType
+	Serde         string
+	Owner         string
+	InputFormat   string
+	OutputFormat  string
+	Columns       []hive_metastore.FieldSchema
+	PartitionKeys []hive_metastore.FieldSchema
+	Parameters    map[string]string
+}
+
 // convertSchema converts list of FieldSchema to list of pointers to FieldSchema
 func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.FieldSchema {
 	if len(columns) == 0 {
@@ -43,39 +57,84 @@ func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.Field
 	return cols
 }
 
-// MakeTable returns initialized Table object.
-// Parameters:
-//   dbName      - database name
-//   tableName   - table name
-//   owner Table - owner
-//   parameters  - Table parameters
-//   columns     - list of table column descriptions
-//   partitions  - list of table partitions descriptions
-func MakeTable(dbName string, tabeName string, owner string,
-	tType TableType,
-	parameters map[string]string,
-	columns []hive_metastore.FieldSchema,
-	partitions []hive_metastore.FieldSchema) *hive_metastore.Table {
-
-	// Create storage descriptor
-	sd := &hive_metastore.StorageDescriptor{
-		InputFormat:  defaultInputFormat,
-		OutputFormat: defaultOutputFormat,
-		Cols:         convertSchema(columns),
-		SerdeInfo: &hive_metastore.SerDeInfo{
-			Name:             tabeName,
-			SerializationLib: defaultSerDe,
+// Build HMS Table object.
+func (tb *TableBuilder) Build() *hive_metastore.Table {
+	return &hive_metastore.Table{
+		DbName:        tb.Db,
+		TableName:     tb.Name,
+		Owner:         tb.Owner,
+		Parameters:    tb.Parameters,
+		TableType:     tb.Type.String(),
+		PartitionKeys: convertSchema(tb.PartitionKeys),
+		Sd: &hive_metastore.StorageDescriptor{
+			InputFormat:  tb.InputFormat,
+			OutputFormat: tb.OutputFormat,
+			Cols:         convertSchema(tb.Columns),
+			SerdeInfo: &hive_metastore.SerDeInfo{
+				Name:             tb.Name,
+				SerializationLib: tb.Serde,
+			},
 		},
 	}
-	return &hive_metastore.Table{
-		DbName:        dbName,
-		TableName:     tabeName,
-		Owner:         owner,
-		TableType:     tType.String(),
-		Sd:            sd,
-		Parameters:    parameters,
-		PartitionKeys: convertSchema(partitions),
+}
+
+func NewTableBuilder(db string, tableName string) *TableBuilder {
+	return &TableBuilder{
+		Db:           db,
+		Name:         tableName,
+		Type:         TableTypeManaged,
+		Serde:        defaultSerDe,
+		InputFormat:  defaultInputFormat,
+		OutputFormat: defaultOutputFormat,
 	}
+}
+
+func (tb *TableBuilder) WithOwner(owner string) *TableBuilder {
+	tb.Owner = owner
+	return tb
+}
+
+func (tb *TableBuilder) WithParameter(name string, value string) *TableBuilder {
+	if tb.Parameters == nil {
+		tb.Parameters = make(map[string]string)
+	}
+	tb.Parameters[name] = value
+	return tb
+}
+
+func (tb *TableBuilder) WithParameters(parameters map[string]string) *TableBuilder {
+	tb.Parameters = parameters
+	return tb
+}
+
+func (tb *TableBuilder) WithType(t TableType) *TableBuilder {
+	tb.Type = t
+	return tb
+}
+
+func (tb *TableBuilder) WithSerde(serde string) *TableBuilder {
+	tb.Serde = serde
+	return tb
+}
+
+func (tb *TableBuilder) WithInputFormat(format string) *TableBuilder {
+	tb.InputFormat = format
+	return tb
+}
+
+func (tb *TableBuilder) WithOutputFormat(format string) *TableBuilder {
+	tb.OutputFormat = format
+	return tb
+}
+
+func (tb *TableBuilder) WithColumns(columns []hive_metastore.FieldSchema) *TableBuilder {
+	tb.Columns = columns
+	return tb
+}
+
+func (tb *TableBuilder) WithPartitionKeys(partKeys []hive_metastore.FieldSchema) *TableBuilder {
+	tb.PartitionKeys = partKeys
+	return tb
 }
 
 // MakePartition creates Partition object from ordere4d list of partition values.

@@ -89,9 +89,10 @@ func benchDropDatabase(data *benchData) *microbench.Stats {
 }
 
 func benchCreateTable(data *benchData) *microbench.Stats {
-	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, defaultTableType, nil,
-		getSchema(testSchema), nil)
+	table := hmsclient.NewTableBuilder(data.dbname, testTableName).
+		WithOwner(data.owner).
+		WithColumns(getSchema(testSchema)).
+		Build()
 	return withDatabase(data,
 		func() *microbench.Stats {
 			return microbench.Measure(nil,
@@ -102,9 +103,10 @@ func benchCreateTable(data *benchData) *microbench.Stats {
 }
 
 func benchDropTable(data *benchData) *microbench.Stats {
-	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, defaultTableType, nil,
-		getSchema(testSchema), nil)
+	table := hmsclient.NewTableBuilder(data.dbname, testTableName).
+		WithOwner(data.owner).
+		WithColumns(getSchema(testSchema)).
+		Build()
 
 	return withDatabase(data,
 		func() *microbench.Stats {
@@ -118,9 +120,10 @@ func benchDropTable(data *benchData) *microbench.Stats {
 
 func benchGetTable(data *benchData) *microbench.Stats {
 	dbName := data.dbname
-	table := hmsclient.MakeTable(data.dbname,
-		testTableName, data.owner, defaultTableType, nil,
-		getSchema(testSchema), nil)
+	table := hmsclient.NewTableBuilder(data.dbname, testTableName).
+		WithOwner(data.owner).
+		WithColumns(getSchema(testSchema)).
+		Build()
 
 	return withDatabase(data,
 		func() *microbench.Stats {
@@ -146,9 +149,10 @@ func benchListManyTables(data *benchData) *microbench.Stats {
 			// Create a bunch of tables
 			for i := 0; i < data.nObjects; i++ {
 				tableNames[i] = fmt.Sprintf("table_%d", i)
-				table := hmsclient.MakeTable(dbName,
-					tableNames[i], data.owner, defaultTableType, nil,
-					getSchema(testSchema), nil)
+				table := hmsclient.NewTableBuilder(dbName, tableNames[i]).
+					WithOwner(data.owner).
+					WithColumns(getSchema(testSchema)).
+					Build()
 				if err := data.client.CreateTable(table); err != nil {
 					log.Println("failed to create table: ", err)
 					// Cleanup
@@ -295,9 +299,11 @@ func benchDropPartitions(data *benchData) *microbench.Stats {
 // createPartitionedTable creates a simple partitioned table with a single partition
 func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 	tableName string, owner string) error {
-	table := hmsclient.MakeTable(dbName,
-		tableName, owner, defaultTableType, nil,
-		getSchema(testSchema), getSchema(testPartitionSchema))
+	table := hmsclient.NewTableBuilder(dbName, tableName).
+		WithOwner(owner).
+		WithColumns(getSchema(testSchema)).
+		WithPartitionKeys(getSchema(testPartitionSchema)).
+		Build()
 	return client.CreateTable(table)
 }
 
