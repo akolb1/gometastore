@@ -67,7 +67,15 @@ func (val TableType) String() string {
 
 // Open connection to metastore and return client handle.
 func Open(host string, port int) (*MetastoreClient, error) {
-	socket, err := thrift.NewTSocket(net.JoinHostPort(host, strconv.Itoa(port)))
+	server, portStr, err := net.SplitHostPort(host)
+	if err != nil {
+		return nil, err
+	}
+	if portStr == "" {
+		portStr = strconv.Itoa(port)
+	}
+
+	socket, err := thrift.NewTSocket(net.JoinHostPort(server, portStr))
 	if err != nil {
 		return nil, fmt.Errorf("error resolving address %s: %v", host, err)
 	}

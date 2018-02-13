@@ -17,9 +17,9 @@ package hmsclient_test
 import (
 	"fmt"
 	"log"
-	"testing"
-
 	"os"
+	"strconv"
+	"testing"
 
 	"github.com/akolb1/gometastore/hmsclient"
 )
@@ -54,11 +54,21 @@ func TestOpenBadHost(t *testing.T) {
 
 func getClient(t *testing.T) (*hmsclient.MetastoreClient, error) {
 	host := os.Getenv("HMS_SERVER")
+	port := os.Getenv("HMS_PORT")
+	if port == "" {
+		port = "9083"
+	}
 	if host == "" {
 		host = "localhost"
 	}
+	portVal, err := strconv.ParseInt(port, 10, 32)
+	if err != nil {
+		t.Error("invalid port", portVal, err)
+		return nil, err
+
+	}
 	t.Log("connecting to", host)
-	client, err := hmsclient.Open(host, 9083)
+	client, err := hmsclient.Open(host, int(portVal))
 	if err != nil {
 		t.Error("failed connection to", host, err)
 		return nil, err
