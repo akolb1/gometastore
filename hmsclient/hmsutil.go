@@ -42,6 +42,13 @@ type TableBuilder struct {
 	Parameters    map[string]string
 }
 
+type PartitionBuilder struct {
+	Table      *hive_metastore.Table
+	Parameters map[string]string
+	Values     []string
+	Location   string
+}
+
 // convertSchema converts list of FieldSchema to list of pointers to FieldSchema
 func convertSchema(columns []hive_metastore.FieldSchema) []*hive_metastore.FieldSchema {
 	if len(columns) == 0 {
@@ -154,23 +161,12 @@ func (tb *TableBuilder) WithPartitionKeys(partKeys []hive_metastore.FieldSchema)
 	return tb
 }
 
-// MakePartition creates Partition object from ordere4d list of partition values.
-// Only string values are currently supported.
-// Parameters:
-//   table  - Hive table for which partition is added
-//   values - List of partition values which should match partition schema
-func MakePartition(table *hive_metastore.Table,
-	values []string, parameters map[string]string,
-	location string) (*hive_metastore.Partition, error) {
-	partitionKeys := table.PartitionKeys
-	if len(partitionKeys) != len(values) {
-		return nil, fmt.Errorf("number of provided partition values %d does not match partition"+
-			" schema which has %d columns",
-			len(values), len(partitionKeys))
-	}
-	sd := *table.Sd
-	if location != "" {
-		sd.Location = location
+func (p *PartitionBuilder) Build() *hive_metastore.Partition {
+	values := p.Values
+	partitionKeys := p.Table.PartitionKeys
+	sd := p.Table.Sd
+	if p.Location != "" {
+		sd.Location = p.Location
 	} else {
 		// Construct name=value list for each partition
 		partNames := make([]string, len(partitionKeys))
@@ -181,9 +177,54 @@ func MakePartition(table *hive_metastore.Table,
 	}
 	return &hive_metastore.Partition{
 		Values:     values,
-		DbName:     table.DbName,
-		TableName:  table.TableName,
-		Sd:         &sd,
-		Parameters: parameters,
-	}, nil
+		DbName:     p.Table.DbName,
+		TableName:  p.Table.TableName,
+		Sd:         sd,
+		Parameters: p.Parameters,
+	}
+}
+
+func NewPartitionBuilder(table *hive_metastore.Table, values []string) (*PartitionBuilder, error) {
+	if len(table.PartitionKeys) != len(values) {
+		return nil, fmt.Errorf("number of provided partition values %d does not match partition"+
+			" schema which has %d columns",
+			len(values), len(table.PartitionKeys))
+	}
+	return &PartitionBuilder{Table: table, Values: values}, nil
+}
+
+func (pb *PartitionBuilder) WithLocation(location string) *PartitionBuilder {
+	pb.Location = location
+	return pb
+}
+
+func (pb *PartitionBuilder) WithParameters(parameters map[string]string) *PartitionBuilder {
+	pb.Parameters = parameters
+	return pb
+}
+
+func (pb *PartitionBuilder) WithParameter(key string, value string) *PartitionBuilder {
+	if pb.Parameters == nil {
+		pb.Parameters = make(map[string]string)
+	}
+	pb.Parameters[key] = value
+	return pb
+}
+
+// MakePartition creates Partition object from ordered list of partition values.
+// Only string values are currently supported.
+// Parameters:
+//   table  - Hive table for which partition is added
+//   values - List of partition values which should match partition schema
+func MakePartition(table *hive_metastore.Table,
+	values []string, parameters map[string]string,
+	location string) (*hive_metastore.Partition, error) {
+	if pb, err := NewPartitionBuilder(table, values); err != nil {
+		return nil, err
+	} else {
+		return pb.
+			WithLocation(location).
+			WithParameters(parameters).
+			Build(), nil
+	}
 }
