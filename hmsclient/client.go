@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"strings"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
@@ -67,12 +68,15 @@ func (val TableType) String() string {
 
 // Open connection to metastore and return client handle.
 func Open(host string, port int) (*MetastoreClient, error) {
-	server, portStr, err := net.SplitHostPort(host)
-	if err != nil {
-		return nil, err
-	}
-	if portStr == "" {
-		portStr = strconv.Itoa(port)
+	server := host
+	portStr := strconv.Itoa(port)
+	if strings.Contains(host, ":") {
+		s, pStr, err := net.SplitHostPort(host)
+		if err != nil {
+			return nil, err
+		}
+		server = s
+		portStr = pStr
 	}
 
 	socket, err := thrift.NewTSocket(net.JoinHostPort(server, portStr))
@@ -236,6 +240,12 @@ func (c *MetastoreClient) DropPartitions(dbName string,
 func (c *MetastoreClient) GetCurrentNotificationId() (int64, error) {
 	r, err := c.client.GetCurrentNotificationEventId(c.context)
 	return r.EventId, err
+}
+
+// AlterTable modifies existing table with data from the new table
+func (c *MetastoreClient) AlterTable(dbName string, tableName string,
+	table *hive_metastore.Table) error {
+	return c.client.AlterTable(c.context, dbName, tableName, table)
 }
 
 // GetNextNotification returns next available notification.

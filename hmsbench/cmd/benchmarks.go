@@ -21,6 +21,7 @@ import (
 	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/akolb1/gometastore/microbench"
+	"github.com/mohae/deepcopy"
 )
 
 const (
@@ -293,6 +294,66 @@ func benchDropPartitions(data *benchData) *microbench.Stats {
 				func() { dropManyPartitions(data, names) },
 				nil,
 				data.warmup, data.iterations)
+		})
+}
+
+func benchTableRenameWithPartitions(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	newName := testTableName + "_renamed"
+
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
+			defer data.client.DropTable(dbName, testTableName, true)
+
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+			}
+			partitions := makeManyPartitions(table, data.nObjects)
+			addPartitions(data.client, partitions)
+			table.Sd.Location = ""
+			var newTable *hive_metastore.Table
+			newTable, _ = deepcopy.Copy(table).(*hive_metastore.Table)
+			newTable.TableName = newName
+
+			return microbench.MeasureSimple(
+				func() {
+					data.client.AlterTable(dbName, testTableName, newTable)
+					data.client.AlterTable(dbName, newName, table)
+				}, data.warmup, data.iterations)
+		})
+}
+
+func benchTableRename(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	newName := testTableName + "_renamed"
+
+	return withDatabase(data,
+		func() *microbench.Stats {
+			if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+				log.Println("failed to create table: ", err)
+				return nil
+			}
+			defer data.client.DropTable(dbName, testTableName, true)
+
+			table, err := data.client.GetTable(dbName, testTableName)
+			if err != nil {
+				log.Println("failed to get table: ", err)
+			}
+			table.Sd.Location = ""
+			var newTable *hive_metastore.Table
+			newTable, _ = deepcopy.Copy(table).(*hive_metastore.Table)
+			newTable.TableName = newName
+
+			return microbench.MeasureSimple(
+				func() {
+					data.client.AlterTable(dbName, testTableName, newTable)
+					data.client.AlterTable(dbName, newName, table)
+				}, data.warmup, data.iterations)
 		})
 }
 

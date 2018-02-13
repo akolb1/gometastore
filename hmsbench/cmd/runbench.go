@@ -17,13 +17,10 @@ package cmd
 import (
 	"bytes"
 	"fmt"
-	"log"
-
 	"io/ioutil"
-
+	"log"
 	"os"
 	"path"
-
 	"regexp"
 
 	"github.com/akolb1/gometastore/microbench"
@@ -72,6 +69,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchAddPartition(bd) })
 	suite.Add("dropPartition",
 		func() *microbench.Stats { return benchDropPartition(bd) })
+	suite.Add("tableRename",
+		func() *microbench.Stats { return benchTableRename(bd) })
 	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
 		func() *microbench.Stats { return benchListManyTables(bd) })
 	suite.Add(fmt.Sprintf("getPartitions.%d", nObjects),
@@ -80,6 +79,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchCreatePartitions(bd) })
 	suite.Add(fmt.Sprintf("dropPartitions.%d", nObjects),
 		func() *microbench.Stats { return benchDropPartitions(bd) })
+	suite.Add(fmt.Sprintf("tableRename.%d", nObjects),
+		func() *microbench.Stats { return benchTableRenameWithPartitions(bd) })
 
 	if viper.GetBool(listOpt) {
 		// Only list benchmarks, don't run them
