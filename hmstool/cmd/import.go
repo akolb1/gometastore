@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/akolb1/gometastore/hmsclient"
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
 )
 
@@ -51,11 +52,11 @@ func doImport(client *hmsclient.MetastoreClient, fileName string) error {
 	if err != nil {
 		return fmt.Errorf("failed to import databases from %s: %s", fileName, err.Error())
 	}
-	err = importTables(client, hms.Databases)
+	err = importTables(client, hms.Tables)
 	if err != nil {
 		return fmt.Errorf("failed to import tables from %s: %s", fileName, err.Error())
 	}
-	err = importPartitions(client, hms.Databases)
+	err = importPartitions(client, hms.Partitions)
 	if err != nil {
 		return fmt.Errorf("failed to import partitions from %s: %s", fileName, err.Error())
 	}
@@ -89,11 +90,41 @@ func importDb(client *hmsclient.MetastoreClient, dbs []*hmsclient.Database) erro
 	return nil
 }
 
-func importTables(client *hmsclient.MetastoreClient, dbs []*hmsclient.Database) error {
+func importTables(client *hmsclient.MetastoreClient, tables []*hive_metastore.Table) error {
+	databases, err := client.GetAllDatabases()
+	if err != nil {
+		return fmt.Errorf("failed to get list of databases: %s",
+			err.Error())
+	}
+	// Map of existing database names
+	dbMap := make(map[string]bool)
+	for _, dbName := range databases {
+		dbMap[dbName] = true
+	}
+	for _, table := range tables {
+		dbName := table.DbName
+		tableName := table.TableName
+		if !dbMap[dbName] {
+			log.Println("skipping", dbName, ".", tableName, "db is not available")
+			continue
+		}
+		_, err := client.GetTable(dbName, tableName)
+		if err != nil {
+			table.TableType = hmsclient.TableTypeExternal.String()
+			log.Println("Adding table", dbName, ".", tableName)
+			err = client.CreateTable(table)
+			if err != nil {
+				return fmt.Errorf("failed to create table %s.%s: %s",
+					dbName, tableName, err.Error())
+			}
+		} else {
+			log.Println("skipping", dbName, ".", tableName, ": table exist already")
+		}
+	}
 	return nil
 }
 
-func importPartitions(client *hmsclient.MetastoreClient, dbs []*hmsclient.Database) error {
+func importPartitions(client *hmsclient.MetastoreClient, partitions []*hive_metastore.Partition) error {
 	return nil
 }
 
