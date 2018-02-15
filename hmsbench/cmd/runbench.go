@@ -23,6 +23,7 @@ import (
 	"path"
 	"regexp"
 
+	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/akolb1/gometastore/microbench"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -39,7 +40,7 @@ func run(_ *cobra.Command, _ []string) {
 		log.Fatal("missing database name")
 	}
 
-	log.Println("Using warmup =", warmup, "iterations =", iterations,
+	log.Println("Using warmup =", warmup, "iterations =", iterations, "nobjects =", nObjects,
 		"sanitize =", sanitize)
 
 	suite := microbench.MakeBenchmarkSuite(scale, sanitize)
@@ -47,6 +48,11 @@ func run(_ *cobra.Command, _ []string) {
 	if err != nil {
 		log.Fatal("failed to connect to HMS:", err)
 	}
+
+	if err := client.CreateDatabase(&hmsclient.Database{Name: dbName}); err != nil {
+		log.Fatalf("failed to create database %s: %v", dbName, err)
+	}
+	defer client.DropDatabase(dbName, true, true)
 
 	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client, nObjects)
 	suite.Add("getNid",
