@@ -20,6 +20,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -43,19 +44,16 @@ func showTables(cmd *cobra.Command, args []string) {
 			args = []string{table}
 		}
 	}
-	values := make([]interface{}, len(args))
+	tables := make([]*hive_metastore.Table, len(args))
 	for i, tableName := range args {
 		dbName, tableName := getDbTableName(cmd, tableName)
-		values[i], err = client.GetTable(dbName, tableName)
+		tables[i], err = client.GetTable(dbName, tableName)
 		if err != nil {
 			log.Fatalf("failed to get table information for %s.%s: %v",
 				dbName, tableName, err)
 		}
 	}
-	hmsObject := HmsObject{
-		Type:   tableType,
-		Values: values,
-	}
+	hmsObject := HmsObject{Tables: tables}
 	b, err := json.MarshalIndent(hmsObject, "", "  ")
 	if err != nil {
 		fmt.Printf("Error: %s", err)

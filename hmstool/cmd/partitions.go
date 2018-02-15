@@ -21,6 +21,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -82,17 +83,14 @@ func showPartition(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	// partitions := make([]*hive_metastore.Partition, len(args))
-	values := make([]interface{}, len(args))
+	partitions := make([]*hive_metastore.Partition, len(args))
 	for i, arg := range args {
-		values[i], err = client.GetPartitionByName(dbName, tableName, arg)
+		partitions[i], err = client.GetPartitionByName(dbName, tableName, arg)
 		if err != nil {
 			log.Fatalf("can not get partition %s: %v", arg, err)
 		}
 	}
-	hmsObject := HmsObject{
-		Type:   partitionsType,
-		Values: values,
-	}
+	hmsObject := HmsObject{Partitions: partitions}
 	b, err := json.MarshalIndent(hmsObject, "", "  ")
 	if err != nil {
 		fmt.Printf("Error: %s", err)

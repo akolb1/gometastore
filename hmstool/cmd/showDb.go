@@ -20,6 +20,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/akolb1/gometastore/hmsclient"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -42,17 +43,14 @@ func showDB(cmd *cobra.Command, args []string) {
 			args = append(args, dbName)
 		}
 	}
-	values := make([]interface{}, len(args))
+	dbs := make([]*hmsclient.Database, len(args))
 	for i, a := range args {
-		values[i], err = client.GetDatabase(a)
+		dbs[i], err = client.GetDatabase(a)
 		if err != nil {
 			log.Printf("failed to get database %s: %v", a, err)
 		}
 	}
-	hmsObject := HmsObject{
-		Type:   dbType,
-		Values: values,
-	}
+	hmsObject := HmsObject{Databases: dbs}
 	b, err := json.MarshalIndent(hmsObject, "", "  ")
 	if err != nil {
 		fmt.Printf("Error: %s", err)
