@@ -15,10 +15,13 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // dbCmd represents the db command
@@ -39,20 +42,28 @@ func showDB(cmd *cobra.Command, args []string) {
 			args = append(args, dbName)
 		}
 	}
-	for _, a := range args {
-		db, derr := client.GetDatabase(a)
-		if derr != nil {
-			log.Printf("failed to get database %s: %v", a, derr)
+	values := make([]interface{}, len(args))
+	for i, a := range args {
+		values[i], err = client.GetDatabase(a)
+		if err != nil {
+			log.Printf("failed to get database %s: %v", a, err)
 		}
-		fmt.Printf("%s\t%s\t%s", db.Name, db.Owner, db.Location)
-		if len(db.Description) > 0 {
-			fmt.Printf("\t# %s", db.Description)
-		}
-		fmt.Println()
-		if len(db.Parameters) != 0 {
-			for k, v := range db.Parameters {
-				fmt.Printf("  %s=%s\n", k, v)
-			}
+	}
+	hmsObject := HmsObject{
+		Type:   dbType,
+		Values: values,
+	}
+	b, err := json.MarshalIndent(hmsObject, "", "  ")
+	if err != nil {
+		fmt.Printf("Error: %s", err)
+		return
+	}
+	outputFileName := viper.GetString(outputOpt)
+	if outputFileName == "" {
+		fmt.Println(string(b))
+	} else {
+		if err := ioutil.WriteFile(outputFileName, b, 0644); err != nil {
+			log.Println("failed to write data to file", outputFileName, err)
 		}
 	}
 }

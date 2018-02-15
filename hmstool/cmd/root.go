@@ -28,6 +28,7 @@ const (
 	hostOpt           = "host"
 	portOpt           = "port"
 	ownerOpt          = "owner"
+	outputOpt         = "output"
 
 	hadoopUserEnv = "HADOOP_USER_NAME"
 )
@@ -39,6 +40,7 @@ var rootCmd = &cobra.Command{
 	Use:   "hmstool",
 	Short: "Hive metastore hmsclient tool",
 	Long:  `Command line hive metastore hmsclient tool`,
+	Run:   listTables,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) {},
@@ -75,6 +77,7 @@ func init() {
 	rootCmd.PersistentFlags().StringP(hostOpt, "H", "localhost", "hostname for HMS server")
 	rootCmd.PersistentFlags().StringP(portOpt, "p", defaultThriftPort, "port for HMS server")
 	rootCmd.PersistentFlags().StringP(ownerOpt, "U", hadoopUser, "owner name")
+	rootCmd.PersistentFlags().StringP(outputOpt, "o", "", "output file")
 
 	// Bind flags to viper variables
 	viper.BindPFlags(rootCmd.PersistentFlags())

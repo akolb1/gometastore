@@ -55,11 +55,12 @@ type MetastoreClient struct {
 
 // Database is a container of other objects in Hive.
 type Database struct {
-	Name        string            `json:"name"`
-	Description string            `json:"description,omitempty"`
-	Owner       string            `json:"owner,omitempty"`
-	Location    string            `json:"location"`
-	Parameters  map[string]string `json:"parameters,omitempty"`
+	Name        string                       `json:"name"`
+	Description string                       `json:"description,omitempty"`
+	Owner       string                       `json:"owner,omitempty"`
+	OwnerType   hive_metastore.PrincipalType `json:"ownerType,omitempty"`
+	Location    string                       `json:"location"`
+	Parameters  map[string]string            `json:"parameters,omitempty"`
 }
 
 func (val TableType) String() string {
@@ -122,6 +123,7 @@ func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
 		Parameters:  db.GetParameters(),
 		Location:    db.GetLocationUri(),
 		Owner:       db.GetOwnerName(),
+		OwnerType:   *db.OwnerType,
 	}, nil
 }
 

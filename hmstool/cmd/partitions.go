@@ -15,14 +15,14 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"strings"
 
-	"encoding/json"
-
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 const (
@@ -81,17 +81,29 @@ func showPartition(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	partitions := make([]*hive_metastore.Partition, len(args))
+	// partitions := make([]*hive_metastore.Partition, len(args))
+	values := make([]interface{}, len(args))
 	for i, arg := range args {
-		partitions[i], err = client.GetPartitionByName(dbName, tableName, arg)
+		values[i], err = client.GetPartitionByName(dbName, tableName, arg)
 		if err != nil {
 			log.Fatalf("can not get partition %s: %v", arg, err)
 		}
 	}
-	b, err := json.MarshalIndent(partitions, "", "  ")
+	hmsObject := HmsObject{
+		Type:   partitionsType,
+		Values: values,
+	}
+	b, err := json.MarshalIndent(hmsObject, "", "  ")
 	if err != nil {
 		fmt.Printf("Error: %s", err)
 		return
 	}
-	fmt.Println(string(b))
+	outputFileName := viper.GetString(outputOpt)
+	if outputFileName == "" {
+		fmt.Println(string(b))
+	} else {
+		if err := ioutil.WriteFile(outputFileName, b, 0644); err != nil {
+			log.Println("failed to write data to file", outputFileName, err)
+		}
+	}
 }

@@ -17,10 +17,11 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // dbCmd represents the db command
@@ -42,21 +43,32 @@ func showTables(cmd *cobra.Command, args []string) {
 			args = []string{table}
 		}
 	}
-	tables := make([]*hive_metastore.Table, len(args))
+	values := make([]interface{}, len(args))
 	for i, tableName := range args {
 		dbName, tableName := getDbTableName(cmd, tableName)
-		tables[i], err = client.GetTable(dbName, tableName)
+		values[i], err = client.GetTable(dbName, tableName)
 		if err != nil {
 			log.Fatalf("failed to get table information for %s.%s: %v",
 				dbName, tableName, err)
 		}
 	}
-	b, err := json.MarshalIndent(tables, "", "  ")
+	hmsObject := HmsObject{
+		Type:   tableType,
+		Values: values,
+	}
+	b, err := json.MarshalIndent(hmsObject, "", "  ")
 	if err != nil {
 		fmt.Printf("Error: %s", err)
 		return
 	}
-	fmt.Println(string(b))
+	outputFileName := viper.GetString(outputOpt)
+	if outputFileName == "" {
+		fmt.Println(string(b))
+	} else {
+		if err := ioutil.WriteFile(outputFileName, b, 0644); err != nil {
+			log.Println("failed to write data to file", outputFileName, err)
+		}
+	}
 }
 
 func init() {
