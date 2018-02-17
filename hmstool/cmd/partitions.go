@@ -15,15 +15,12 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"strings"
 
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 const (
@@ -90,18 +87,5 @@ func showPartition(cmd *cobra.Command, args []string) {
 			log.Fatalf("can not get partition %s: %v", arg, err)
 		}
 	}
-	hmsObject := HmsObject{Partitions: partitions}
-	b, err := json.MarshalIndent(hmsObject, "", "  ")
-	if err != nil {
-		fmt.Printf("Error: %s", err)
-		return
-	}
-	outputFileName := viper.GetString(outputOpt)
-	if outputFileName == "" {
-		fmt.Println(string(b))
-	} else {
-		if err := ioutil.WriteFile(outputFileName, b, 0644); err != nil {
-			log.Println("failed to write data to file", outputFileName, err)
-		}
-	}
+	displayObject(HmsObject{Partitions: partitions})
 }

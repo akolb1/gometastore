@@ -15,14 +15,10 @@
 package cmd
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"log"
 
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // dbCmd represents the db command
@@ -53,20 +49,7 @@ func showTables(cmd *cobra.Command, args []string) {
 				dbName, tableName, err)
 		}
 	}
-	hmsObject := HmsObject{Tables: tables}
-	b, err := json.MarshalIndent(hmsObject, "", "  ")
-	if err != nil {
-		fmt.Printf("Error: %s", err)
-		return
-	}
-	outputFileName := viper.GetString(outputOpt)
-	if outputFileName == "" {
-		fmt.Println(string(b))
-	} else {
-		if err := ioutil.WriteFile(outputFileName, b, 0644); err != nil {
-			log.Println("failed to write data to file", outputFileName, err)
-		}
-	}
+	displayObject(HmsObject{Tables: tables})
 }
 
 func init() {

@@ -11,10 +11,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const (
-	optFileName = "file"
-)
-
 // dbCmd represents the db command
 var importCmd = &cobra.Command{
 	Use:   "import",
@@ -23,10 +19,6 @@ var importCmd = &cobra.Command{
 }
 
 func importData(cmd *cobra.Command, args []string) {
-	fileName, err := cmd.Flags().GetString(optFileName)
-	if err != nil || fileName == "" {
-		log.Fatal("missing file name")
-	}
 	client, err := getClient()
 	if err != nil {
 		log.Fatal(err)
@@ -38,9 +30,11 @@ func importData(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 
-	err = doImport(client, dbs, fileName)
-	if err != nil {
-		log.Fatal(err)
+	for _, arg := range args {
+		err = doImport(client, dbs, arg)
+		if err != nil {
+			log.Println("failed to import", arg, err)
+		}
 	}
 }
 
@@ -144,7 +138,15 @@ func importPartitions(client *hmsclient.MetastoreClient,
 			}
 			tableMap[fullTblName] = true
 		}
-		client.AddPartition(partition)
+		if _, err := client.AddPartition(partition); err != nil {
+			if _, ok := err.(*hive_metastore.AlreadyExistsException); ok {
+				log.Println("failed to add partition", partition.Values, "into",
+					fullTblName, ": partition already exists")
+
+			} else {
+				log.Println("failed to add partition", partition.Values, "into", fullTblName, err)
+			}
+		}
 	}
 	return nil
 }
@@ -165,6 +167,5 @@ func getDatabases(client *hmsclient.MetastoreClient) (map[string]bool, error) {
 }
 
 func init() {
-	importCmd.PersistentFlags().StringP(optFileName, "f", "", "HMS dump name")
 	rootCmd.AddCommand(importCmd)
 }
