@@ -36,5 +36,6 @@ var dropTableCmd = &cobra.Command{
 func init() {
 	dropCmd.PersistentFlags().StringP(optDbName, "d", "default", "database name")
 	dropCmd.AddCommand(dropDbCmd)
+	dropCmd.AddCommand(dropTableCmd)
 	rootCmd.AddCommand(dropCmd)
 }

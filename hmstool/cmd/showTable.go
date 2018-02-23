@@ -35,8 +35,7 @@ func showTables(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 	if len(args) == 0 {
-		table, _ := cmd.Flags().GetString(optTableName)
-		if table != "" {
+		if table, _ := cmd.Flags().GetString(optTableName); table != "" {
 			args = []string{table}
 		}
 	}
@@ -49,7 +48,7 @@ func showTables(cmd *cobra.Command, args []string) {
 				dbName, tableName, err)
 		}
 	}
-	displayObject(HmsObject{Tables: tables})
+	displayObject(&HmsObject{Tables: tables})
 }
 
 func init() {

@@ -46,7 +46,7 @@ func showDB(cmd *cobra.Command, args []string) {
 			log.Printf("failed to get database %s: %v", a, err)
 		}
 	}
-	displayObject(HmsObject{Databases: dbs})
+	displayObject(&HmsObject{Databases: dbs})
 }
 
 func init() {

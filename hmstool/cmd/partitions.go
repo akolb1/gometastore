@@ -87,5 +87,5 @@ func showPartition(cmd *cobra.Command, args []string) {
 			log.Fatalf("can not get partition %s: %v", arg, err)
 		}
 	}
-	displayObject(HmsObject{Partitions: partitions})
+	displayObject(&HmsObject{Partitions: partitions})
 }

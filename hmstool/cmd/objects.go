@@ -17,7 +17,7 @@ type HmsObject struct {
 	Partitions []*hive_metastore.Partition `json:"partitions,omitempty"`
 }
 
-func displayObject(hmsObject HmsObject) {
+func displayObject(hmsObject *HmsObject) {
 	outputFileName := viper.GetString(outputOpt)
 	if outputFileName == "" {
 		b, _ := json.MarshalIndent(hmsObject, "", "  ")

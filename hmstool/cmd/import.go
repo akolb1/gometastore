@@ -107,7 +107,7 @@ func importTables(client *hmsclient.MetastoreClient,
 			continue
 		}
 		table.TableType = hmsclient.TableTypeExternal.String()
-		log.Println("Adding table", dbName, ".", tableName)
+		log.Println("Adding table", dbName+"."+tableName)
 		err = client.CreateTable(table)
 		if err != nil {
 			return fmt.Errorf("failed to create table %s.%s: %s",

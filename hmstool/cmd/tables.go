@@ -15,9 +15,8 @@
 package cmd
 
 import (
-	"strings"
-
 	"log"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -79,22 +78,19 @@ func dropTable(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer client.Close()
-	arg := ""
-	if len(args) == 0 {
-		arg = args[0]
+	for _, tableName := range args {
+		dbName, tableName := getDbTableName(cmd, tableName)
+		if dbName == "" {
+			log.Fatalln("missing database name")
+		}
+		if tableName == "" {
+			log.Fatalln("missing table name")
+		}
+		err = client.DropTable(dbName, tableName, true)
+		if err != nil {
+			log.Fatalf("failed to drop table %s.%s: %v\n", dbName, tableName, err)
+		}
 	}
-	dbName, tableName := getDbTableName(cmd, arg)
-	if dbName == "" {
-		log.Fatalln("missing database name")
-	}
-	if tableName == "" {
-		log.Fatalln("missing table name")
-	}
-	err = client.DropTable(dbName, tableName, true)
-	if err != nil {
-		log.Fatalf("failed to drop table %s.%s: %v\n", dbName, tableName, err)
-	}
-
 }
 
 func init() {
