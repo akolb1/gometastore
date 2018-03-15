@@ -19,7 +19,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-
 	"strings"
 
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
@@ -49,6 +48,7 @@ const (
 	objectsOpt  = "objects"
 	listOpt     = "list"
 	filterOpt   = "filter"
+	threadOpt   = "threads"
 
 	scale = 1000000
 )
@@ -123,6 +123,7 @@ func init() {
 	rootCmd.PersistentFlags().StringP(saveOpt, "", "", "location for raw benchmark data")
 	rootCmd.PersistentFlags().StringP(filterOpt, "F", "", "run benchmarks matching the filter")
 	rootCmd.PersistentFlags().IntP(objectsOpt, "N", 100, "number of objects to create")
+	rootCmd.PersistentFlags().IntP(threadOpt, "T", 1, "number concurrent threads")
 	// Bind flags to viper variables
 	viper.BindPFlags(rootCmd.PersistentFlags())
 	viper.BindPFlags(rootCmd.Flags())

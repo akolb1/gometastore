@@ -51,6 +51,8 @@ type MetastoreClient struct {
 	context   context.Context
 	transport thrift.TTransport
 	client    *hive_metastore.ThriftHiveMetastoreClient
+	server    string
+	port      int
 }
 
 // Database is a container of other objects in Hive.
@@ -97,13 +99,24 @@ func Open(host string, port int) (*MetastoreClient, error) {
 	if err1 := transport.Open(); err1 != nil {
 		return nil, fmt.Errorf("failed to open connection to %s:%d: %v", host, port, err1)
 	}
-	return &MetastoreClient{context: context.Background(), transport: transport, client: c}, nil
+	return &MetastoreClient{
+		context:   context.Background(),
+		transport: transport,
+		client:    c,
+		server:    host,
+		port:      port,
+	}, nil
 }
 
 // Close connection to metastore.
 // Handle can't be used once it is closed.
 func (c *MetastoreClient) Close() {
 	c.transport.Close()
+}
+
+// Clone metastore client and return a new client with its own connection to metastore.
+func (c *MetastoreClient) Clone() (client *MetastoreClient, err error) {
+	return Open(c.server, c.port)
 }
 
 // GetAllDatabases returns list of all Hive databases.

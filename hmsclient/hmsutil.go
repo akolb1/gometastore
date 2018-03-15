@@ -164,7 +164,7 @@ func (tb *TableBuilder) WithPartitionKeys(partKeys []hive_metastore.FieldSchema)
 func (p *PartitionBuilder) Build() *hive_metastore.Partition {
 	values := p.Values
 	partitionKeys := p.Table.PartitionKeys
-	sd := p.Table.Sd
+	sd := *p.Table.Sd
 	if p.Location != "" {
 		sd.Location = p.Location
 	} else {
@@ -179,7 +179,7 @@ func (p *PartitionBuilder) Build() *hive_metastore.Partition {
 		Values:     values,
 		DbName:     p.Table.DbName,
 		TableName:  p.Table.TableName,
-		Sd:         sd,
+		Sd:         &sd,
 		Parameters: p.Parameters,
 	}
 }

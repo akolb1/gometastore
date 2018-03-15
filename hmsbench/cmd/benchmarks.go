@@ -35,13 +35,17 @@ type benchData struct {
 	warmup     int
 	iterations int
 	nObjects   int
+	nThreads   int
 	dbname     string
 	owner      string
 	client     *hmsclient.MetastoreClient
 }
 
+// Channel type used to report thread completion
+type completion struct{}
+
 func makeBenchData(warmup int, iterations int, dbName string, owner string,
-	client *hmsclient.MetastoreClient, nObjects int) *benchData {
+	client *hmsclient.MetastoreClient, nObjects int, nThreads int) *benchData {
 	return &benchData{
 		warmup:     warmup,
 		iterations: iterations,
@@ -49,6 +53,7 @@ func makeBenchData(warmup int, iterations int, dbName string, owner string,
 		dbname:     dbName,
 		owner:      owner,
 		nObjects:   nObjects,
+		nThreads:   nThreads,
 	}
 }
 
@@ -210,8 +215,9 @@ func benchCreatePartitions(data *benchData) *microbench.Stats {
 		return nil
 	}
 
-	partitions := makeManyPartitions(table, data.nObjects)
-	names := makePartNames(data.nObjects)
+	prefix := "d"
+	partitions := makeManyPartitions(table, prefix, data.nObjects)
+	names := makePartNames(prefix, data.nObjects)
 	return microbench.Measure(nil,
 		func() { addPartitions(data.client, partitions) },
 		func() { dropManyPartitions(data, names) },
@@ -232,8 +238,9 @@ func benchGetPartitions(data *benchData) *microbench.Stats {
 		log.Println("failed to get table: ", err)
 		return nil
 	}
-	partitions := makeManyPartitions(table, data.nObjects)
-	names := makePartNames(data.nObjects)
+	prefix := "d"
+	partitions := makeManyPartitions(table, prefix, data.nObjects)
+	names := makePartNames(prefix, data.nObjects)
 	addPartitions(data.client, partitions)
 	defer dropManyPartitions(data, names)
 	return microbench.MeasureSimple(func() {
@@ -253,8 +260,9 @@ func benchDropPartitions(data *benchData) *microbench.Stats {
 	if err != nil {
 		log.Println("failed to get table: ", err)
 	}
-	partitions := makeManyPartitions(table, data.nObjects)
-	names := makePartNames(data.nObjects)
+	prefix := "d"
+	partitions := makeManyPartitions(table, prefix, data.nObjects)
+	names := makePartNames(prefix, data.nObjects)
 	return microbench.Measure(
 		func() { addPartitions(data.client, partitions) },
 		func() { dropManyPartitions(data, names) },
@@ -275,7 +283,7 @@ func benchTableRenameWithPartitions(data *benchData) *microbench.Stats {
 	if err != nil {
 		log.Println("failed to get table: ", err)
 	}
-	partitions := makeManyPartitions(table, data.nObjects)
+	partitions := makeManyPartitions(table, "d", data.nObjects)
 	addPartitions(data.client, partitions)
 	table.Sd.Location = ""
 	var newTable *hive_metastore.Table
@@ -286,6 +294,32 @@ func benchTableRenameWithPartitions(data *benchData) *microbench.Stats {
 		func() {
 			data.client.AlterTable(dbName, testTableName, newTable)
 			data.client.AlterTable(dbName, newName, table)
+		}, data.warmup, data.iterations)
+}
+
+func benchAddPartitionsInParallel(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	if err := createPartitionedTable(data.client, dbName, testTableName, data.owner); err != nil {
+		log.Println("failed to create table: ", err)
+		return nil
+	}
+	defer data.client.DropTable(dbName, testTableName, true)
+
+	table, err := data.client.GetTable(dbName, testTableName)
+	if err != nil {
+		log.Println("failed to get table: ", err)
+		return nil
+	}
+	return microbench.MeasureSimple(
+		func() {
+			done := make(chan completion)
+			for i := 0; i < data.nThreads; i++ {
+				go addDropPartitions(data.client, done, table, data.nObjects, i)
+			}
+			// Wait for async routines to complete
+			for i := 0; i < data.nThreads; i++ {
+				<-done
+			}
 		}, data.warmup, data.iterations)
 }
 
@@ -326,10 +360,10 @@ func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 }
 
 // makeManyPartitions creates list of Partitions suitable for bulk creation
-func makeManyPartitions(table *hive_metastore.Table, count int) []*hive_metastore.Partition {
+func makeManyPartitions(table *hive_metastore.Table, prefix string, count int) []*hive_metastore.Partition {
 	result := make([]*hive_metastore.Partition, count)
 	for i := 0; i < count; i++ {
-		values := []string{fmt.Sprintf("d%d", i)}
+		values := []string{fmt.Sprintf("%s%d", prefix, i)}
 		partition, _ := hmsclient.MakePartition(table, values, nil, "")
 		result[i] = partition
 	}
@@ -337,10 +371,10 @@ func makeManyPartitions(table *hive_metastore.Table, count int) []*hive_metastor
 }
 
 // makePartNames creates a list of sample partition names of the form 'date=dX' for 0 <= X < count
-func makePartNames(count int) []string {
+func makePartNames(prefix string, count int) []string {
 	names := make([]string, count)
 	for i := 0; i < count; i++ {
-		names[i] = fmt.Sprintf("%s=d%d", testPartitionSchema, i)
+		names[i] = fmt.Sprintf("%s=%s%d", testPartitionSchema, prefix, i)
 	}
 	return names
 }
@@ -358,4 +392,24 @@ func addPartitions(client *hmsclient.MetastoreClient, parts []*hive_metastore.Pa
 	if err != nil {
 		log.Println("failed to create partition", err)
 	}
+}
+
+func addDropPartitions(c *hmsclient.MetastoreClient, done chan completion,
+	table *hive_metastore.Table,
+	instances int, instance int) {
+	client, err := c.Clone()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer client.Close()
+	prefix := fmt.Sprintf("d%d", instance)
+	addPartitions(client,
+		makeManyPartitions(table, prefix, instances))
+	names := makePartNames(prefix, instances)
+	err = client.DropPartitions(table.DbName, table.TableName, names)
+	if err != nil {
+		log.Println("failed to drop partitions", err)
+	}
+	done <- completion{}
 }

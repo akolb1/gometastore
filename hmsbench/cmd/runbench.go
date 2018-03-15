@@ -35,6 +35,7 @@ func run(_ *cobra.Command, _ []string) {
 	sanitize := viper.GetBool(sanitizeOpt)
 	dbName := viper.GetString(dbOpt)
 	nObjects := viper.GetInt(objectsOpt)
+	nThreads := viper.GetInt(threadOpt)
 
 	if dbName == "" {
 		log.Fatal("missing database name")
@@ -54,7 +55,7 @@ func run(_ *cobra.Command, _ []string) {
 	}
 	defer client.DropDatabase(dbName, true, true)
 
-	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client, nObjects)
+	bd := makeBenchData(warmup, iterations, dbName, getOwner(), client, nObjects, nThreads)
 	suite.Add("getNid",
 		func() *microbench.Stats { return benchGetNotificationId(bd) })
 	suite.Add("listDababases",
@@ -87,6 +88,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchDropPartitions(bd) })
 	suite.Add(fmt.Sprintf("tableRename.%d", nObjects),
 		func() *microbench.Stats { return benchTableRenameWithPartitions(bd) })
+	suite.Add(fmt.Sprintf("concurrentPartsCreate#%d.%d", nThreads, nObjects),
+		func() *microbench.Stats { return benchAddPartitionsInParallel(bd) })
 
 	if viper.GetBool(listOpt) {
 		// Only list benchmarks, don't run them
