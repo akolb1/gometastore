@@ -41875,7 +41875,7 @@ func (p *ThriftHiveMetastoreProcessor) Process(ctx context.Context, iprot, oprot
 	oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)
 	x457.Write(oprot)
 	oprot.WriteMessageEnd()
-	oprot.Flush()
+	oprot.Flush(ctx)
 	return false, x457
 
 }
@@ -41892,7 +41892,7 @@ func (p *thriftHiveMetastoreProcessorGetMetaConf) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("getMetaConf", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -41909,7 +41909,7 @@ func (p *thriftHiveMetastoreProcessorGetMetaConf) Process(ctx context.Context, s
 			oprot.WriteMessageBegin("getMetaConf", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -41924,7 +41924,7 @@ func (p *thriftHiveMetastoreProcessorGetMetaConf) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -41945,7 +41945,7 @@ func (p *thriftHiveMetastoreProcessorSetMetaConf) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("setMetaConf", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -41961,7 +41961,7 @@ func (p *thriftHiveMetastoreProcessorSetMetaConf) Process(ctx context.Context, s
 			oprot.WriteMessageBegin("setMetaConf", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -41974,7 +41974,7 @@ func (p *thriftHiveMetastoreProcessorSetMetaConf) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -41995,7 +41995,7 @@ func (p *thriftHiveMetastoreProcessorCreateDatabase) Process(ctx context.Context
 		oprot.WriteMessageBegin("create_database", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42015,7 +42015,7 @@ func (p *thriftHiveMetastoreProcessorCreateDatabase) Process(ctx context.Context
 			oprot.WriteMessageBegin("create_database", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42028,7 +42028,7 @@ func (p *thriftHiveMetastoreProcessorCreateDatabase) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42049,7 +42049,7 @@ func (p *thriftHiveMetastoreProcessorGetDatabase) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("get_database", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42068,7 +42068,7 @@ func (p *thriftHiveMetastoreProcessorGetDatabase) Process(ctx context.Context, s
 			oprot.WriteMessageBegin("get_database", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42083,7 +42083,7 @@ func (p *thriftHiveMetastoreProcessorGetDatabase) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42104,7 +42104,7 @@ func (p *thriftHiveMetastoreProcessorDropDatabase) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("drop_database", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42124,7 +42124,7 @@ func (p *thriftHiveMetastoreProcessorDropDatabase) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("drop_database", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42137,7 +42137,7 @@ func (p *thriftHiveMetastoreProcessorDropDatabase) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42158,7 +42158,7 @@ func (p *thriftHiveMetastoreProcessorGetDatabases) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("get_databases", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42175,7 +42175,7 @@ func (p *thriftHiveMetastoreProcessorGetDatabases) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("get_databases", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42190,7 +42190,7 @@ func (p *thriftHiveMetastoreProcessorGetDatabases) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42211,7 +42211,7 @@ func (p *thriftHiveMetastoreProcessorGetAllDatabases) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_all_databases", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42228,7 +42228,7 @@ func (p *thriftHiveMetastoreProcessorGetAllDatabases) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_all_databases", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42243,7 +42243,7 @@ func (p *thriftHiveMetastoreProcessorGetAllDatabases) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42264,7 +42264,7 @@ func (p *thriftHiveMetastoreProcessorAlterDatabase) Process(ctx context.Context,
 		oprot.WriteMessageBegin("alter_database", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42282,7 +42282,7 @@ func (p *thriftHiveMetastoreProcessorAlterDatabase) Process(ctx context.Context,
 			oprot.WriteMessageBegin("alter_database", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42295,7 +42295,7 @@ func (p *thriftHiveMetastoreProcessorAlterDatabase) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42316,7 +42316,7 @@ func (p *thriftHiveMetastoreProcessorGetType) Process(ctx context.Context, seqId
 		oprot.WriteMessageBegin("get_type", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42335,7 +42335,7 @@ func (p *thriftHiveMetastoreProcessorGetType) Process(ctx context.Context, seqId
 			oprot.WriteMessageBegin("get_type", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42350,7 +42350,7 @@ func (p *thriftHiveMetastoreProcessorGetType) Process(ctx context.Context, seqId
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42371,7 +42371,7 @@ func (p *thriftHiveMetastoreProcessorCreateType) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("create_type", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42392,7 +42392,7 @@ func (p *thriftHiveMetastoreProcessorCreateType) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("create_type", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42407,7 +42407,7 @@ func (p *thriftHiveMetastoreProcessorCreateType) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42428,7 +42428,7 @@ func (p *thriftHiveMetastoreProcessorDropType) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("drop_type", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42447,7 +42447,7 @@ func (p *thriftHiveMetastoreProcessorDropType) Process(ctx context.Context, seqI
 			oprot.WriteMessageBegin("drop_type", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42462,7 +42462,7 @@ func (p *thriftHiveMetastoreProcessorDropType) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42483,7 +42483,7 @@ func (p *thriftHiveMetastoreProcessorGetTypeAll) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("get_type_all", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42500,7 +42500,7 @@ func (p *thriftHiveMetastoreProcessorGetTypeAll) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("get_type_all", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42515,7 +42515,7 @@ func (p *thriftHiveMetastoreProcessorGetTypeAll) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42536,7 +42536,7 @@ func (p *thriftHiveMetastoreProcessorGetFields) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("get_fields", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42557,7 +42557,7 @@ func (p *thriftHiveMetastoreProcessorGetFields) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("get_fields", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42572,7 +42572,7 @@ func (p *thriftHiveMetastoreProcessorGetFields) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42593,7 +42593,7 @@ func (p *thriftHiveMetastoreProcessorGetFieldsWithEnvironmentContext) Process(ct
 		oprot.WriteMessageBegin("get_fields_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42614,7 +42614,7 @@ func (p *thriftHiveMetastoreProcessorGetFieldsWithEnvironmentContext) Process(ct
 			oprot.WriteMessageBegin("get_fields_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42629,7 +42629,7 @@ func (p *thriftHiveMetastoreProcessorGetFieldsWithEnvironmentContext) Process(ct
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42650,7 +42650,7 @@ func (p *thriftHiveMetastoreProcessorGetSchema) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("get_schema", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42671,7 +42671,7 @@ func (p *thriftHiveMetastoreProcessorGetSchema) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("get_schema", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42686,7 +42686,7 @@ func (p *thriftHiveMetastoreProcessorGetSchema) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42707,7 +42707,7 @@ func (p *thriftHiveMetastoreProcessorGetSchemaWithEnvironmentContext) Process(ct
 		oprot.WriteMessageBegin("get_schema_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42728,7 +42728,7 @@ func (p *thriftHiveMetastoreProcessorGetSchemaWithEnvironmentContext) Process(ct
 			oprot.WriteMessageBegin("get_schema_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -42743,7 +42743,7 @@ func (p *thriftHiveMetastoreProcessorGetSchemaWithEnvironmentContext) Process(ct
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42764,7 +42764,7 @@ func (p *thriftHiveMetastoreProcessorCreateTable) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("create_table", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42786,7 +42786,7 @@ func (p *thriftHiveMetastoreProcessorCreateTable) Process(ctx context.Context, s
 			oprot.WriteMessageBegin("create_table", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42799,7 +42799,7 @@ func (p *thriftHiveMetastoreProcessorCreateTable) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42820,7 +42820,7 @@ func (p *thriftHiveMetastoreProcessorCreateTableWithEnvironmentContext) Process(
 		oprot.WriteMessageBegin("create_table_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42842,7 +42842,7 @@ func (p *thriftHiveMetastoreProcessorCreateTableWithEnvironmentContext) Process(
 			oprot.WriteMessageBegin("create_table_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42855,7 +42855,7 @@ func (p *thriftHiveMetastoreProcessorCreateTableWithEnvironmentContext) Process(
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42876,7 +42876,7 @@ func (p *thriftHiveMetastoreProcessorCreateTableWithConstraints) Process(ctx con
 		oprot.WriteMessageBegin("create_table_with_constraints", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42898,7 +42898,7 @@ func (p *thriftHiveMetastoreProcessorCreateTableWithConstraints) Process(ctx con
 			oprot.WriteMessageBegin("create_table_with_constraints", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42911,7 +42911,7 @@ func (p *thriftHiveMetastoreProcessorCreateTableWithConstraints) Process(ctx con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42932,7 +42932,7 @@ func (p *thriftHiveMetastoreProcessorDropConstraint) Process(ctx context.Context
 		oprot.WriteMessageBegin("drop_constraint", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -42950,7 +42950,7 @@ func (p *thriftHiveMetastoreProcessorDropConstraint) Process(ctx context.Context
 			oprot.WriteMessageBegin("drop_constraint", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -42963,7 +42963,7 @@ func (p *thriftHiveMetastoreProcessorDropConstraint) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -42984,7 +42984,7 @@ func (p *thriftHiveMetastoreProcessorAddPrimaryKey) Process(ctx context.Context,
 		oprot.WriteMessageBegin("add_primary_key", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43002,7 +43002,7 @@ func (p *thriftHiveMetastoreProcessorAddPrimaryKey) Process(ctx context.Context,
 			oprot.WriteMessageBegin("add_primary_key", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43015,7 +43015,7 @@ func (p *thriftHiveMetastoreProcessorAddPrimaryKey) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43036,7 +43036,7 @@ func (p *thriftHiveMetastoreProcessorAddForeignKey) Process(ctx context.Context,
 		oprot.WriteMessageBegin("add_foreign_key", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43054,7 +43054,7 @@ func (p *thriftHiveMetastoreProcessorAddForeignKey) Process(ctx context.Context,
 			oprot.WriteMessageBegin("add_foreign_key", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43067,7 +43067,7 @@ func (p *thriftHiveMetastoreProcessorAddForeignKey) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43088,7 +43088,7 @@ func (p *thriftHiveMetastoreProcessorAddUniqueConstraint) Process(ctx context.Co
 		oprot.WriteMessageBegin("add_unique_constraint", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43106,7 +43106,7 @@ func (p *thriftHiveMetastoreProcessorAddUniqueConstraint) Process(ctx context.Co
 			oprot.WriteMessageBegin("add_unique_constraint", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43119,7 +43119,7 @@ func (p *thriftHiveMetastoreProcessorAddUniqueConstraint) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43140,7 +43140,7 @@ func (p *thriftHiveMetastoreProcessorAddNotNullConstraint) Process(ctx context.C
 		oprot.WriteMessageBegin("add_not_null_constraint", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43158,7 +43158,7 @@ func (p *thriftHiveMetastoreProcessorAddNotNullConstraint) Process(ctx context.C
 			oprot.WriteMessageBegin("add_not_null_constraint", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43171,7 +43171,7 @@ func (p *thriftHiveMetastoreProcessorAddNotNullConstraint) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43192,7 +43192,7 @@ func (p *thriftHiveMetastoreProcessorDropTable) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("drop_table", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43210,7 +43210,7 @@ func (p *thriftHiveMetastoreProcessorDropTable) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("drop_table", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43223,7 +43223,7 @@ func (p *thriftHiveMetastoreProcessorDropTable) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43244,7 +43244,7 @@ func (p *thriftHiveMetastoreProcessorDropTableWithEnvironmentContext) Process(ct
 		oprot.WriteMessageBegin("drop_table_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43262,7 +43262,7 @@ func (p *thriftHiveMetastoreProcessorDropTableWithEnvironmentContext) Process(ct
 			oprot.WriteMessageBegin("drop_table_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43275,7 +43275,7 @@ func (p *thriftHiveMetastoreProcessorDropTableWithEnvironmentContext) Process(ct
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43296,7 +43296,7 @@ func (p *thriftHiveMetastoreProcessorTruncateTable) Process(ctx context.Context,
 		oprot.WriteMessageBegin("truncate_table", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43312,7 +43312,7 @@ func (p *thriftHiveMetastoreProcessorTruncateTable) Process(ctx context.Context,
 			oprot.WriteMessageBegin("truncate_table", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43325,7 +43325,7 @@ func (p *thriftHiveMetastoreProcessorTruncateTable) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43346,7 +43346,7 @@ func (p *thriftHiveMetastoreProcessorGetTables) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("get_tables", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43363,7 +43363,7 @@ func (p *thriftHiveMetastoreProcessorGetTables) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("get_tables", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43378,7 +43378,7 @@ func (p *thriftHiveMetastoreProcessorGetTables) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43399,7 +43399,7 @@ func (p *thriftHiveMetastoreProcessorGetTablesByType) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_tables_by_type", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43416,7 +43416,7 @@ func (p *thriftHiveMetastoreProcessorGetTablesByType) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_tables_by_type", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43431,7 +43431,7 @@ func (p *thriftHiveMetastoreProcessorGetTablesByType) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43452,7 +43452,7 @@ func (p *thriftHiveMetastoreProcessorGetTableMeta) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("get_table_meta", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43469,7 +43469,7 @@ func (p *thriftHiveMetastoreProcessorGetTableMeta) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("get_table_meta", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43484,7 +43484,7 @@ func (p *thriftHiveMetastoreProcessorGetTableMeta) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43505,7 +43505,7 @@ func (p *thriftHiveMetastoreProcessorGetAllTables) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("get_all_tables", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43522,7 +43522,7 @@ func (p *thriftHiveMetastoreProcessorGetAllTables) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("get_all_tables", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43537,7 +43537,7 @@ func (p *thriftHiveMetastoreProcessorGetAllTables) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43558,7 +43558,7 @@ func (p *thriftHiveMetastoreProcessorGetTable) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("get_table", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43577,7 +43577,7 @@ func (p *thriftHiveMetastoreProcessorGetTable) Process(ctx context.Context, seqI
 			oprot.WriteMessageBegin("get_table", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43592,7 +43592,7 @@ func (p *thriftHiveMetastoreProcessorGetTable) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43613,7 +43613,7 @@ func (p *thriftHiveMetastoreProcessorGetTableObjectsByName) Process(ctx context.
 		oprot.WriteMessageBegin("get_table_objects_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43626,7 +43626,7 @@ func (p *thriftHiveMetastoreProcessorGetTableObjectsByName) Process(ctx context.
 		oprot.WriteMessageBegin("get_table_objects_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -43640,7 +43640,7 @@ func (p *thriftHiveMetastoreProcessorGetTableObjectsByName) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43661,7 +43661,7 @@ func (p *thriftHiveMetastoreProcessorGetTableReq) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("get_table_req", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43680,7 +43680,7 @@ func (p *thriftHiveMetastoreProcessorGetTableReq) Process(ctx context.Context, s
 			oprot.WriteMessageBegin("get_table_req", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43695,7 +43695,7 @@ func (p *thriftHiveMetastoreProcessorGetTableReq) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43716,7 +43716,7 @@ func (p *thriftHiveMetastoreProcessorGetTableObjectsByNameReq) Process(ctx conte
 		oprot.WriteMessageBegin("get_table_objects_by_name_req", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43737,7 +43737,7 @@ func (p *thriftHiveMetastoreProcessorGetTableObjectsByNameReq) Process(ctx conte
 			oprot.WriteMessageBegin("get_table_objects_by_name_req", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43752,7 +43752,7 @@ func (p *thriftHiveMetastoreProcessorGetTableObjectsByNameReq) Process(ctx conte
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43773,7 +43773,7 @@ func (p *thriftHiveMetastoreProcessorGetTableNamesByFilter) Process(ctx context.
 		oprot.WriteMessageBegin("get_table_names_by_filter", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43794,7 +43794,7 @@ func (p *thriftHiveMetastoreProcessorGetTableNamesByFilter) Process(ctx context.
 			oprot.WriteMessageBegin("get_table_names_by_filter", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -43809,7 +43809,7 @@ func (p *thriftHiveMetastoreProcessorGetTableNamesByFilter) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43830,7 +43830,7 @@ func (p *thriftHiveMetastoreProcessorAlterTable) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("alter_table", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43848,7 +43848,7 @@ func (p *thriftHiveMetastoreProcessorAlterTable) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("alter_table", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43861,7 +43861,7 @@ func (p *thriftHiveMetastoreProcessorAlterTable) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43882,7 +43882,7 @@ func (p *thriftHiveMetastoreProcessorAlterTableWithEnvironmentContext) Process(c
 		oprot.WriteMessageBegin("alter_table_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43900,7 +43900,7 @@ func (p *thriftHiveMetastoreProcessorAlterTableWithEnvironmentContext) Process(c
 			oprot.WriteMessageBegin("alter_table_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43913,7 +43913,7 @@ func (p *thriftHiveMetastoreProcessorAlterTableWithEnvironmentContext) Process(c
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43934,7 +43934,7 @@ func (p *thriftHiveMetastoreProcessorAlterTableWithCascade) Process(ctx context.
 		oprot.WriteMessageBegin("alter_table_with_cascade", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -43952,7 +43952,7 @@ func (p *thriftHiveMetastoreProcessorAlterTableWithCascade) Process(ctx context.
 			oprot.WriteMessageBegin("alter_table_with_cascade", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -43965,7 +43965,7 @@ func (p *thriftHiveMetastoreProcessorAlterTableWithCascade) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -43986,7 +43986,7 @@ func (p *thriftHiveMetastoreProcessorAddPartition) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("add_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44007,7 +44007,7 @@ func (p *thriftHiveMetastoreProcessorAddPartition) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("add_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44022,7 +44022,7 @@ func (p *thriftHiveMetastoreProcessorAddPartition) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44043,7 +44043,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionWithEnvironmentContext) Process
 		oprot.WriteMessageBegin("add_partition_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44064,7 +44064,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionWithEnvironmentContext) Process
 			oprot.WriteMessageBegin("add_partition_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44079,7 +44079,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionWithEnvironmentContext) Process
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44100,7 +44100,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitions) Process(ctx context.Context,
 		oprot.WriteMessageBegin("add_partitions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44121,7 +44121,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitions) Process(ctx context.Context,
 			oprot.WriteMessageBegin("add_partitions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44136,7 +44136,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitions) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44157,7 +44157,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionsPspec) Process(ctx context.Con
 		oprot.WriteMessageBegin("add_partitions_pspec", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44178,7 +44178,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionsPspec) Process(ctx context.Con
 			oprot.WriteMessageBegin("add_partitions_pspec", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44193,7 +44193,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionsPspec) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44214,7 +44214,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartition) Process(ctx context.Contex
 		oprot.WriteMessageBegin("append_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44235,7 +44235,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartition) Process(ctx context.Contex
 			oprot.WriteMessageBegin("append_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44250,7 +44250,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartition) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44271,7 +44271,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionsReq) Process(ctx context.Conte
 		oprot.WriteMessageBegin("add_partitions_req", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44292,7 +44292,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionsReq) Process(ctx context.Conte
 			oprot.WriteMessageBegin("add_partitions_req", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44307,7 +44307,7 @@ func (p *thriftHiveMetastoreProcessorAddPartitionsReq) Process(ctx context.Conte
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44328,7 +44328,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionWithEnvironmentContext) Proc
 		oprot.WriteMessageBegin("append_partition_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44349,7 +44349,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionWithEnvironmentContext) Proc
 			oprot.WriteMessageBegin("append_partition_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44364,7 +44364,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionWithEnvironmentContext) Proc
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44385,7 +44385,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionByName) Process(ctx context.
 		oprot.WriteMessageBegin("append_partition_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44406,7 +44406,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionByName) Process(ctx context.
 			oprot.WriteMessageBegin("append_partition_by_name", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44421,7 +44421,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionByName) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44442,7 +44442,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionByNameWithEnvironmentContext
 		oprot.WriteMessageBegin("append_partition_by_name_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44463,7 +44463,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionByNameWithEnvironmentContext
 			oprot.WriteMessageBegin("append_partition_by_name_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44478,7 +44478,7 @@ func (p *thriftHiveMetastoreProcessorAppendPartitionByNameWithEnvironmentContext
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44499,7 +44499,7 @@ func (p *thriftHiveMetastoreProcessorDropPartition) Process(ctx context.Context,
 		oprot.WriteMessageBegin("drop_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44518,7 +44518,7 @@ func (p *thriftHiveMetastoreProcessorDropPartition) Process(ctx context.Context,
 			oprot.WriteMessageBegin("drop_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44533,7 +44533,7 @@ func (p *thriftHiveMetastoreProcessorDropPartition) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44554,7 +44554,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionWithEnvironmentContext) Proces
 		oprot.WriteMessageBegin("drop_partition_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44573,7 +44573,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionWithEnvironmentContext) Proces
 			oprot.WriteMessageBegin("drop_partition_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44588,7 +44588,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionWithEnvironmentContext) Proces
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44609,7 +44609,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionByName) Process(ctx context.Co
 		oprot.WriteMessageBegin("drop_partition_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44628,7 +44628,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionByName) Process(ctx context.Co
 			oprot.WriteMessageBegin("drop_partition_by_name", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44643,7 +44643,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionByName) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44664,7 +44664,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionByNameWithEnvironmentContext) 
 		oprot.WriteMessageBegin("drop_partition_by_name_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44683,7 +44683,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionByNameWithEnvironmentContext) 
 			oprot.WriteMessageBegin("drop_partition_by_name_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44698,7 +44698,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionByNameWithEnvironmentContext) 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44719,7 +44719,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionsReq) Process(ctx context.Cont
 		oprot.WriteMessageBegin("drop_partitions_req", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44738,7 +44738,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionsReq) Process(ctx context.Cont
 			oprot.WriteMessageBegin("drop_partitions_req", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44753,7 +44753,7 @@ func (p *thriftHiveMetastoreProcessorDropPartitionsReq) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44774,7 +44774,7 @@ func (p *thriftHiveMetastoreProcessorGetPartition) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("get_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44793,7 +44793,7 @@ func (p *thriftHiveMetastoreProcessorGetPartition) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("get_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44808,7 +44808,7 @@ func (p *thriftHiveMetastoreProcessorGetPartition) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44829,7 +44829,7 @@ func (p *thriftHiveMetastoreProcessorExchangePartition) Process(ctx context.Cont
 		oprot.WriteMessageBegin("exchange_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44852,7 +44852,7 @@ func (p *thriftHiveMetastoreProcessorExchangePartition) Process(ctx context.Cont
 			oprot.WriteMessageBegin("exchange_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44867,7 +44867,7 @@ func (p *thriftHiveMetastoreProcessorExchangePartition) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44888,7 +44888,7 @@ func (p *thriftHiveMetastoreProcessorExchangePartitions) Process(ctx context.Con
 		oprot.WriteMessageBegin("exchange_partitions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44911,7 +44911,7 @@ func (p *thriftHiveMetastoreProcessorExchangePartitions) Process(ctx context.Con
 			oprot.WriteMessageBegin("exchange_partitions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44926,7 +44926,7 @@ func (p *thriftHiveMetastoreProcessorExchangePartitions) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -44947,7 +44947,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionWithAuth) Process(ctx context.C
 		oprot.WriteMessageBegin("get_partition_with_auth", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -44966,7 +44966,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionWithAuth) Process(ctx context.C
 			oprot.WriteMessageBegin("get_partition_with_auth", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -44981,7 +44981,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionWithAuth) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45002,7 +45002,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionByName) Process(ctx context.Con
 		oprot.WriteMessageBegin("get_partition_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45021,7 +45021,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionByName) Process(ctx context.Con
 			oprot.WriteMessageBegin("get_partition_by_name", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45036,7 +45036,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionByName) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45057,7 +45057,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitions) Process(ctx context.Context,
 		oprot.WriteMessageBegin("get_partitions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45076,7 +45076,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitions) Process(ctx context.Context,
 			oprot.WriteMessageBegin("get_partitions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45091,7 +45091,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitions) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45112,7 +45112,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsWithAuth) Process(ctx context.
 		oprot.WriteMessageBegin("get_partitions_with_auth", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45131,7 +45131,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsWithAuth) Process(ctx context.
 			oprot.WriteMessageBegin("get_partitions_with_auth", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45146,7 +45146,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsWithAuth) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45167,7 +45167,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPspec) Process(ctx context.Con
 		oprot.WriteMessageBegin("get_partitions_pspec", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45186,7 +45186,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPspec) Process(ctx context.Con
 			oprot.WriteMessageBegin("get_partitions_pspec", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45201,7 +45201,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPspec) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45222,7 +45222,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionNames) Process(ctx context.Cont
 		oprot.WriteMessageBegin("get_partition_names", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45241,7 +45241,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionNames) Process(ctx context.Cont
 			oprot.WriteMessageBegin("get_partition_names", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45256,7 +45256,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionNames) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45277,7 +45277,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionValues) Process(ctx context.Con
 		oprot.WriteMessageBegin("get_partition_values", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45296,7 +45296,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionValues) Process(ctx context.Con
 			oprot.WriteMessageBegin("get_partition_values", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45311,7 +45311,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionValues) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45332,7 +45332,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPs) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_partitions_ps", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45351,7 +45351,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPs) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_partitions_ps", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45366,7 +45366,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPs) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45387,7 +45387,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPsWithAuth) Process(ctx contex
 		oprot.WriteMessageBegin("get_partitions_ps_with_auth", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45406,7 +45406,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPsWithAuth) Process(ctx contex
 			oprot.WriteMessageBegin("get_partitions_ps_with_auth", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45421,7 +45421,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsPsWithAuth) Process(ctx contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45442,7 +45442,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionNamesPs) Process(ctx context.Co
 		oprot.WriteMessageBegin("get_partition_names_ps", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45461,7 +45461,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionNamesPs) Process(ctx context.Co
 			oprot.WriteMessageBegin("get_partition_names_ps", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45476,7 +45476,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionNamesPs) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45497,7 +45497,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByFilter) Process(ctx context.
 		oprot.WriteMessageBegin("get_partitions_by_filter", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45516,7 +45516,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByFilter) Process(ctx context.
 			oprot.WriteMessageBegin("get_partitions_by_filter", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45531,7 +45531,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByFilter) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45552,7 +45552,7 @@ func (p *thriftHiveMetastoreProcessorGetPartSpecsByFilter) Process(ctx context.C
 		oprot.WriteMessageBegin("get_part_specs_by_filter", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45571,7 +45571,7 @@ func (p *thriftHiveMetastoreProcessorGetPartSpecsByFilter) Process(ctx context.C
 			oprot.WriteMessageBegin("get_part_specs_by_filter", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45586,7 +45586,7 @@ func (p *thriftHiveMetastoreProcessorGetPartSpecsByFilter) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45607,7 +45607,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByExpr) Process(ctx context.Co
 		oprot.WriteMessageBegin("get_partitions_by_expr", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45626,7 +45626,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByExpr) Process(ctx context.Co
 			oprot.WriteMessageBegin("get_partitions_by_expr", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45641,7 +45641,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByExpr) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45662,7 +45662,7 @@ func (p *thriftHiveMetastoreProcessorGetNumPartitionsByFilter) Process(ctx conte
 		oprot.WriteMessageBegin("get_num_partitions_by_filter", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45681,7 +45681,7 @@ func (p *thriftHiveMetastoreProcessorGetNumPartitionsByFilter) Process(ctx conte
 			oprot.WriteMessageBegin("get_num_partitions_by_filter", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45696,7 +45696,7 @@ func (p *thriftHiveMetastoreProcessorGetNumPartitionsByFilter) Process(ctx conte
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45717,7 +45717,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByNames) Process(ctx context.C
 		oprot.WriteMessageBegin("get_partitions_by_names", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45736,7 +45736,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByNames) Process(ctx context.C
 			oprot.WriteMessageBegin("get_partitions_by_names", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -45751,7 +45751,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsByNames) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45772,7 +45772,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartition) Process(ctx context.Context
 		oprot.WriteMessageBegin("alter_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45790,7 +45790,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartition) Process(ctx context.Context
 			oprot.WriteMessageBegin("alter_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -45803,7 +45803,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartition) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45824,7 +45824,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitions) Process(ctx context.Contex
 		oprot.WriteMessageBegin("alter_partitions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45842,7 +45842,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitions) Process(ctx context.Contex
 			oprot.WriteMessageBegin("alter_partitions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -45855,7 +45855,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitions) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45876,7 +45876,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitionsWithEnvironmentContext) Proc
 		oprot.WriteMessageBegin("alter_partitions_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45894,7 +45894,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitionsWithEnvironmentContext) Proc
 			oprot.WriteMessageBegin("alter_partitions_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -45907,7 +45907,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitionsWithEnvironmentContext) Proc
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45928,7 +45928,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitionWithEnvironmentContext) Proce
 		oprot.WriteMessageBegin("alter_partition_with_environment_context", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45946,7 +45946,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitionWithEnvironmentContext) Proce
 			oprot.WriteMessageBegin("alter_partition_with_environment_context", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -45959,7 +45959,7 @@ func (p *thriftHiveMetastoreProcessorAlterPartitionWithEnvironmentContext) Proce
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -45980,7 +45980,7 @@ func (p *thriftHiveMetastoreProcessorRenamePartition) Process(ctx context.Contex
 		oprot.WriteMessageBegin("rename_partition", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -45998,7 +45998,7 @@ func (p *thriftHiveMetastoreProcessorRenamePartition) Process(ctx context.Contex
 			oprot.WriteMessageBegin("rename_partition", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -46011,7 +46011,7 @@ func (p *thriftHiveMetastoreProcessorRenamePartition) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46032,7 +46032,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameHasValidCharacters) Process(ct
 		oprot.WriteMessageBegin("partition_name_has_valid_characters", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46049,7 +46049,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameHasValidCharacters) Process(ct
 			oprot.WriteMessageBegin("partition_name_has_valid_characters", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46064,7 +46064,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameHasValidCharacters) Process(ct
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46085,7 +46085,7 @@ func (p *thriftHiveMetastoreProcessorGetConfigValue) Process(ctx context.Context
 		oprot.WriteMessageBegin("get_config_value", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46102,7 +46102,7 @@ func (p *thriftHiveMetastoreProcessorGetConfigValue) Process(ctx context.Context
 			oprot.WriteMessageBegin("get_config_value", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46117,7 +46117,7 @@ func (p *thriftHiveMetastoreProcessorGetConfigValue) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46138,7 +46138,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameToVals) Process(ctx context.Co
 		oprot.WriteMessageBegin("partition_name_to_vals", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46155,7 +46155,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameToVals) Process(ctx context.Co
 			oprot.WriteMessageBegin("partition_name_to_vals", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46170,7 +46170,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameToVals) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46191,7 +46191,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameToSpec) Process(ctx context.Co
 		oprot.WriteMessageBegin("partition_name_to_spec", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46208,7 +46208,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameToSpec) Process(ctx context.Co
 			oprot.WriteMessageBegin("partition_name_to_spec", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46223,7 +46223,7 @@ func (p *thriftHiveMetastoreProcessorPartitionNameToSpec) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46244,7 +46244,7 @@ func (p *thriftHiveMetastoreProcessorMarkPartitionForEvent) Process(ctx context.
 		oprot.WriteMessageBegin("markPartitionForEvent", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46270,7 +46270,7 @@ func (p *thriftHiveMetastoreProcessorMarkPartitionForEvent) Process(ctx context.
 			oprot.WriteMessageBegin("markPartitionForEvent", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -46283,7 +46283,7 @@ func (p *thriftHiveMetastoreProcessorMarkPartitionForEvent) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46304,7 +46304,7 @@ func (p *thriftHiveMetastoreProcessorIsPartitionMarkedForEvent) Process(ctx cont
 		oprot.WriteMessageBegin("isPartitionMarkedForEvent", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46331,7 +46331,7 @@ func (p *thriftHiveMetastoreProcessorIsPartitionMarkedForEvent) Process(ctx cont
 			oprot.WriteMessageBegin("isPartitionMarkedForEvent", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46346,7 +46346,7 @@ func (p *thriftHiveMetastoreProcessorIsPartitionMarkedForEvent) Process(ctx cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46367,7 +46367,7 @@ func (p *thriftHiveMetastoreProcessorAddIndex) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("add_index", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46388,7 +46388,7 @@ func (p *thriftHiveMetastoreProcessorAddIndex) Process(ctx context.Context, seqI
 			oprot.WriteMessageBegin("add_index", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46403,7 +46403,7 @@ func (p *thriftHiveMetastoreProcessorAddIndex) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46424,7 +46424,7 @@ func (p *thriftHiveMetastoreProcessorAlterIndex) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("alter_index", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46442,7 +46442,7 @@ func (p *thriftHiveMetastoreProcessorAlterIndex) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("alter_index", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -46455,7 +46455,7 @@ func (p *thriftHiveMetastoreProcessorAlterIndex) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46476,7 +46476,7 @@ func (p *thriftHiveMetastoreProcessorDropIndexByName) Process(ctx context.Contex
 		oprot.WriteMessageBegin("drop_index_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46495,7 +46495,7 @@ func (p *thriftHiveMetastoreProcessorDropIndexByName) Process(ctx context.Contex
 			oprot.WriteMessageBegin("drop_index_by_name", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46510,7 +46510,7 @@ func (p *thriftHiveMetastoreProcessorDropIndexByName) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46531,7 +46531,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexByName) Process(ctx context.Context
 		oprot.WriteMessageBegin("get_index_by_name", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46550,7 +46550,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexByName) Process(ctx context.Context
 			oprot.WriteMessageBegin("get_index_by_name", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46565,7 +46565,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexByName) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46586,7 +46586,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexes) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("get_indexes", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46605,7 +46605,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexes) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("get_indexes", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46620,7 +46620,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexes) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46641,7 +46641,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexNames) Process(ctx context.Context,
 		oprot.WriteMessageBegin("get_index_names", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46658,7 +46658,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexNames) Process(ctx context.Context,
 			oprot.WriteMessageBegin("get_index_names", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46673,7 +46673,7 @@ func (p *thriftHiveMetastoreProcessorGetIndexNames) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46694,7 +46694,7 @@ func (p *thriftHiveMetastoreProcessorGetPrimaryKeys) Process(ctx context.Context
 		oprot.WriteMessageBegin("get_primary_keys", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46713,7 +46713,7 @@ func (p *thriftHiveMetastoreProcessorGetPrimaryKeys) Process(ctx context.Context
 			oprot.WriteMessageBegin("get_primary_keys", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46728,7 +46728,7 @@ func (p *thriftHiveMetastoreProcessorGetPrimaryKeys) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46749,7 +46749,7 @@ func (p *thriftHiveMetastoreProcessorGetForeignKeys) Process(ctx context.Context
 		oprot.WriteMessageBegin("get_foreign_keys", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46768,7 +46768,7 @@ func (p *thriftHiveMetastoreProcessorGetForeignKeys) Process(ctx context.Context
 			oprot.WriteMessageBegin("get_foreign_keys", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46783,7 +46783,7 @@ func (p *thriftHiveMetastoreProcessorGetForeignKeys) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46804,7 +46804,7 @@ func (p *thriftHiveMetastoreProcessorGetUniqueConstraints) Process(ctx context.C
 		oprot.WriteMessageBegin("get_unique_constraints", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46823,7 +46823,7 @@ func (p *thriftHiveMetastoreProcessorGetUniqueConstraints) Process(ctx context.C
 			oprot.WriteMessageBegin("get_unique_constraints", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46838,7 +46838,7 @@ func (p *thriftHiveMetastoreProcessorGetUniqueConstraints) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46859,7 +46859,7 @@ func (p *thriftHiveMetastoreProcessorGetNotNullConstraints) Process(ctx context.
 		oprot.WriteMessageBegin("get_not_null_constraints", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46878,7 +46878,7 @@ func (p *thriftHiveMetastoreProcessorGetNotNullConstraints) Process(ctx context.
 			oprot.WriteMessageBegin("get_not_null_constraints", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46893,7 +46893,7 @@ func (p *thriftHiveMetastoreProcessorGetNotNullConstraints) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46914,7 +46914,7 @@ func (p *thriftHiveMetastoreProcessorUpdateTableColumnStatistics) Process(ctx co
 		oprot.WriteMessageBegin("update_table_column_statistics", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46937,7 +46937,7 @@ func (p *thriftHiveMetastoreProcessorUpdateTableColumnStatistics) Process(ctx co
 			oprot.WriteMessageBegin("update_table_column_statistics", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -46952,7 +46952,7 @@ func (p *thriftHiveMetastoreProcessorUpdateTableColumnStatistics) Process(ctx co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -46973,7 +46973,7 @@ func (p *thriftHiveMetastoreProcessorUpdatePartitionColumnStatistics) Process(ct
 		oprot.WriteMessageBegin("update_partition_column_statistics", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -46996,7 +46996,7 @@ func (p *thriftHiveMetastoreProcessorUpdatePartitionColumnStatistics) Process(ct
 			oprot.WriteMessageBegin("update_partition_column_statistics", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47011,7 +47011,7 @@ func (p *thriftHiveMetastoreProcessorUpdatePartitionColumnStatistics) Process(ct
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47032,7 +47032,7 @@ func (p *thriftHiveMetastoreProcessorGetTableColumnStatistics) Process(ctx conte
 		oprot.WriteMessageBegin("get_table_column_statistics", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47055,7 +47055,7 @@ func (p *thriftHiveMetastoreProcessorGetTableColumnStatistics) Process(ctx conte
 			oprot.WriteMessageBegin("get_table_column_statistics", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47070,7 +47070,7 @@ func (p *thriftHiveMetastoreProcessorGetTableColumnStatistics) Process(ctx conte
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47091,7 +47091,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionColumnStatistics) Process(ctx c
 		oprot.WriteMessageBegin("get_partition_column_statistics", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47114,7 +47114,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionColumnStatistics) Process(ctx c
 			oprot.WriteMessageBegin("get_partition_column_statistics", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47129,7 +47129,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionColumnStatistics) Process(ctx c
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47150,7 +47150,7 @@ func (p *thriftHiveMetastoreProcessorGetTableStatisticsReq) Process(ctx context.
 		oprot.WriteMessageBegin("get_table_statistics_req", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47169,7 +47169,7 @@ func (p *thriftHiveMetastoreProcessorGetTableStatisticsReq) Process(ctx context.
 			oprot.WriteMessageBegin("get_table_statistics_req", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47184,7 +47184,7 @@ func (p *thriftHiveMetastoreProcessorGetTableStatisticsReq) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47205,7 +47205,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsStatisticsReq) Process(ctx con
 		oprot.WriteMessageBegin("get_partitions_statistics_req", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47224,7 +47224,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsStatisticsReq) Process(ctx con
 			oprot.WriteMessageBegin("get_partitions_statistics_req", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47239,7 +47239,7 @@ func (p *thriftHiveMetastoreProcessorGetPartitionsStatisticsReq) Process(ctx con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47260,7 +47260,7 @@ func (p *thriftHiveMetastoreProcessorGetAggrStatsFor) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_aggr_stats_for", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47279,7 +47279,7 @@ func (p *thriftHiveMetastoreProcessorGetAggrStatsFor) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_aggr_stats_for", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47294,7 +47294,7 @@ func (p *thriftHiveMetastoreProcessorGetAggrStatsFor) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47315,7 +47315,7 @@ func (p *thriftHiveMetastoreProcessorSetAggrStatsFor) Process(ctx context.Contex
 		oprot.WriteMessageBegin("set_aggr_stats_for", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47338,7 +47338,7 @@ func (p *thriftHiveMetastoreProcessorSetAggrStatsFor) Process(ctx context.Contex
 			oprot.WriteMessageBegin("set_aggr_stats_for", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47353,7 +47353,7 @@ func (p *thriftHiveMetastoreProcessorSetAggrStatsFor) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47374,7 +47374,7 @@ func (p *thriftHiveMetastoreProcessorDeletePartitionColumnStatistics) Process(ct
 		oprot.WriteMessageBegin("delete_partition_column_statistics", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47397,7 +47397,7 @@ func (p *thriftHiveMetastoreProcessorDeletePartitionColumnStatistics) Process(ct
 			oprot.WriteMessageBegin("delete_partition_column_statistics", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47412,7 +47412,7 @@ func (p *thriftHiveMetastoreProcessorDeletePartitionColumnStatistics) Process(ct
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47433,7 +47433,7 @@ func (p *thriftHiveMetastoreProcessorDeleteTableColumnStatistics) Process(ctx co
 		oprot.WriteMessageBegin("delete_table_column_statistics", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47456,7 +47456,7 @@ func (p *thriftHiveMetastoreProcessorDeleteTableColumnStatistics) Process(ctx co
 			oprot.WriteMessageBegin("delete_table_column_statistics", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47471,7 +47471,7 @@ func (p *thriftHiveMetastoreProcessorDeleteTableColumnStatistics) Process(ctx co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47492,7 +47492,7 @@ func (p *thriftHiveMetastoreProcessorCreateFunction) Process(ctx context.Context
 		oprot.WriteMessageBegin("create_function", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47514,7 +47514,7 @@ func (p *thriftHiveMetastoreProcessorCreateFunction) Process(ctx context.Context
 			oprot.WriteMessageBegin("create_function", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -47527,7 +47527,7 @@ func (p *thriftHiveMetastoreProcessorCreateFunction) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47548,7 +47548,7 @@ func (p *thriftHiveMetastoreProcessorDropFunction) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("drop_function", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47566,7 +47566,7 @@ func (p *thriftHiveMetastoreProcessorDropFunction) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("drop_function", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -47579,7 +47579,7 @@ func (p *thriftHiveMetastoreProcessorDropFunction) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47600,7 +47600,7 @@ func (p *thriftHiveMetastoreProcessorAlterFunction) Process(ctx context.Context,
 		oprot.WriteMessageBegin("alter_function", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47618,7 +47618,7 @@ func (p *thriftHiveMetastoreProcessorAlterFunction) Process(ctx context.Context,
 			oprot.WriteMessageBegin("alter_function", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -47631,7 +47631,7 @@ func (p *thriftHiveMetastoreProcessorAlterFunction) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47652,7 +47652,7 @@ func (p *thriftHiveMetastoreProcessorGetFunctions) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("get_functions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47669,7 +47669,7 @@ func (p *thriftHiveMetastoreProcessorGetFunctions) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("get_functions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47684,7 +47684,7 @@ func (p *thriftHiveMetastoreProcessorGetFunctions) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47705,7 +47705,7 @@ func (p *thriftHiveMetastoreProcessorGetFunction) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("get_function", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47724,7 +47724,7 @@ func (p *thriftHiveMetastoreProcessorGetFunction) Process(ctx context.Context, s
 			oprot.WriteMessageBegin("get_function", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47739,7 +47739,7 @@ func (p *thriftHiveMetastoreProcessorGetFunction) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47760,7 +47760,7 @@ func (p *thriftHiveMetastoreProcessorGetAllFunctions) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_all_functions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47777,7 +47777,7 @@ func (p *thriftHiveMetastoreProcessorGetAllFunctions) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_all_functions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47792,7 +47792,7 @@ func (p *thriftHiveMetastoreProcessorGetAllFunctions) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47813,7 +47813,7 @@ func (p *thriftHiveMetastoreProcessorCreateRole) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("create_role", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47830,7 +47830,7 @@ func (p *thriftHiveMetastoreProcessorCreateRole) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("create_role", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47845,7 +47845,7 @@ func (p *thriftHiveMetastoreProcessorCreateRole) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47866,7 +47866,7 @@ func (p *thriftHiveMetastoreProcessorDropRole) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("drop_role", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47883,7 +47883,7 @@ func (p *thriftHiveMetastoreProcessorDropRole) Process(ctx context.Context, seqI
 			oprot.WriteMessageBegin("drop_role", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47898,7 +47898,7 @@ func (p *thriftHiveMetastoreProcessorDropRole) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47919,7 +47919,7 @@ func (p *thriftHiveMetastoreProcessorGetRoleNames) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("get_role_names", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47936,7 +47936,7 @@ func (p *thriftHiveMetastoreProcessorGetRoleNames) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("get_role_names", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -47951,7 +47951,7 @@ func (p *thriftHiveMetastoreProcessorGetRoleNames) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -47972,7 +47972,7 @@ func (p *thriftHiveMetastoreProcessorGrantRole) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("grant_role", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -47989,7 +47989,7 @@ func (p *thriftHiveMetastoreProcessorGrantRole) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("grant_role", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48004,7 +48004,7 @@ func (p *thriftHiveMetastoreProcessorGrantRole) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48025,7 +48025,7 @@ func (p *thriftHiveMetastoreProcessorRevokeRole) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("revoke_role", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48042,7 +48042,7 @@ func (p *thriftHiveMetastoreProcessorRevokeRole) Process(ctx context.Context, se
 			oprot.WriteMessageBegin("revoke_role", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48057,7 +48057,7 @@ func (p *thriftHiveMetastoreProcessorRevokeRole) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48078,7 +48078,7 @@ func (p *thriftHiveMetastoreProcessorListRoles) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("list_roles", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48095,7 +48095,7 @@ func (p *thriftHiveMetastoreProcessorListRoles) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("list_roles", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48110,7 +48110,7 @@ func (p *thriftHiveMetastoreProcessorListRoles) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48131,7 +48131,7 @@ func (p *thriftHiveMetastoreProcessorGrantRevokeRole) Process(ctx context.Contex
 		oprot.WriteMessageBegin("grant_revoke_role", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48148,7 +48148,7 @@ func (p *thriftHiveMetastoreProcessorGrantRevokeRole) Process(ctx context.Contex
 			oprot.WriteMessageBegin("grant_revoke_role", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48163,7 +48163,7 @@ func (p *thriftHiveMetastoreProcessorGrantRevokeRole) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48184,7 +48184,7 @@ func (p *thriftHiveMetastoreProcessorGetPrincipalsInRole) Process(ctx context.Co
 		oprot.WriteMessageBegin("get_principals_in_role", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48201,7 +48201,7 @@ func (p *thriftHiveMetastoreProcessorGetPrincipalsInRole) Process(ctx context.Co
 			oprot.WriteMessageBegin("get_principals_in_role", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48216,7 +48216,7 @@ func (p *thriftHiveMetastoreProcessorGetPrincipalsInRole) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48237,7 +48237,7 @@ func (p *thriftHiveMetastoreProcessorGetRoleGrantsForPrincipal) Process(ctx cont
 		oprot.WriteMessageBegin("get_role_grants_for_principal", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48254,7 +48254,7 @@ func (p *thriftHiveMetastoreProcessorGetRoleGrantsForPrincipal) Process(ctx cont
 			oprot.WriteMessageBegin("get_role_grants_for_principal", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48269,7 +48269,7 @@ func (p *thriftHiveMetastoreProcessorGetRoleGrantsForPrincipal) Process(ctx cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48290,7 +48290,7 @@ func (p *thriftHiveMetastoreProcessorGetPrivilegeSet) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_privilege_set", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48307,7 +48307,7 @@ func (p *thriftHiveMetastoreProcessorGetPrivilegeSet) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_privilege_set", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48322,7 +48322,7 @@ func (p *thriftHiveMetastoreProcessorGetPrivilegeSet) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48343,7 +48343,7 @@ func (p *thriftHiveMetastoreProcessorListPrivileges) Process(ctx context.Context
 		oprot.WriteMessageBegin("list_privileges", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48360,7 +48360,7 @@ func (p *thriftHiveMetastoreProcessorListPrivileges) Process(ctx context.Context
 			oprot.WriteMessageBegin("list_privileges", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48375,7 +48375,7 @@ func (p *thriftHiveMetastoreProcessorListPrivileges) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48396,7 +48396,7 @@ func (p *thriftHiveMetastoreProcessorGrantPrivileges) Process(ctx context.Contex
 		oprot.WriteMessageBegin("grant_privileges", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48413,7 +48413,7 @@ func (p *thriftHiveMetastoreProcessorGrantPrivileges) Process(ctx context.Contex
 			oprot.WriteMessageBegin("grant_privileges", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48428,7 +48428,7 @@ func (p *thriftHiveMetastoreProcessorGrantPrivileges) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48449,7 +48449,7 @@ func (p *thriftHiveMetastoreProcessorRevokePrivileges) Process(ctx context.Conte
 		oprot.WriteMessageBegin("revoke_privileges", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48466,7 +48466,7 @@ func (p *thriftHiveMetastoreProcessorRevokePrivileges) Process(ctx context.Conte
 			oprot.WriteMessageBegin("revoke_privileges", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48481,7 +48481,7 @@ func (p *thriftHiveMetastoreProcessorRevokePrivileges) Process(ctx context.Conte
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48502,7 +48502,7 @@ func (p *thriftHiveMetastoreProcessorGrantRevokePrivileges) Process(ctx context.
 		oprot.WriteMessageBegin("grant_revoke_privileges", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48519,7 +48519,7 @@ func (p *thriftHiveMetastoreProcessorGrantRevokePrivileges) Process(ctx context.
 			oprot.WriteMessageBegin("grant_revoke_privileges", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48534,7 +48534,7 @@ func (p *thriftHiveMetastoreProcessorGrantRevokePrivileges) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48555,7 +48555,7 @@ func (p *thriftHiveMetastoreProcessorSetUgi) Process(ctx context.Context, seqId 
 		oprot.WriteMessageBegin("set_ugi", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48572,7 +48572,7 @@ func (p *thriftHiveMetastoreProcessorSetUgi) Process(ctx context.Context, seqId 
 			oprot.WriteMessageBegin("set_ugi", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48587,7 +48587,7 @@ func (p *thriftHiveMetastoreProcessorSetUgi) Process(ctx context.Context, seqId 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48608,7 +48608,7 @@ func (p *thriftHiveMetastoreProcessorGetDelegationToken) Process(ctx context.Con
 		oprot.WriteMessageBegin("get_delegation_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48625,7 +48625,7 @@ func (p *thriftHiveMetastoreProcessorGetDelegationToken) Process(ctx context.Con
 			oprot.WriteMessageBegin("get_delegation_token", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48640,7 +48640,7 @@ func (p *thriftHiveMetastoreProcessorGetDelegationToken) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48661,7 +48661,7 @@ func (p *thriftHiveMetastoreProcessorRenewDelegationToken) Process(ctx context.C
 		oprot.WriteMessageBegin("renew_delegation_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48678,7 +48678,7 @@ func (p *thriftHiveMetastoreProcessorRenewDelegationToken) Process(ctx context.C
 			oprot.WriteMessageBegin("renew_delegation_token", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48693,7 +48693,7 @@ func (p *thriftHiveMetastoreProcessorRenewDelegationToken) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48714,7 +48714,7 @@ func (p *thriftHiveMetastoreProcessorCancelDelegationToken) Process(ctx context.
 		oprot.WriteMessageBegin("cancel_delegation_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48730,7 +48730,7 @@ func (p *thriftHiveMetastoreProcessorCancelDelegationToken) Process(ctx context.
 			oprot.WriteMessageBegin("cancel_delegation_token", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -48743,7 +48743,7 @@ func (p *thriftHiveMetastoreProcessorCancelDelegationToken) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48764,7 +48764,7 @@ func (p *thriftHiveMetastoreProcessorAddToken) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("add_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48777,7 +48777,7 @@ func (p *thriftHiveMetastoreProcessorAddToken) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("add_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = &retval
@@ -48791,7 +48791,7 @@ func (p *thriftHiveMetastoreProcessorAddToken) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48812,7 +48812,7 @@ func (p *thriftHiveMetastoreProcessorRemoveToken) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("remove_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48825,7 +48825,7 @@ func (p *thriftHiveMetastoreProcessorRemoveToken) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("remove_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = &retval
@@ -48839,7 +48839,7 @@ func (p *thriftHiveMetastoreProcessorRemoveToken) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48860,7 +48860,7 @@ func (p *thriftHiveMetastoreProcessorGetToken) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("get_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48873,7 +48873,7 @@ func (p *thriftHiveMetastoreProcessorGetToken) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("get_token", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = &retval
@@ -48887,7 +48887,7 @@ func (p *thriftHiveMetastoreProcessorGetToken) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48908,7 +48908,7 @@ func (p *thriftHiveMetastoreProcessorGetAllTokenIdentifiers) Process(ctx context
 		oprot.WriteMessageBegin("get_all_token_identifiers", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48921,7 +48921,7 @@ func (p *thriftHiveMetastoreProcessorGetAllTokenIdentifiers) Process(ctx context
 		oprot.WriteMessageBegin("get_all_token_identifiers", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -48935,7 +48935,7 @@ func (p *thriftHiveMetastoreProcessorGetAllTokenIdentifiers) Process(ctx context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -48956,7 +48956,7 @@ func (p *thriftHiveMetastoreProcessorAddMasterKey) Process(ctx context.Context, 
 		oprot.WriteMessageBegin("add_master_key", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -48973,7 +48973,7 @@ func (p *thriftHiveMetastoreProcessorAddMasterKey) Process(ctx context.Context, 
 			oprot.WriteMessageBegin("add_master_key", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -48988,7 +48988,7 @@ func (p *thriftHiveMetastoreProcessorAddMasterKey) Process(ctx context.Context, 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49009,7 +49009,7 @@ func (p *thriftHiveMetastoreProcessorUpdateMasterKey) Process(ctx context.Contex
 		oprot.WriteMessageBegin("update_master_key", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49027,7 +49027,7 @@ func (p *thriftHiveMetastoreProcessorUpdateMasterKey) Process(ctx context.Contex
 			oprot.WriteMessageBegin("update_master_key", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49040,7 +49040,7 @@ func (p *thriftHiveMetastoreProcessorUpdateMasterKey) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49061,7 +49061,7 @@ func (p *thriftHiveMetastoreProcessorRemoveMasterKey) Process(ctx context.Contex
 		oprot.WriteMessageBegin("remove_master_key", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49074,7 +49074,7 @@ func (p *thriftHiveMetastoreProcessorRemoveMasterKey) Process(ctx context.Contex
 		oprot.WriteMessageBegin("remove_master_key", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = &retval
@@ -49088,7 +49088,7 @@ func (p *thriftHiveMetastoreProcessorRemoveMasterKey) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49109,7 +49109,7 @@ func (p *thriftHiveMetastoreProcessorGetMasterKeys) Process(ctx context.Context,
 		oprot.WriteMessageBegin("get_master_keys", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49122,7 +49122,7 @@ func (p *thriftHiveMetastoreProcessorGetMasterKeys) Process(ctx context.Context,
 		oprot.WriteMessageBegin("get_master_keys", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49136,7 +49136,7 @@ func (p *thriftHiveMetastoreProcessorGetMasterKeys) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49157,7 +49157,7 @@ func (p *thriftHiveMetastoreProcessorGetOpenTxns) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("get_open_txns", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49170,7 +49170,7 @@ func (p *thriftHiveMetastoreProcessorGetOpenTxns) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("get_open_txns", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49184,7 +49184,7 @@ func (p *thriftHiveMetastoreProcessorGetOpenTxns) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49205,7 +49205,7 @@ func (p *thriftHiveMetastoreProcessorGetOpenTxnsInfo) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_open_txns_info", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49218,7 +49218,7 @@ func (p *thriftHiveMetastoreProcessorGetOpenTxnsInfo) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_open_txns_info", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49232,7 +49232,7 @@ func (p *thriftHiveMetastoreProcessorGetOpenTxnsInfo) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49253,7 +49253,7 @@ func (p *thriftHiveMetastoreProcessorOpenTxns) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("open_txns", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49266,7 +49266,7 @@ func (p *thriftHiveMetastoreProcessorOpenTxns) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("open_txns", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49280,7 +49280,7 @@ func (p *thriftHiveMetastoreProcessorOpenTxns) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49301,7 +49301,7 @@ func (p *thriftHiveMetastoreProcessorAbortTxn) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("abort_txn", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49317,7 +49317,7 @@ func (p *thriftHiveMetastoreProcessorAbortTxn) Process(ctx context.Context, seqI
 			oprot.WriteMessageBegin("abort_txn", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49330,7 +49330,7 @@ func (p *thriftHiveMetastoreProcessorAbortTxn) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49351,7 +49351,7 @@ func (p *thriftHiveMetastoreProcessorAbortTxns) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("abort_txns", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49367,7 +49367,7 @@ func (p *thriftHiveMetastoreProcessorAbortTxns) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("abort_txns", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49380,7 +49380,7 @@ func (p *thriftHiveMetastoreProcessorAbortTxns) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49401,7 +49401,7 @@ func (p *thriftHiveMetastoreProcessorCommitTxn) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("commit_txn", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49419,7 +49419,7 @@ func (p *thriftHiveMetastoreProcessorCommitTxn) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("commit_txn", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49432,7 +49432,7 @@ func (p *thriftHiveMetastoreProcessorCommitTxn) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49453,7 +49453,7 @@ func (p *thriftHiveMetastoreProcessorLock) Process(ctx context.Context, seqId in
 		oprot.WriteMessageBegin("lock", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49472,7 +49472,7 @@ func (p *thriftHiveMetastoreProcessorLock) Process(ctx context.Context, seqId in
 			oprot.WriteMessageBegin("lock", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -49487,7 +49487,7 @@ func (p *thriftHiveMetastoreProcessorLock) Process(ctx context.Context, seqId in
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49508,7 +49508,7 @@ func (p *thriftHiveMetastoreProcessorCheckLock) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("check_lock", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49529,7 +49529,7 @@ func (p *thriftHiveMetastoreProcessorCheckLock) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("check_lock", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -49544,7 +49544,7 @@ func (p *thriftHiveMetastoreProcessorCheckLock) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49565,7 +49565,7 @@ func (p *thriftHiveMetastoreProcessorUnlock) Process(ctx context.Context, seqId 
 		oprot.WriteMessageBegin("unlock", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49583,7 +49583,7 @@ func (p *thriftHiveMetastoreProcessorUnlock) Process(ctx context.Context, seqId 
 			oprot.WriteMessageBegin("unlock", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49596,7 +49596,7 @@ func (p *thriftHiveMetastoreProcessorUnlock) Process(ctx context.Context, seqId 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49617,7 +49617,7 @@ func (p *thriftHiveMetastoreProcessorShowLocks) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("show_locks", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49630,7 +49630,7 @@ func (p *thriftHiveMetastoreProcessorShowLocks) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("show_locks", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49644,7 +49644,7 @@ func (p *thriftHiveMetastoreProcessorShowLocks) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49665,7 +49665,7 @@ func (p *thriftHiveMetastoreProcessorHeartbeat) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("heartbeat", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49685,7 +49685,7 @@ func (p *thriftHiveMetastoreProcessorHeartbeat) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("heartbeat", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49698,7 +49698,7 @@ func (p *thriftHiveMetastoreProcessorHeartbeat) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49719,7 +49719,7 @@ func (p *thriftHiveMetastoreProcessorHeartbeatTxnRange) Process(ctx context.Cont
 		oprot.WriteMessageBegin("heartbeat_txn_range", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49732,7 +49732,7 @@ func (p *thriftHiveMetastoreProcessorHeartbeatTxnRange) Process(ctx context.Cont
 		oprot.WriteMessageBegin("heartbeat_txn_range", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49746,7 +49746,7 @@ func (p *thriftHiveMetastoreProcessorHeartbeatTxnRange) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49767,7 +49767,7 @@ func (p *thriftHiveMetastoreProcessorCompact) Process(ctx context.Context, seqId
 		oprot.WriteMessageBegin("compact", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49779,7 +49779,7 @@ func (p *thriftHiveMetastoreProcessorCompact) Process(ctx context.Context, seqId
 		oprot.WriteMessageBegin("compact", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	}
 	if err2 = oprot.WriteMessageBegin("compact", thrift.REPLY, seqId); err2 != nil {
@@ -49791,7 +49791,7 @@ func (p *thriftHiveMetastoreProcessorCompact) Process(ctx context.Context, seqId
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49812,7 +49812,7 @@ func (p *thriftHiveMetastoreProcessorCompact2) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("compact2", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49825,7 +49825,7 @@ func (p *thriftHiveMetastoreProcessorCompact2) Process(ctx context.Context, seqI
 		oprot.WriteMessageBegin("compact2", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49839,7 +49839,7 @@ func (p *thriftHiveMetastoreProcessorCompact2) Process(ctx context.Context, seqI
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49860,7 +49860,7 @@ func (p *thriftHiveMetastoreProcessorShowCompact) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("show_compact", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49873,7 +49873,7 @@ func (p *thriftHiveMetastoreProcessorShowCompact) Process(ctx context.Context, s
 		oprot.WriteMessageBegin("show_compact", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49887,7 +49887,7 @@ func (p *thriftHiveMetastoreProcessorShowCompact) Process(ctx context.Context, s
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49908,7 +49908,7 @@ func (p *thriftHiveMetastoreProcessorAddDynamicPartitions) Process(ctx context.C
 		oprot.WriteMessageBegin("add_dynamic_partitions", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49926,7 +49926,7 @@ func (p *thriftHiveMetastoreProcessorAddDynamicPartitions) Process(ctx context.C
 			oprot.WriteMessageBegin("add_dynamic_partitions", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	}
@@ -49939,7 +49939,7 @@ func (p *thriftHiveMetastoreProcessorAddDynamicPartitions) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -49960,7 +49960,7 @@ func (p *thriftHiveMetastoreProcessorGetNextNotification) Process(ctx context.Co
 		oprot.WriteMessageBegin("get_next_notification", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -49973,7 +49973,7 @@ func (p *thriftHiveMetastoreProcessorGetNextNotification) Process(ctx context.Co
 		oprot.WriteMessageBegin("get_next_notification", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -49987,7 +49987,7 @@ func (p *thriftHiveMetastoreProcessorGetNextNotification) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50008,7 +50008,7 @@ func (p *thriftHiveMetastoreProcessorGetCurrentNotificationEventId) Process(ctx 
 		oprot.WriteMessageBegin("get_current_notificationEventId", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50021,7 +50021,7 @@ func (p *thriftHiveMetastoreProcessorGetCurrentNotificationEventId) Process(ctx 
 		oprot.WriteMessageBegin("get_current_notificationEventId", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50035,7 +50035,7 @@ func (p *thriftHiveMetastoreProcessorGetCurrentNotificationEventId) Process(ctx 
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50056,7 +50056,7 @@ func (p *thriftHiveMetastoreProcessorGetNotificationEventsCount) Process(ctx con
 		oprot.WriteMessageBegin("get_notification_events_count", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50069,7 +50069,7 @@ func (p *thriftHiveMetastoreProcessorGetNotificationEventsCount) Process(ctx con
 		oprot.WriteMessageBegin("get_notification_events_count", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50083,7 +50083,7 @@ func (p *thriftHiveMetastoreProcessorGetNotificationEventsCount) Process(ctx con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50104,7 +50104,7 @@ func (p *thriftHiveMetastoreProcessorFireListenerEvent) Process(ctx context.Cont
 		oprot.WriteMessageBegin("fire_listener_event", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50117,7 +50117,7 @@ func (p *thriftHiveMetastoreProcessorFireListenerEvent) Process(ctx context.Cont
 		oprot.WriteMessageBegin("fire_listener_event", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50131,7 +50131,7 @@ func (p *thriftHiveMetastoreProcessorFireListenerEvent) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50152,7 +50152,7 @@ func (p *thriftHiveMetastoreProcessorFlushCache) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("flushCache", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50164,7 +50164,7 @@ func (p *thriftHiveMetastoreProcessorFlushCache) Process(ctx context.Context, se
 		oprot.WriteMessageBegin("flushCache", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	}
 	if err2 = oprot.WriteMessageBegin("flushCache", thrift.REPLY, seqId); err2 != nil {
@@ -50176,7 +50176,7 @@ func (p *thriftHiveMetastoreProcessorFlushCache) Process(ctx context.Context, se
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50197,7 +50197,7 @@ func (p *thriftHiveMetastoreProcessorCmRecycle) Process(ctx context.Context, seq
 		oprot.WriteMessageBegin("cm_recycle", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50214,7 +50214,7 @@ func (p *thriftHiveMetastoreProcessorCmRecycle) Process(ctx context.Context, seq
 			oprot.WriteMessageBegin("cm_recycle", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50229,7 +50229,7 @@ func (p *thriftHiveMetastoreProcessorCmRecycle) Process(ctx context.Context, seq
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50250,7 +50250,7 @@ func (p *thriftHiveMetastoreProcessorGetFileMetadataByExpr) Process(ctx context.
 		oprot.WriteMessageBegin("get_file_metadata_by_expr", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50263,7 +50263,7 @@ func (p *thriftHiveMetastoreProcessorGetFileMetadataByExpr) Process(ctx context.
 		oprot.WriteMessageBegin("get_file_metadata_by_expr", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50277,7 +50277,7 @@ func (p *thriftHiveMetastoreProcessorGetFileMetadataByExpr) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50298,7 +50298,7 @@ func (p *thriftHiveMetastoreProcessorGetFileMetadata) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50311,7 +50311,7 @@ func (p *thriftHiveMetastoreProcessorGetFileMetadata) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50325,7 +50325,7 @@ func (p *thriftHiveMetastoreProcessorGetFileMetadata) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50346,7 +50346,7 @@ func (p *thriftHiveMetastoreProcessorPutFileMetadata) Process(ctx context.Contex
 		oprot.WriteMessageBegin("put_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50359,7 +50359,7 @@ func (p *thriftHiveMetastoreProcessorPutFileMetadata) Process(ctx context.Contex
 		oprot.WriteMessageBegin("put_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50373,7 +50373,7 @@ func (p *thriftHiveMetastoreProcessorPutFileMetadata) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50394,7 +50394,7 @@ func (p *thriftHiveMetastoreProcessorClearFileMetadata) Process(ctx context.Cont
 		oprot.WriteMessageBegin("clear_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50407,7 +50407,7 @@ func (p *thriftHiveMetastoreProcessorClearFileMetadata) Process(ctx context.Cont
 		oprot.WriteMessageBegin("clear_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50421,7 +50421,7 @@ func (p *thriftHiveMetastoreProcessorClearFileMetadata) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50442,7 +50442,7 @@ func (p *thriftHiveMetastoreProcessorCacheFileMetadata) Process(ctx context.Cont
 		oprot.WriteMessageBegin("cache_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50455,7 +50455,7 @@ func (p *thriftHiveMetastoreProcessorCacheFileMetadata) Process(ctx context.Cont
 		oprot.WriteMessageBegin("cache_file_metadata", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return true, err2
 	} else {
 		result.Success = retval
@@ -50469,7 +50469,7 @@ func (p *thriftHiveMetastoreProcessorCacheFileMetadata) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50490,7 +50490,7 @@ func (p *thriftHiveMetastoreProcessorGetMetastoreDbUUID) Process(ctx context.Con
 		oprot.WriteMessageBegin("get_metastore_db_uuid", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50507,7 +50507,7 @@ func (p *thriftHiveMetastoreProcessorGetMetastoreDbUUID) Process(ctx context.Con
 			oprot.WriteMessageBegin("get_metastore_db_uuid", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50522,7 +50522,7 @@ func (p *thriftHiveMetastoreProcessorGetMetastoreDbUUID) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50543,7 +50543,7 @@ func (p *thriftHiveMetastoreProcessorCreateResourcePlan) Process(ctx context.Con
 		oprot.WriteMessageBegin("create_resource_plan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50564,7 +50564,7 @@ func (p *thriftHiveMetastoreProcessorCreateResourcePlan) Process(ctx context.Con
 			oprot.WriteMessageBegin("create_resource_plan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50579,7 +50579,7 @@ func (p *thriftHiveMetastoreProcessorCreateResourcePlan) Process(ctx context.Con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50600,7 +50600,7 @@ func (p *thriftHiveMetastoreProcessorGetResourcePlan) Process(ctx context.Contex
 		oprot.WriteMessageBegin("get_resource_plan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50619,7 +50619,7 @@ func (p *thriftHiveMetastoreProcessorGetResourcePlan) Process(ctx context.Contex
 			oprot.WriteMessageBegin("get_resource_plan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50634,7 +50634,7 @@ func (p *thriftHiveMetastoreProcessorGetResourcePlan) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50655,7 +50655,7 @@ func (p *thriftHiveMetastoreProcessorGetActiveResourcePlan) Process(ctx context.
 		oprot.WriteMessageBegin("get_active_resource_plan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50672,7 +50672,7 @@ func (p *thriftHiveMetastoreProcessorGetActiveResourcePlan) Process(ctx context.
 			oprot.WriteMessageBegin("get_active_resource_plan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50687,7 +50687,7 @@ func (p *thriftHiveMetastoreProcessorGetActiveResourcePlan) Process(ctx context.
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50708,7 +50708,7 @@ func (p *thriftHiveMetastoreProcessorGetAllResourcePlans) Process(ctx context.Co
 		oprot.WriteMessageBegin("get_all_resource_plans", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50725,7 +50725,7 @@ func (p *thriftHiveMetastoreProcessorGetAllResourcePlans) Process(ctx context.Co
 			oprot.WriteMessageBegin("get_all_resource_plans", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50740,7 +50740,7 @@ func (p *thriftHiveMetastoreProcessorGetAllResourcePlans) Process(ctx context.Co
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50761,7 +50761,7 @@ func (p *thriftHiveMetastoreProcessorAlterResourcePlan) Process(ctx context.Cont
 		oprot.WriteMessageBegin("alter_resource_plan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50782,7 +50782,7 @@ func (p *thriftHiveMetastoreProcessorAlterResourcePlan) Process(ctx context.Cont
 			oprot.WriteMessageBegin("alter_resource_plan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50797,7 +50797,7 @@ func (p *thriftHiveMetastoreProcessorAlterResourcePlan) Process(ctx context.Cont
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50818,7 +50818,7 @@ func (p *thriftHiveMetastoreProcessorValidateResourcePlan) Process(ctx context.C
 		oprot.WriteMessageBegin("validate_resource_plan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50837,7 +50837,7 @@ func (p *thriftHiveMetastoreProcessorValidateResourcePlan) Process(ctx context.C
 			oprot.WriteMessageBegin("validate_resource_plan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50852,7 +50852,7 @@ func (p *thriftHiveMetastoreProcessorValidateResourcePlan) Process(ctx context.C
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50873,7 +50873,7 @@ func (p *thriftHiveMetastoreProcessorDropResourcePlan) Process(ctx context.Conte
 		oprot.WriteMessageBegin("drop_resource_plan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50894,7 +50894,7 @@ func (p *thriftHiveMetastoreProcessorDropResourcePlan) Process(ctx context.Conte
 			oprot.WriteMessageBegin("drop_resource_plan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50909,7 +50909,7 @@ func (p *thriftHiveMetastoreProcessorDropResourcePlan) Process(ctx context.Conte
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50930,7 +50930,7 @@ func (p *thriftHiveMetastoreProcessorCreateWmTrigger) Process(ctx context.Contex
 		oprot.WriteMessageBegin("create_wm_trigger", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -50953,7 +50953,7 @@ func (p *thriftHiveMetastoreProcessorCreateWmTrigger) Process(ctx context.Contex
 			oprot.WriteMessageBegin("create_wm_trigger", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -50968,7 +50968,7 @@ func (p *thriftHiveMetastoreProcessorCreateWmTrigger) Process(ctx context.Contex
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -50989,7 +50989,7 @@ func (p *thriftHiveMetastoreProcessorAlterWmTrigger) Process(ctx context.Context
 		oprot.WriteMessageBegin("alter_wm_trigger", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -51010,7 +51010,7 @@ func (p *thriftHiveMetastoreProcessorAlterWmTrigger) Process(ctx context.Context
 			oprot.WriteMessageBegin("alter_wm_trigger", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -51025,7 +51025,7 @@ func (p *thriftHiveMetastoreProcessorAlterWmTrigger) Process(ctx context.Context
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -51046,7 +51046,7 @@ func (p *thriftHiveMetastoreProcessorDropWmTrigger) Process(ctx context.Context,
 		oprot.WriteMessageBegin("drop_wm_trigger", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -51067,7 +51067,7 @@ func (p *thriftHiveMetastoreProcessorDropWmTrigger) Process(ctx context.Context,
 			oprot.WriteMessageBegin("drop_wm_trigger", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -51082,7 +51082,7 @@ func (p *thriftHiveMetastoreProcessorDropWmTrigger) Process(ctx context.Context,
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
@@ -51103,7 +51103,7 @@ func (p *thriftHiveMetastoreProcessorGetTriggersForResourceplan) Process(ctx con
 		oprot.WriteMessageBegin("get_triggers_for_resourceplan", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
-		oprot.Flush()
+		oprot.Flush(ctx)
 		return false, err
 	}
 
@@ -51122,7 +51122,7 @@ func (p *thriftHiveMetastoreProcessorGetTriggersForResourceplan) Process(ctx con
 			oprot.WriteMessageBegin("get_triggers_for_resourceplan", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			return true, err2
 		}
 	} else {
@@ -51137,7 +51137,7 @@ func (p *thriftHiveMetastoreProcessorGetTriggersForResourceplan) Process(ctx con
 	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		err = err2
 	}
 	if err != nil {
