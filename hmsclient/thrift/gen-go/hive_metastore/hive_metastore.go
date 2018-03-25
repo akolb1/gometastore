@@ -6452,7 +6452,10 @@ func (p *Database) GetDescription() string {
 }
 
 func (p *Database) GetLocationUri() string {
-	return *p.LocationUri
+	if p.LocationUri != nil {
+		return *p.LocationUri
+	}
+	return ""
 }
 
 func (p *Database) GetParameters() map[string]string {
