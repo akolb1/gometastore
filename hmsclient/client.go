@@ -130,14 +130,20 @@ func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Database{
+
+	result := &Database{
 		Name:        db.GetName(),
 		Description: db.GetDescription(),
 		Parameters:  db.GetParameters(),
 		Location:    db.GetLocationUri(),
 		Owner:       db.GetOwnerName(),
-		OwnerType:   *db.OwnerType,
-	}, nil
+	}
+
+	if db.OwnerType != nil {
+		result.OwnerType = *db.OwnerType
+	}
+
+	return result, nil
 }
 
 // CreateDatabase creates database with the specified name, description, parameters and owner.
