@@ -41,6 +41,9 @@ func argsToParams(args []string) map[string]string {
 	}
 	params := make(map[string]string)
 	for _, a := range args {
+		if !strings.Contains(a, "=") {
+			continue
+		}
 		parts := strings.Split(a, "=")
 		// Ignore any arguments that do not look like parameters
 		if len(parts) != 2 {
@@ -61,25 +64,40 @@ func createDB(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer client.Close()
+	dbnames := make(map[string]bool)
 	// Check whether database already exists
 	if databases, err := client.GetAllDatabases(); err != nil {
 		log.Fatal(err)
 	} else {
 		for _, name := range databases {
-			if name == dbName {
-				log.Fatalf("database %s already exists\n", dbName)
-			}
+			dbnames[name] = true
 		}
 	}
 
-	err = client.CreateDatabase(&hmsclient.Database{
-		Name:       dbName,
-		Owner:      owner,
-		Parameters: params,
-	})
-	if err != nil {
-		log.Fatal(err)
+	var dblist []string
+	if dbName != "" && dbName != "default" {
+		dblist = []string{dbName}
+	} else {
+		dblist = args
 	}
+
+	for _, name := range dblist {
+		if _, ok := dbnames[name]; ok {
+			log.Println("database", name, "already exists")
+			continue
+		}
+		err = client.CreateDatabase(&hmsclient.Database{
+			Name:       name,
+			Owner:      owner,
+			Parameters: params,
+		})
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		dbnames[name] = true
+	}
+
 }
 
 func init() {
