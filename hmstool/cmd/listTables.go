@@ -45,11 +45,16 @@ func listTables(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 	var dbNames []string
-	databases, err := client.GetAllDatabases()
-	if err != nil {
-		log.Fatal(err)
+
+	if dbName, _ := cmd.Flags().GetString(optDbName); dbName != "" {
+		dbNames = []string{dbName}
+	} else {
+		databases, err := client.GetAllDatabases()
+		if err != nil {
+			log.Fatal(err)
+		}
+		dbNames = databases
 	}
-	dbNames = databases
 
 	var tables []string
 	for _, d := range dbNames {
