@@ -348,6 +348,23 @@ func benchTableRename(data *benchData) *microbench.Stats {
 		}, data.warmup, data.iterations)
 }
 
+func benchDeleteTableWithPartitions(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	client := data.client
+	return microbench.Measure(
+		func() {
+			createPartitionedTable(client, dbName, testTableName, data.owner)
+			table, _ := client.GetTable(dbName, testTableName)
+			addPartitions(client,
+				makeManyPartitions(table, "d", data.nObjects))
+		},
+		func() {
+			client.DropTable(dbName, testTableName, true)
+		},
+		nil,
+		data.warmup, data.iterations)
+}
+
 // createPartitionedTable creates a simple partitioned table with a single partition
 func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 	tableName string, owner string) error {

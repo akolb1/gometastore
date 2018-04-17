@@ -70,6 +70,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchCreateTable(bd) })
 	suite.Add("dropTable",
 		func() *microbench.Stats { return benchDropTable(bd) })
+	suite.Add(fmt.Sprintf("dropTable.%d", nObjects),
+		func() *microbench.Stats { return benchDeleteTableWithPartitions(bd) })
 	suite.Add("getTable",
 		func() *microbench.Stats { return benchGetTable(bd) })
 	suite.Add("addPartition",
@@ -86,8 +88,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchCreatePartitions(bd) })
 	suite.Add(fmt.Sprintf("dropPartitions.%d", nObjects),
 		func() *microbench.Stats { return benchDropPartitions(bd) })
-	suite.Add(fmt.Sprintf("tableRename.%d", nObjects),
-		func() *microbench.Stats { return benchTableRenameWithPartitions(bd) })
+	suite.Add(fmt.Sprintf("dropPartitions.%d", nObjects),
+		func() *microbench.Stats { return benchDropPartitions(bd) })
 	suite.Add(fmt.Sprintf("concurrentPartsCreate#%d.%d", nThreads, nObjects),
 		func() *microbench.Stats { return benchAddPartitionsInParallel(bd) })
 
