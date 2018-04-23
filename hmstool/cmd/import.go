@@ -11,6 +11,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	trueValue     = "true"
+	externalTable = "EXTERNAL"
+)
+
 // dbCmd represents the db command
 var importCmd = &cobra.Command{
 	Use:   "import",
@@ -106,7 +111,11 @@ func importTables(client *hmsclient.MetastoreClient,
 			log.Println("skipping", dbName, ".", tableName, ": table exist already")
 			continue
 		}
-		table.TableType = hmsclient.TableTypeExternal.String()
+		if table.Parameters == nil {
+			table.Parameters = make(map[string]string)
+		}
+		table.Parameters[externalTable] = trueValue
+
 		log.Println("Adding table", dbName+"."+tableName)
 		err = client.CreateTable(table)
 		if err != nil {

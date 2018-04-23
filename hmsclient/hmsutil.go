@@ -121,7 +121,9 @@ func (tb *TableBuilder) WithParameters(parameters map[string]string) *TableBuild
 
 // WithType specifies table type
 func (tb *TableBuilder) WithType(t TableType) *TableBuilder {
-	tb.Type = t
+	if t == TableTypeExternal {
+		tb.AsExternal()
+	}
 	return tb
 }
 
@@ -159,6 +161,11 @@ func (tb *TableBuilder) WithColumns(columns []hive_metastore.FieldSchema) *Table
 func (tb *TableBuilder) WithPartitionKeys(partKeys []hive_metastore.FieldSchema) *TableBuilder {
 	tb.PartitionKeys = partKeys
 	return tb
+}
+
+// Mark table as external
+func (tb *TableBuilder) AsExternal() *TableBuilder {
+	return tb.WithParameter("EXTERNAL", "true")
 }
 
 func (p *PartitionBuilder) Build() *hive_metastore.Partition {
