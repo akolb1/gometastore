@@ -27,6 +27,29 @@ const (
 	maxParts = 500
 )
 
+var partitionsCmd = &cobra.Command{
+	Use:   "partitions",
+	Short: "partitions operations",
+}
+
+var partitionsListCmd = &cobra.Command{
+	Use:   "list",
+	Short: "list partitions",
+	Run:   showPartitions,
+}
+
+var partitionShowCmd = &cobra.Command{
+	Use:   "show",
+	Short: "show partition",
+	Run:   showPartition,
+}
+
+var partitionDropCmd = &cobra.Command{
+	Use:   "drop",
+	Short: "drop partition",
+	Run:   dropPartition,
+}
+
 func showPartitions(cmd *cobra.Command, args []string) {
 	tableName := ""
 	if len(args) != 0 {
@@ -88,4 +111,51 @@ func showPartition(cmd *cobra.Command, args []string) {
 		}
 	}
 	displayObject(&HmsObject{Partitions: partitions})
+}
+
+func dropPartition(cmd *cobra.Command, args []string) {
+	tableName, _ := cmd.Flags().GetString(optTableName)
+	if tableName == "" {
+		log.Fatal("missing table name")
+	}
+	if len(args) == 0 {
+		log.Fatal("no partitions to drop")
+	}
+
+	dbName, _ := cmd.Flags().GetString(optDbName)
+	parts := strings.Split(tableName, ".")
+	if len(parts) == 2 {
+		dbName = parts[0]
+		tableName = parts[1]
+	}
+	if dbName == "" {
+		log.Fatal("missing db name")
+	}
+	client, err := getClient()
+	defer client.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var values []string
+	for _, arg := range args {
+		parts := strings.Split(arg, "=")
+		value := parts[0]
+		if len(parts) > 1 {
+			value = parts[1]
+		}
+		values = append(values, value)
+	}
+	_, err = client.DropPartition(dbName, tableName, values, true)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func init() {
+	partitionsCmd.PersistentFlags().StringP(optDbName, "d", "", "database name")
+	partitionsCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
+	partitionsCmd.AddCommand(partitionsListCmd)
+	partitionsCmd.AddCommand(partitionShowCmd)
+	partitionsCmd.AddCommand(partitionDropCmd)
+	rootCmd.AddCommand(partitionsCmd)
 }
