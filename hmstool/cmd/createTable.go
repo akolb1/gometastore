@@ -50,16 +50,6 @@ func createTable(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	// Check whether table already exists
-	tableNames, err := client.GetAllTables(dbName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, name := range tableNames {
-		if name == tableName {
-			log.Fatalf("table %s.%s already exists\n", dbName, tableName)
-		}
-	}
 	owner := getOwner()
 	params := argsToParams(args)
 	columns, _ := cmd.Flags().GetString(optColumns)

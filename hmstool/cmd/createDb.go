@@ -64,15 +64,6 @@ func createDB(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	defer client.Close()
-	dbnames := make(map[string]bool)
-	// Check whether database already exists
-	if databases, err := client.GetAllDatabases(); err != nil {
-		log.Fatal(err)
-	} else {
-		for _, name := range databases {
-			dbnames[name] = true
-		}
-	}
 
 	var dblist []string
 	if dbName != "" && dbName != "default" {
@@ -82,10 +73,6 @@ func createDB(cmd *cobra.Command, args []string) {
 	}
 
 	for _, name := range dblist {
-		if _, ok := dbnames[name]; ok {
-			log.Println("database", name, "already exists")
-			continue
-		}
 		err = client.CreateDatabase(&hmsclient.Database{
 			Name:       name,
 			Owner:      owner,
@@ -95,7 +82,6 @@ func createDB(cmd *cobra.Command, args []string) {
 			log.Println(err)
 			continue
 		}
-		dbnames[name] = true
 	}
 
 }
