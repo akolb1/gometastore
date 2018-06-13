@@ -23,6 +23,7 @@ import (
 
 const (
 	optTableName = "table"
+	optFiles     = "files"
 )
 
 // tablesCmd represents the tables command

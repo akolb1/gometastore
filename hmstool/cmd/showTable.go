@@ -15,9 +15,11 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/akolb1/gometastore/hmstool/hmsutil"
 	"github.com/spf13/cobra"
 )
 
@@ -25,6 +27,7 @@ import (
 var tableShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show tables",
+	Long:  "Show detailed table information in JSON format",
 	Run:   showTables,
 }
 
@@ -39,6 +42,8 @@ func showTables(cmd *cobra.Command, args []string) {
 			args = []string{table}
 		}
 	}
+	listFiles, _ := cmd.Flags().GetBool(optFiles)
+
 	tables := make([]*hive_metastore.Table, len(args))
 	for i, tableName := range args {
 		dbName, tableName := getDbTableName(cmd, tableName)
@@ -48,9 +53,28 @@ func showTables(cmd *cobra.Command, args []string) {
 				dbName, tableName, err)
 		}
 	}
-	displayObject(&HmsObject{Tables: tables})
+	if listFiles {
+		displayTableFiles(tables)
+	} else {
+		displayObject(&HmsObject{Tables: tables})
+	}
+}
+
+func displayTableFiles(tables []*hive_metastore.Table) {
+	for _, table := range tables {
+		location := table.Sd.Location
+		files, err := hmsutil.ListFiles(location)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%s.%s: %s\n", table.DbName, table.TableName, location)
+		for _, name := range files {
+			fmt.Printf("\t%s/%s\n", location, name)
+		}
+	}
 }
 
 func init() {
+	tableShowCmd.PersistentFlags().Bool(optFiles, false, "show files in a table")
 	tablesCmd.AddCommand(tableShowCmd)
 }

@@ -20,6 +20,7 @@ import (
 	"strings"
 
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/akolb1/gometastore/hmstool/hmsutil"
 	"github.com/spf13/cobra"
 )
 
@@ -110,7 +111,12 @@ func showPartition(cmd *cobra.Command, args []string) {
 			log.Fatalf("can not get partition %s: %v", arg, err)
 		}
 	}
-	displayObject(&HmsObject{Partitions: partitions})
+	listFiles, _ := cmd.Flags().GetBool(optFiles)
+	if listFiles {
+		displayPartitionFiles(partitions)
+	} else {
+		displayObject(&HmsObject{Partitions: partitions})
+	}
 }
 
 func dropPartition(cmd *cobra.Command, args []string) {
@@ -151,9 +157,25 @@ func dropPartition(cmd *cobra.Command, args []string) {
 	}
 }
 
+// List partition location and all files in a partition
+func displayPartitionFiles(partitions []*hive_metastore.Partition) {
+	for _, part := range partitions {
+		location := part.Sd.Location
+		files, err := hmsutil.ListFiles(location)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%s: \t%s\n", strings.Join(part.Values, "/"), location)
+		for _, name := range files {
+			fmt.Printf("\t%s/%s\n", location, name)
+		}
+	}
+}
+
 func init() {
 	partitionsCmd.PersistentFlags().StringP(optDbName, "d", "", "database name")
 	partitionsCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
+	partitionsCmd.PersistentFlags().Bool(optFiles, false, "show files in a partition")
 	partitionsCmd.AddCommand(partitionsListCmd)
 	partitionsCmd.AddCommand(partitionShowCmd)
 	partitionsCmd.AddCommand(partitionDropCmd)
