@@ -97,7 +97,7 @@ func Open(host string, port int) (*MetastoreClient, error) {
 	oprot := protocolFactory.GetProtocol(transport)
 	c := hive_metastore.NewThriftHiveMetastoreClient(thrift.NewTStandardClient(iprot, oprot))
 	if err1 := transport.Open(); err1 != nil {
-		return nil, fmt.Errorf("failed to open connection to %s:%d: %v", host, port, err1)
+		return nil, fmt.Errorf("failed to open connection to %s:%s: %v", server, portStr, err1)
 	}
 	return &MetastoreClient{
 		context:   context.Background(),
