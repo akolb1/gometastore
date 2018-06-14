@@ -43,16 +43,23 @@ func showTables(cmd *cobra.Command, args []string) {
 		}
 	}
 	listFiles, _ := cmd.Flags().GetBool(optFiles)
+	timestamp, _ := cmd.Flags().GetInt(optTimeStamp)
 
-	tables := make([]*hive_metastore.Table, len(args))
-	for i, tableName := range args {
+	tables := make([]*hive_metastore.Table, 0, len(args))
+	for _, tableName := range args {
 		dbName, tableName := getDbTableName(cmd, tableName)
-		tables[i], err = client.GetTable(dbName, tableName)
+		table, err := client.GetTable(dbName, tableName)
 		if err != nil {
 			log.Fatalf("failed to get table information for %s.%s: %v",
 				dbName, tableName, err)
 		}
+		if timestamp == 0 {
+			tables = append(tables, table)
+		} else if table.CreateTime <= int32(timestamp) {
+			tables = append(tables, table)
+		}
 	}
+
 	if listFiles {
 		displayTableFiles(tables)
 	} else {

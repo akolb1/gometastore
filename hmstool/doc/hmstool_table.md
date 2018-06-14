@@ -20,6 +20,7 @@ and server-side filtering is done by 'select command'.
   -d, --dbname string   database name
   -h, --help            help for table
   -t, --table string    table name
+      --ts int          timestamp
 ```
 
 ### Options inherited from parent commands

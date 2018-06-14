@@ -103,12 +103,20 @@ func showPartition(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	timestamp, _ := cmd.Flags().GetInt(optTimeStamp)
+
 	// partitions := make([]*hive_metastore.Partition, len(args))
-	partitions := make([]*hive_metastore.Partition, len(args))
-	for i, arg := range args {
-		partitions[i], err = client.GetPartitionByName(dbName, tableName, arg)
+	partitions := make([]*hive_metastore.Partition, 0, len(args))
+	for _, arg := range args {
+		part, err := client.GetPartitionByName(dbName, tableName, arg)
 		if err != nil {
 			log.Fatalf("can not get partition %s: %v", arg, err)
+		}
+		if timestamp == 0 {
+			partitions = append(partitions, part)
+		} else if part.CreateTime <= int32(timestamp) {
+			partitions = append(partitions, part)
 		}
 	}
 	listFiles, _ := cmd.Flags().GetBool(optFiles)
@@ -176,6 +184,7 @@ func init() {
 	partitionsCmd.PersistentFlags().StringP(optDbName, "d", "", "database name")
 	partitionsCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
 	partitionsCmd.PersistentFlags().Bool(optFiles, false, "show files in a partition")
+	partitionsCmd.PersistentFlags().Int(optTimeStamp, 0, "timestamp")
 	partitionsCmd.AddCommand(partitionsListCmd)
 	partitionsCmd.AddCommand(partitionShowCmd)
 	partitionsCmd.AddCommand(partitionDropCmd)

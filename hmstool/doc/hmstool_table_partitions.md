@@ -26,6 +26,7 @@ hmstool table partitions [flags]
   -U, --owner string    owner name (default "hive")
   -p, --port string     port for HMS server (default "9083")
   -t, --table string    table name
+      --ts int          timestamp
 ```
 
 ### SEE ALSO

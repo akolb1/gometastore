@@ -13,6 +13,7 @@ partitions operations
       --files           show files in a partition
   -h, --help            help for partitions
   -t, --table string    table name
+      --ts int          timestamp
 ```
 
 ### Options inherited from parent commands

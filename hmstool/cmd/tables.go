@@ -24,6 +24,7 @@ import (
 const (
 	optTableName = "table"
 	optFiles     = "files"
+	optTimeStamp = "ts"
 )
 
 // tablesCmd represents the tables command
@@ -102,4 +103,5 @@ func init() {
 
 	tablesCmd.PersistentFlags().StringP(optDbName, "d", "", "database name")
 	tablesCmd.PersistentFlags().StringP(optTableName, "t", "", "table name")
+	tablesCmd.PersistentFlags().Int(optTimeStamp, 0, "timestamp")
 }
