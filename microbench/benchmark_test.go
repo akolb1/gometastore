@@ -32,7 +32,7 @@ func ExampleStats_Max() {
 	stats.Add(1.0)
 	stats.Add(2.0)
 	fmt.Println("max =", stats.Max())
-	// Output max = 2.0
+	// Output: max = 2
 }
 
 func ExampleStats_Min() {
@@ -40,5 +40,5 @@ func ExampleStats_Min() {
 	stats.Add(1.0)
 	stats.Add(2.0)
 	fmt.Println("min =", stats.Min())
-	// Output max = 1.0
+	// Output: min = 1
 }
