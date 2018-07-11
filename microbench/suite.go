@@ -21,8 +21,11 @@ import (
 	"sort"
 )
 
+// Runner is any function that produces Stats.
 type Runner func() *Stats
 
+// BenchmarkSuite is a collection of individual benchmarks.
+// Each benchmark has a name, associated Runner and associated Stats once it is executed.
 type BenchmarkSuite struct {
 	scale      float64
 	sanitize   bool
@@ -31,6 +34,10 @@ type BenchmarkSuite struct {
 	results    map[string]*Stats
 }
 
+// MakeBenchmarkSuite returns a new instance of BenchmarkSuite.
+// Parameters:
+//  scale - time scale (1 means results are collected in nanoseconds, 1000 means milliseconds, etc).
+//  sanitize - if true, outliers are removed when results are presented.
 func MakeBenchmarkSuite(scale int, sanitize bool) *BenchmarkSuite {
 	return &BenchmarkSuite{
 		scale:      float64(scale),
@@ -92,6 +99,9 @@ func (b *BenchmarkSuite) RunSelected(names []string) *BenchmarkSuite {
 	return b
 }
 
+// Display benchmark results as a formatted table.
+// Parameters:
+//  buffer - output buffer
 func (b *BenchmarkSuite) Display(buffer *bytes.Buffer) {
 	buffer.WriteString(fmt.Sprintf("%-30s %-8s %-8s %-8s %-8s\n",
 		"Operation", "Mean", "Min", "Max", "Err%"))
@@ -107,6 +117,10 @@ func (b *BenchmarkSuite) Display(buffer *bytes.Buffer) {
 	}
 }
 
+// DisplayCSV displays results in CSV format
+// Parameters:
+//   buffer - output buffer
+//   separator - column separator
 func (b *BenchmarkSuite) DisplayCSV(buffer *bytes.Buffer, separator string) {
 	buffer.WriteString(fmt.Sprintf("Operation%sMean%sMin%sMax%sErr%%\n",
 		separator, separator, separator, separator))

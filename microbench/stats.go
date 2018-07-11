@@ -22,14 +22,17 @@ import (
 	"gonum.org/v1/gonum/stat"
 )
 
+// Stats is simply a collection of datapoints with various methods to calculate statistics
 type Stats struct {
 	data []float64
 }
 
+// MakeStats returns a new Stats object
 func MakeStats() *Stats {
 	return &Stats{data: []float64{}}
 }
 
+// Add a new datapoint to stats collection.
 func (dt *Stats) Add(val float64) {
 	dt.data = append(dt.data, val)
 }
@@ -39,14 +42,17 @@ func (dt *Stats) Mean() float64 {
 	return stat.Mean(dt.data, nil)
 }
 
+// Min computes the minimum value of datapoints
 func (dt *Stats) Min() float64 {
 	return floats.Min(dt.data)
 }
 
+// Max computes the maximum value of datapoints
 func (dt *Stats) Max() float64 {
 	return floats.Max(dt.data)
 }
 
+// StDev computes the standard deviation of datapoints.
 func (dt *Stats) StDev() float64 {
 	return stat.StdDev(dt.data, nil)
 }
