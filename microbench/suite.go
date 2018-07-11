@@ -48,7 +48,10 @@ func MakeBenchmarkSuite(scale int, sanitize bool) *BenchmarkSuite {
 	}
 }
 
-// Add benchmark to the suite
+// Add benchmark to the suite.
+// Parameters:
+//   name - benchmark name
+//   f - benchmark runner
 func (b *BenchmarkSuite) Add(name string, f Runner) *BenchmarkSuite {
 	b.names = append(b.names, name)
 	b.benchmarks[name] = f

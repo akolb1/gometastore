@@ -16,19 +16,6 @@
 Package microbench provides support for simple microbenchmark. It supports benchmarks
 that have some set-up and cleanup for each iteration.
 
-Example usage;
-
-func benchCreateTable(data *benchData) *microbench.Stats {
-	table := hmsclient.NewTableBuilder(data.dbname, testTableName).
-		WithOwner(data.owner).
-		WithColumns(getSchema(testSchema)).
-		Build()
-	return microbench.Measure(nil,
-		func() { data.client.CreateTable(table) },
-		func() { data.client.DropTable(data.dbname, testTableName, true) },
-		data.warmup, data.iterations)
-}
-
 Example usage:
 
   import(
