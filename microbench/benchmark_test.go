@@ -1,0 +1,28 @@
+package microbench
+
+import (
+	"fmt"
+
+	"github.com/akolb1/gometastore/microbench"
+)
+
+func ExampleMeasureSimple() {
+	microbench.MeasureSimple(func() {
+		fmt.Print("hello ")
+	}, 1, 2)
+	// Output: hello hello hello
+}
+
+func ExampleMeasure() {
+	microbench.Measure(
+		func() {
+			fmt.Print(" pretest")
+		},
+		func() {
+			fmt.Print(" test")
+		},
+		func() {
+			fmt.Print(" cleanup")
+		}, 1, 1)
+	// Output: pretest test cleanup pretest test cleanup
+}
