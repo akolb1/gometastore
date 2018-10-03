@@ -29,6 +29,22 @@ var tableListCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "list tables",
 	Run:     listTables,
+	Long:   `List tables matching specified pattern. By default list all table names.
+
+The pattern can be specified in two ways and it affects the way it is applied.
+It can be just added on the command line in which case all table names are fetched from HMS
+and glob style matching is applied. Alternatively, if the pattern is specified with -M flag,
+the glob pattern is passed to the server. This can be useful when there are a lot of tables.
+
+Examples:
+
+    hmstool table list -d default "*customer"
+    hmstool table list -d default -M "*customer"
+
+Both of these commands will show all table names in the default database 
+which have customer in their name, but the first one will use client-side
+matching and the second one will use server-side matching.
+`,
 }
 
 // dbCmd represents the db command
