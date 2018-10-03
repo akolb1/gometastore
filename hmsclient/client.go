@@ -124,6 +124,11 @@ func (c *MetastoreClient) GetAllDatabases() ([]string, error) {
 	return c.client.GetAllDatabases(c.context)
 }
 
+// GetDatabases returns list of all databases matching pattern. The pattern is interpreted by HMS.
+func (c *MetastoreClient) GetDatabases(pattern string) ([]string, error) {
+	return c.client.GetDatabases(c.context, pattern)
+}
+
 // GetDatabase returns detailed information about specified Hive database.
 func (c *MetastoreClient) GetDatabase(dbName string) (*Database, error) {
 	db, err := c.client.GetDatabase(c.context, dbName)
@@ -181,6 +186,12 @@ func (c *MetastoreClient) DropDatabase(dbName string, deleteData bool, cascade b
 // GetAllTables returns list of all table names for a given database
 func (c *MetastoreClient) GetAllTables(dbName string) ([]string, error) {
 	return c.client.GetAllTables(c.context, dbName)
+}
+
+// GetTables returns list of tables matching given pattern for the given database.
+// Matching is performed on the server side.
+func (c *MetastoreClient) GetTables(dbName string, pattern string) ([]string, error) {
+	return c.client.GetTables(c.context, dbName, pattern)
 }
 
 // GetTable returns detailed information about the specified table

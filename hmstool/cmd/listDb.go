@@ -28,6 +28,22 @@ var dbListCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "list databases",
 	Run:     listDbs,
+	Long:   `List databases matching specified pattern. By default list all database names.
+
+The pattern can be specified in two ways and it affects the way it is applied.
+It can be just added on the command line in which case all databse names are fetched from HMS
+and glob style matching is applied. Alternatively, if the pattern is specified with -M flag,
+the glob pattern is passed to the server. This can be useful when there are a lot of databases.
+
+Examples:
+
+    hmstool db list "*customer"
+    hmstool db list -M "*customer"
+
+Both of these commands will show all database names which have customer in their name,
+but the first one will use client-side matching and the second one will use server-side matching.
+
+`,
 }
 
 func listDbs(cmd *cobra.Command, args []string) {
@@ -37,7 +53,14 @@ func listDbs(cmd *cobra.Command, args []string) {
 	}
 	defer client.Close()
 
-	databases, err := client.GetAllDatabases()
+	var databases []string
+
+	if pattern, _ := cmd.Flags().GetString("match"); pattern != "" {
+		databases, err = client.GetDatabases(pattern)
+	} else {
+		databases, err = client.GetAllDatabases()
+	}
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -73,5 +96,6 @@ func listDbs(cmd *cobra.Command, args []string) {
 
 func init() {
 	dbListCmd.Flags().BoolP("long", "l", false, "show db info")
+	dbListCmd.Flags().StringP("match", "M", "", "only return databases matching pattern")
 	dbCmd.AddCommand(dbListCmd)
 }

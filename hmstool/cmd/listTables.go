@@ -74,7 +74,13 @@ func listTables(cmd *cobra.Command, args []string) {
 
 	var tables []string
 	for _, d := range dbNames {
-		tableList, err := client.GetAllTables(d)
+		var tableList []string
+		if pattern, _ := cmd.Flags().GetString("match"); pattern != "" {
+			tableList, err = client.GetTables(d, pattern)
+		} else {
+			tableList, err = client.GetAllTables(d)
+		}
+
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -136,6 +142,7 @@ func selectTables(cmd *cobra.Command, args []string) {
 
 func init() {
 	tableListCmd.Flags().BoolP("long", "l", false, "show table info")
+	tableListCmd.Flags().StringP("match", "M", "", "only return tables matching pattern")
 	tablesCmd.AddCommand(tableListCmd)
 	tablesCmd.AddCommand(tableSelectCmd)
 }
