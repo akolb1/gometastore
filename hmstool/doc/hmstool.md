@@ -6,6 +6,34 @@ Hive metastore hmsclient tool
 
 Command line hive metastore hmsclient tool
 
+The tool works with HMS over its thrift API. The metastore host can be specified
+using either -H command-line argument or HMS_HOST environment variable.
+
+Examples:
+
+All examples assume that HMS_HOST point to correct metastore. For example:
+
+	export HMS_HOST=mymetastore.mycompany.com
+
+1. List all tables
+	$ hmstool
+	default.tbl1
+	default.mydb
+	customers.data
+
+2. List all databases
+
+	$ hmstool db list
+	default
+	mydb
+
+3. List all tables in a database default
+
+	$ hmstool table list -d default
+	default.tbl1
+	default.mydb
+
+
 ```
 hmstool [flags]
 ```
@@ -27,7 +55,7 @@ hmstool [flags]
 * [hmstool describe](hmstool_describe.md)	 - describe objects
 * [hmstool doc](hmstool_doc.md)	 - Generate documentation
 * [hmstool drop](hmstool_drop.md)	 - drop objects
-* [hmstool export](hmstool_export.md)	 - 
+* [hmstool export](hmstool_export.md)	 - Export databases or tables in JSON format
 * [hmstool import](hmstool_import.md)	 - import HMS data
 * [hmstool partitions](hmstool_partitions.md)	 - partitions operations
 * [hmstool show](hmstool_show.md)	 - Show objects

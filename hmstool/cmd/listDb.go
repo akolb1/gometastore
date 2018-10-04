@@ -28,7 +28,7 @@ var dbListCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "list databases",
 	Run:     listDbs,
-	Long:   `List databases matching specified pattern. By default list all database names.
+	Long: `List databases matching specified pattern. By default list all database names.
 
 The pattern can be specified in two ways and it affects the way it is applied.
 It can be just added on the command line in which case all databse names are fetched from HMS

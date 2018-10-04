@@ -9,18 +9,21 @@ import (
 )
 
 var exportCmd = &cobra.Command{
-	Use: "export",
+	Use:   "export",
+	Short: "Export databases or tables in JSON format",
 }
 
 var exportDbCmd = &cobra.Command{
 	Use:     "databases",
 	Aliases: []string{"db"},
 	Run:     dbExport,
+	Short:   "export databases in JSON format",
 }
 
 var exportTablesCmd = &cobra.Command{
-	Use: "tables",
-	Run: tableExport,
+	Use:   "tables",
+	Run:   tableExport,
+	Short: "Export tables in JSON format",
 }
 
 func dbExport(cmd *cobra.Command, args []string) {

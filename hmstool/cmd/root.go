@@ -39,11 +39,36 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "hmstool",
 	Short: "Hive metastore hmsclient tool",
-	Long:  `Command line hive metastore hmsclient tool`,
 	Run:   listTables,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) {},
+	Long: `Command line hive metastore hmsclient tool
+
+The tool works with HMS over its thrift API. The metastore host can be specified
+using either -H command-line argument or HMS_HOST environment variable.
+
+Examples:
+
+All examples assume that HMS_HOST point to correct metastore. For example:
+
+	export HMS_HOST=mymetastore.mycompany.com
+
+1. List all tables
+	$ hmstool
+	default.tbl1
+	default.mydb
+	customers.data
+
+2. List all databases
+
+	$ hmstool db list
+	default
+	mydb
+
+3. List all tables in a database default
+
+	$ hmstool table list -d default
+	default.tbl1
+	default.mydb
+`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

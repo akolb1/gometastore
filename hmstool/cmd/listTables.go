@@ -29,7 +29,7 @@ var tableListCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "list tables",
 	Run:     listTables,
-	Long:   `List tables matching specified pattern. By default list all table names.
+	Long: `List tables matching specified pattern. By default list all table names.
 
 The pattern can be specified in two ways and it affects the way it is applied.
 It can be just added on the command line in which case all table names are fetched from HMS
