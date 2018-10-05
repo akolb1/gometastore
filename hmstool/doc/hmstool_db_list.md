@@ -4,7 +4,22 @@ list databases
 
 ### Synopsis
 
-list databases
+List databases matching specified pattern. By default list all database names.
+
+The pattern can be specified in two ways and it affects the way it is applied.
+It can be just added on the command line in which case all databse names are fetched from HMS
+and glob style matching is applied. Alternatively, if the pattern is specified with -M flag,
+the glob pattern is passed to the server. This can be useful when there are a lot of databases.
+
+Examples:
+
+    hmstool db list "*customer"
+    hmstool db list -M "*customer"
+
+Both of these commands will show all database names which have customer in their name,
+but the first one will use client-side matching and the second one will use server-side matching.
+
+
 
 ```
 hmstool db list [flags]
@@ -13,8 +28,9 @@ hmstool db list [flags]
 ### Options
 
 ```
-  -h, --help   help for list
-  -l, --long   show db info
+  -h, --help           help for list
+  -l, --long           show db info
+  -M, --match string   only return databases matching pattern
 ```
 
 ### Options inherited from parent commands
