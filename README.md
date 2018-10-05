@@ -8,7 +8,13 @@ HMS and to develop other scripts and tools that need to access it.
 
 ## Installation
 
+Make sure that you have an up-to-date GO environment. Currently `Go 1.11` or higher is required.
+
+Building:
+
     go get -u github.com/akolb1/gometastore/...
+    
+This command will install tools in `~/go/bin` directory.
 
 * [hmstool][] - CLI for HMS client
 

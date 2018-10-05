@@ -11,8 +11,7 @@ import (
 var exportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "Export databases or tables in JSON format",
-	Long: `
-Export HMS databases or tables in JSON format.
+	Long: `Export HMS databases or tables in JSON format.
 
 The file can then be imported using 
 
@@ -43,8 +42,7 @@ var exportDbCmd = &cobra.Command{
 	Aliases: []string{"db"},
 	Run:     dbExport,
 	Short:   "export databases in JSON format",
-	Long: `
-Export HMS databases or tables in JSON format.
+	Long: `Export HMS databases or tables in JSON format.
 
 Example:
 
