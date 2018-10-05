@@ -11,6 +11,31 @@ import (
 var exportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "Export databases or tables in JSON format",
+	Long: `
+Export HMS databases or tables in JSON format.
+
+The file can then be imported using 
+
+    hmstool import
+
+command.
+
+Examples:
+
+Examples assume that HMS_HOST is pointing to the valid HMS server.
+
+1. Export default database
+
+    hmstool export db default -o default.json
+
+2. Export specific tables
+
+    hmstool export tables default.customers default.web_logs > tables.json
+
+3. Import JSON file:
+
+    hmstool import tables.json
+`,
 }
 
 var exportDbCmd = &cobra.Command{
@@ -18,12 +43,34 @@ var exportDbCmd = &cobra.Command{
 	Aliases: []string{"db"},
 	Run:     dbExport,
 	Short:   "export databases in JSON format",
+	Long: `
+Export HMS databases or tables in JSON format.
+
+Example:
+
+Example assume that HMS_HOST is pointing to the valid HMS server.
+
+Export default database
+
+    hmstool export db default -o default.json
+
+`,
 }
 
 var exportTablesCmd = &cobra.Command{
-	Use:   "tables",
-	Run:   tableExport,
-	Short: "Export tables in JSON format",
+	Use:     "tables",
+	Aliases: []string{"table"},
+	Run:     tableExport,
+	Short:   "Export tables in JSON format",
+	Long: `
+Export HMS databases or tables in JSON format.
+
+Example:
+
+Example assume that HMS_HOST is pointing to the valid HMS server.
+
+    hmstool export tables default.customers default.web_logs > tables.json
+`,
 }
 
 func dbExport(cmd *cobra.Command, args []string) {

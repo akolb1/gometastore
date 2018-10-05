@@ -21,6 +21,14 @@ var importCmd = &cobra.Command{
 	Use:   "import",
 	Short: "import HMS data",
 	Run:   importData,
+	Long: `
+Import HMS databases or tables from JSON dump produced by export command.
+All managed tables are converted to external tables during import and location points to the
+original location.
+
+Example:
+    hmstool import tables.json
+`,
 }
 
 func importData(cmd *cobra.Command, args []string) {
