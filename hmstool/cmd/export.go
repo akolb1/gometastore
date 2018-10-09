@@ -17,23 +17,21 @@ The file can then be imported using
 
     hmstool import
 
-command.
-
 Examples:
 
 Examples assume that HMS_HOST is pointing to the valid HMS server.
 
 1. Export default database
 
-    hmstool export db default -o default.json
+       hmstool export db default -o default.json
 
 2. Export specific tables
 
-    hmstool export tables default.customers default.web_logs > tables.json
+       hmstool export tables default.customers default.web_logs > tables.json
 
 3. Import JSON file:
 
-    hmstool import tables.json
+       hmstool import tables.json
 `,
 }
 

@@ -27,6 +27,7 @@ All managed tables are converted to external tables during import and location p
 original location.
 
 Example:
+
     hmstool import tables.json
 `,
 }
