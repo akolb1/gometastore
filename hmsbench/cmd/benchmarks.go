@@ -136,29 +136,16 @@ func benchGetTable(data *benchData) *microbench.Stats {
 // benchListManyTables creates a database with many tables and measures time to list all tables
 func benchListManyTables(data *benchData) *microbench.Stats {
 	dbName := data.dbname
-	tableNames := make([]string, data.nObjects)
-
-	// Create a bunch of tables
-	for i := 0; i < data.nObjects; i++ {
-		tableNames[i] = fmt.Sprintf("table_%d", i)
-		table := hmsclient.NewTableBuilder(dbName, tableNames[i]).
-			WithOwner(data.owner).
-			WithColumns(getSchema(testSchema)).
-			Build()
-		if err := data.client.CreateTable(table); err != nil {
-			log.Println("failed to create table: ", err)
-			// Cleanup
-			for j := 0; j < i; j++ {
-				data.client.DropTable(dbName, tableNames[j], true)
-			}
-			return nil
-		}
+	tableNames, err := createManyTables(data.client, data.nObjects, dbName, data.owner, "table_%d")
+	if err != nil {
+		return nil
 	}
+
 	stats := microbench.MeasureSimple(func() { data.client.GetAllTables(dbName) },
 		data.warmup, data.iterations)
 	// cleanup
 	for i := 0; i < data.nObjects; i++ {
-		data.client.DropTable(data.dbname, tableNames[i], true)
+		data.client.DropTable(dbName, tableNames[i], true)
 	}
 	return stats
 }
@@ -365,6 +352,25 @@ func benchDeleteTableWithPartitions(data *benchData) *microbench.Stats {
 		data.warmup, data.iterations)
 }
 
+func benchGetTableObjects(data *benchData) *microbench.Stats {
+	dbName := data.dbname
+	client := data.client
+
+	tableNames, err := createManyTables(client, data.nObjects, dbName, data.owner, "table_%d")
+	if err != nil {
+		return nil
+	}
+
+	stats := microbench.MeasureSimple(func() { client.GetTableObjects(dbName, tableNames) },
+		data.warmup, data.iterations)
+
+	// cleanup
+	for i := 0; i < data.nObjects; i++ {
+		data.client.DropTable(dbName, tableNames[i], true)
+	}
+	return stats
+}
+
 // createPartitionedTable creates a simple partitioned table with a single partition
 func createPartitionedTable(client *hmsclient.MetastoreClient, dbName string,
 	tableName string, owner string) error {
@@ -429,4 +435,27 @@ func addDropPartitions(c *hmsclient.MetastoreClient, done chan completion,
 		log.Println("failed to drop partitions", err)
 	}
 	done <- completion{}
+}
+
+// Create many tables in a database
+func createManyTables(client *hmsclient.MetastoreClient, howMany int, dbName string,
+	owner string, format string) (tables []string, err error) {
+	tableNames := make([]string, howMany)
+	// Create a bunch of tables
+	for i := 0; i < howMany; i++ {
+		tableNames[i] = fmt.Sprintf(format, i)
+		table := hmsclient.NewTableBuilder(dbName, tableNames[i]).
+			WithOwner(owner).
+			WithColumns(getSchema(testSchema)).
+			Build()
+		if err := client.CreateTable(table); err != nil {
+			log.Println("failed to create table: ", err)
+			// Cleanup
+			for j := 0; j < i; j++ {
+				client.DropTable(dbName, tableNames[j], true)
+			}
+			return nil, err
+		}
+	}
+	return tableNames, nil
 }

@@ -82,6 +82,8 @@ func run(_ *cobra.Command, _ []string) {
 		func() *microbench.Stats { return benchTableRename(bd) })
 	suite.Add(fmt.Sprintf("listTables.%d", nObjects),
 		func() *microbench.Stats { return benchListManyTables(bd) })
+	suite.Add(fmt.Sprintf("getTableObjectsByName.%d", nObjects),
+		func() *microbench.Stats { return benchGetTableObjects(bd) })
 	suite.Add(fmt.Sprintf("getPartitions.%d", nObjects),
 		func() *microbench.Stats { return benchGetPartitions(bd) })
 	suite.Add(fmt.Sprintf("addPartitions.%d", nObjects),
