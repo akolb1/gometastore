@@ -21,7 +21,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/terry-sm/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

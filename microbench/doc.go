@@ -19,7 +19,7 @@ that have some set-up and cleanup for each iteration.
 Example usage:
 
   import(
-	"github.com/akolb1/gometastore/microbench"
+	"github.com/terry-sm/gometastore/microbench"
   )
 
 func benchSomething(warmup int, iterations int) *microbench.Stats {

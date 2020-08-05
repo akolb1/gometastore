@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/terry-sm/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 )
 
 const (

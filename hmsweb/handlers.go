@@ -24,8 +24,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/akolb1/gometastore/hmsclient"
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/terry-sm/gometastore/hmsclient"
+	"github.com/terry-sm/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 	"github.com/oklog/ulid"
@@ -65,7 +65,7 @@ func showHelp(w http.ResponseWriter, _ *http.Request) {
 	fmt.Fprintf(w, "<h1>%s</h1><div>"+
 		"See <a href=%s>Documentation</a></div>",
 		"HmsWEB - HTTP interface to Hive Metastore",
-		"https://github.com/akolb1/gometastore/tree/master/hmsweb")
+		"https://github.com/terry-sm/gometastore/tree/master/hmsweb")
 }
 
 // databaseList shows list of databases.

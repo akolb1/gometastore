@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/akolb1/gometastore/hmsclient"
+	"github.com/terry-sm/gometastore/hmsclient"
 )
 
 func TestMakePartNames(t *testing.T) {

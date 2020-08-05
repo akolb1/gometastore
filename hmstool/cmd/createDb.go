@@ -18,7 +18,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/akolb1/gometastore/hmsclient"
+	"github.com/terry-sm/gometastore/hmsclient"
 	"github.com/spf13/cobra"
 )
 

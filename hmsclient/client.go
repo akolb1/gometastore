@@ -22,7 +22,7 @@ import (
     "strings"
 
     "git.apache.org/thrift.git/lib/go/thrift"
-    "github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+    "github.com/terry-sm/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 )
 
 type TableType int

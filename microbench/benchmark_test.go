@@ -3,7 +3,7 @@ package microbench
 import (
 	"fmt"
 
-	"github.com/akolb1/gometastore/microbench"
+	"github.com/terry-sm/gometastore/microbench"
 )
 
 func ExampleMeasureSimple() {

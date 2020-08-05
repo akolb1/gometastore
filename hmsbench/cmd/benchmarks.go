@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/akolb1/gometastore/hmsclient"
-	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
-	"github.com/akolb1/gometastore/microbench"
+	"github.com/terry-sm/gometastore/hmsclient"
+	"github.com/terry-sm/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/terry-sm/gometastore/microbench"
 	"github.com/mohae/deepcopy"
 )
 
