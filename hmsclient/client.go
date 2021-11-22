@@ -15,14 +15,14 @@
 package hmsclient
 
 import (
-    "context"
-    "fmt"
-    "net"
-    "strconv"
-    "strings"
+	"context"
+	"fmt"
+	"net"
+	"strconv"
+	"strings"
 
-    "github.com/apache/thrift/lib/go/thrift"
-    "github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 type TableType int
@@ -166,7 +166,7 @@ func (c *MetastoreClient) CreateDatabase(db *Database) error {
 	// The underlying Thrift-generated code is modified by hand to allow for missing locationUri
 	// field. Here we send nil as location URI when location is empty.
 	if db.Location != "" {
-		database.LocationUri = &db.Location
+		database.LocationUri = db.Location
 	}
 	if db.OwnerType != 0 {
 		database.OwnerType = &db.OwnerType
@@ -196,7 +196,7 @@ func (c *MetastoreClient) GetTables(dbName string, pattern string) ([]string, er
 
 // GetTableObjects returns list of Table objects for the given database and list of table names.
 func (c *MetastoreClient) GetTableObjects(dbName string, tableNames []string) ([]*hive_metastore.Table, error) {
-    return c.client.GetTableObjectsByName(c.context, dbName, tableNames);
+	return c.client.GetTableObjectsByName(c.context, dbName, tableNames)
 }
 
 // GetTable returns detailed information about the specified table
