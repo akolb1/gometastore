@@ -20,6 +20,7 @@ import (
 	"net"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/akolb1/gometastore/hmsclient/thrift/gen-go/hive_metastore"
 	"github.com/apache/thrift/lib/go/thrift"
@@ -82,10 +83,9 @@ func Open(host string, port int) (*MetastoreClient, error) {
 		portStr = pStr
 	}
 
-	socket, err := thrift.NewTSocket(net.JoinHostPort(server, portStr))
-	if err != nil {
-		return nil, fmt.Errorf("error resolving address %s: %v", host, err)
-	}
+	socket := thrift.NewTSocketConf(net.JoinHostPort(server, portStr), &thrift.TConfiguration{
+		ConnectTimeout: 30 * time.Second,
+	})
 	transportFactory := thrift.NewTBufferedTransportFactory(bufferSize)
 	protocolFactory := thrift.NewTBinaryProtocolFactoryDefault()
 	transport, err := transportFactory.GetTransport(socket)
