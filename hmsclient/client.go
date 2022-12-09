@@ -248,8 +248,8 @@ func (c *MetastoreClient) AddPartitions(newParts []*hive_metastore.Partition) er
 
 // GetPartitions returns all (or up to maxCount partitions of a table.
 func (c *MetastoreClient) GetPartitions(dbName string, tableName string,
-	maxCunt int) ([]*hive_metastore.Partition, error) {
-	return c.client.GetPartitions(c.context, dbName, tableName, int16(maxCunt))
+	maxCount int) ([]*hive_metastore.Partition, error) {
+	return c.client.GetPartitions(c.context, dbName, tableName, int16(maxCount))
 }
 
 // DropPartitionByName drops partition specified by name.
